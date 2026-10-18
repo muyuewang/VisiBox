@@ -8,7 +8,7 @@ rootProject.file('local.properties').withInputStream {
 }
 
 android {
-    namespace = 'com.fongmi.android.tv'
+    namespace = 'com.visibox.tv'
 
     compileSdk {
         version = release(37)
@@ -20,11 +20,11 @@ android {
         minSdk 24
         //noinspection ExpiredTargetSdkVersion
         targetSdk 28
-        versionCode 17
-        versionName "1.8.2"
+        versionCode 18
+        versionName "1.9.0"
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString(), "eventBusIndex": "com.fongmi.android.tv.event.EventIndex"]
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString(), "eventBusIndex": "com.visibox.tv.event.EventIndex"]
             }
         }
     }

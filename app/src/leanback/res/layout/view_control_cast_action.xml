@@ -31,7 +31,7 @@
             android:layout_marginEnd="12dp"
             android:text="@string/play_decode" />
 
-        <com.fongmi.android.tv.ui.custom.CustomUpDownView
+        <com.visibox.tv.ui.custom.CustomUpDownView
             android:id="@+id/speed"
             style="@style/Control"
             android:layout_marginEnd="12dp"
@@ -44,7 +44,7 @@
             android:layout_marginEnd="12dp"
             android:text="@string/play_scale" />
 
-        <com.fongmi.android.tv.ui.custom.CustomUpDownView
+        <com.visibox.tv.ui.custom.CustomUpDownView
             android:id="@+id/text"
             style="@style/Control"
             android:layout_marginEnd="12dp"

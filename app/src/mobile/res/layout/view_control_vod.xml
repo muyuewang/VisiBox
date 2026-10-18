@@ -170,7 +170,7 @@
             tools:itemCount="5"
             tools:listitem="@layout/adapter_parse_dark" />
 
-        <com.fongmi.android.tv.ui.custom.CustomSeekView
+        <com.visibox.tv.ui.custom.CustomSeekView
             android:id="@+id/seek"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

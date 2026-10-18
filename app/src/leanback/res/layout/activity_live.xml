@@ -52,7 +52,7 @@
         android:visibility="gone"
         tools:visibility="visible">
 
-        <com.fongmi.android.tv.ui.custom.CustomLiveListView
+        <com.visibox.tv.ui.custom.CustomLiveListView
             android:id="@+id/group"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -62,7 +62,7 @@
             tools:itemCount="5"
             tools:listitem="@layout/adapter_group" />
 
-        <com.fongmi.android.tv.ui.custom.CustomLiveListView
+        <com.visibox.tv.ui.custom.CustomLiveListView
             android:id="@+id/channel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -73,7 +73,7 @@
             tools:itemCount="5"
             tools:listitem="@layout/adapter_channel" />
 
-        <com.fongmi.android.tv.ui.custom.CustomLiveListView
+        <com.visibox.tv.ui.custom.CustomLiveListView
             android:id="@+id/epgData"
             android:layout_width="0dp"
             android:layout_height="match_parent"

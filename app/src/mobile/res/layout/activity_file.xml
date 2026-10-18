@@ -24,7 +24,7 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <com.fongmi.android.tv.ui.custom.ProgressLayout
+    <com.visibox.tv.ui.custom.ProgressLayout
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -43,5 +43,5 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/adapter_file" />
 
-    </com.fongmi.android.tv.ui.custom.ProgressLayout>
+    </com.visibox.tv.ui.custom.ProgressLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

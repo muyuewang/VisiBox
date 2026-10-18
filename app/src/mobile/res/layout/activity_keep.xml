@@ -16,7 +16,7 @@
         app:title="@string/app_keep"
         app:titleTextAppearance="@style/ToolbarTextAppearance" />
 
-    <com.fongmi.android.tv.ui.custom.ProgressLayout
+    <com.visibox.tv.ui.custom.ProgressLayout
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -33,5 +33,5 @@
             android:paddingBottom="8dp"
             tools:listitem="@layout/adapter_vod" />
 
-    </com.fongmi.android.tv.ui.custom.ProgressLayout>
+    </com.visibox.tv.ui.custom.ProgressLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

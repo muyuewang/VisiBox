@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = 'com.fongmi.android.tv.quickjs'
+    namespace = 'com.visibox.tv.quickjs'
 
     compileSdk {
         version = release(37)

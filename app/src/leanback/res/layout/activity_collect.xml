@@ -35,7 +35,7 @@
             app:focusOutEnd="true"
             app:focusOutFront="false" />
 
-        <com.fongmi.android.tv.ui.custom.CustomViewPager
+        <com.visibox.tv.ui.custom.CustomViewPager
             android:id="@+id/pager"
             android:layout_width="0dp"
             android:layout_height="match_parent"

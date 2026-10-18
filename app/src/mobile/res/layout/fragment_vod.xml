@@ -56,7 +56,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.fongmi.android.tv.ui.custom.CustomViewPager
+    <com.visibox.tv.ui.custom.CustomViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -76,7 +76,7 @@
         app:backgroundTint="@color/blue_500"
         app:layout_anchor="@id/pager"
         app:layout_anchorGravity="end|bottom"
-        app:layout_behavior="com.fongmi.android.tv.ui.custom.CustomFabBehavior"
+        app:layout_behavior="com.visibox.tv.ui.custom.CustomFabBehavior"
         app:srcCompat="@drawable/ic_fab_filter"
         app:tint="@color/white"
         tools:visibility="visible" />
@@ -89,7 +89,7 @@
         app:backgroundTint="@color/blue_500"
         app:layout_anchor="@id/pager"
         app:layout_anchorGravity="end|bottom"
-        app:layout_behavior="com.fongmi.android.tv.ui.custom.CustomFabBehavior"
+        app:layout_behavior="com.visibox.tv.ui.custom.CustomFabBehavior"
         app:srcCompat="@drawable/ic_fab_link"
         app:tint="@color/white"
         tools:visibility="visible" />
@@ -104,7 +104,7 @@
         app:backgroundTint="@color/blue_500"
         app:layout_anchor="@id/pager"
         app:layout_anchorGravity="end|bottom"
-        app:layout_behavior="com.fongmi.android.tv.ui.custom.CustomFabBehavior"
+        app:layout_behavior="com.visibox.tv.ui.custom.CustomFabBehavior"
         app:srcCompat="@drawable/ic_fab_top"
         app:tint="@color/white"
         tools:visibility="visible" />

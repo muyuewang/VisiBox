@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <com.fongmi.android.tv.ui.custom.CustomRecyclerView
+        <com.visibox.tv.ui.custom.CustomRecyclerView
             android:id="@+id/collect"
             android:layout_width="120dp"
             android:layout_height="match_parent"

@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
-    <com.fongmi.android.tv.ui.custom.CustomRecyclerView
+    <com.visibox.tv.ui.custom.CustomRecyclerView
         android:id="@+id/recycler"
         android:layout_width="0dp"
         android:layout_height="match_parent"

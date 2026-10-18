@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:tag="land">
 
-    <com.fongmi.android.tv.ui.custom.ProgressLayout
+    <com.visibox.tv.ui.custom.ProgressLayout
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -314,5 +314,5 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.core.widget.NestedScrollView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    </com.fongmi.android.tv.ui.custom.ProgressLayout>
+    </com.visibox.tv.ui.custom.ProgressLayout>
 </FrameLayout>

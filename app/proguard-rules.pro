@@ -1,7 +1,7 @@
 # TV
 -keep class androidx.leanback.widget.** { *; }
--keep class com.fongmi.quickjs.method.** { *; }
--keep class com.fongmi.android.tv.bean.** { *; }
+-keep class com.visibox.quickjs.method.** { *; }
+-keep class com.visibox.tv.bean.** { *; }
 
 # Gson
 -keep class com.google.gson.** { *; }

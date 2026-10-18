@@ -1,0 +1,242 @@
+package com.visibox.tv.ui.activity;
+
+import android.app.PendingIntent;
+import android.app.SearchManager;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.MenuItem;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.pm.ShortcutInfoCompat;
+import androidx.core.content.pm.ShortcutManagerCompat;
+import androidx.core.graphics.drawable.IconCompat;
+import androidx.core.splashscreen.SplashScreen;
+import androidx.fragment.app.Fragment;
+import androidx.viewbinding.ViewBinding;
+
+import com.visibox.tv.App;
+import com.visibox.tv.R;
+import com.visibox.tv.Updater;
+import com.visibox.tv.api.config.LiveConfig;
+import com.visibox.tv.api.config.VodConfig;
+import com.visibox.tv.api.config.WallConfig;
+import com.visibox.tv.bean.Config;
+import com.visibox.tv.databinding.ActivityHomeBinding;
+import com.visibox.tv.db.AppDatabase;
+import com.visibox.tv.event.ConfigEvent;
+import com.visibox.tv.event.RefreshEvent;
+import com.visibox.tv.event.ServerEvent;
+import com.visibox.tv.event.StateEvent;
+import com.visibox.tv.impl.Callback;
+import com.visibox.tv.player.Source;
+import com.visibox.tv.receiver.ShortcutReceiver;
+import com.visibox.tv.server.Server;
+import com.visibox.tv.service.PlaybackService;
+import com.visibox.tv.ui.base.BaseActivity;
+import com.visibox.tv.ui.custom.FragmentStateManager;
+import com.visibox.tv.ui.fragment.SettingFragment;
+import com.visibox.tv.ui.fragment.SettingPlayerFragment;
+import com.visibox.tv.ui.fragment.VodFragment;
+import com.visibox.tv.utils.FileChooser;
+import com.visibox.tv.utils.Notify;
+import com.visibox.tv.utils.PermissionUtil;
+import com.visibox.tv.utils.UrlUtil;
+import com.github.catvod.net.OkHttp;
+import com.google.android.material.navigation.NavigationBarView;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+public class HomeActivity extends BaseActivity implements NavigationBarView.OnItemSelectedListener {
+
+    private FragmentStateManager mManager;
+    private ActivityHomeBinding mBinding;
+    private int orientation;
+
+    @Override
+    protected ViewBinding getBinding() {
+        return mBinding = ActivityHomeBinding.inflate(getLayoutInflater());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        checkAction(intent);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.installSplashScreen(this);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        orientation = getResources().getConfiguration().orientation;
+        initFragment(savedInstanceState);
+        Updater.create().start(this);
+        initConfig();
+    }
+
+    @Override
+    protected void initEvent() {
+        mBinding.navigation.setOnItemSelectedListener(this);
+        mBinding.navigation.findViewById(R.id.live).setOnLongClickListener(this::addShortcut);
+    }
+
+    private void checkAction(Intent intent) {
+        if (Intent.ACTION_SEND.equals(intent.getAction())) {
+            VideoActivity.push(this, intent.getStringExtra(Intent.EXTRA_TEXT));
+        } else if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
+            PermissionUtil.requestFile(this, allGranted -> checkType(intent));
+        } else if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String keyword = intent.getStringExtra(SearchManager.QUERY);
+            if (!TextUtils.isEmpty(keyword)) SearchActivity.start(this, keyword);
+        }
+    }
+
+    private void checkType(Intent intent) {
+        if ("text/plain".equals(intent.getType()) || UrlUtil.path(intent.getData()).endsWith(".m3u")) {
+            loadLive("file:/" + FileChooser.getPathFromUri(intent.getData()));
+        } else {
+            VideoActivity.push(this, intent.getData().toString());
+        }
+    }
+
+    private void initFragment(Bundle savedInstanceState) {
+        mManager = new FragmentStateManager(mBinding.container, getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                if (position == 0) return VodFragment.newInstance();
+                if (position == 1) return SettingFragment.newInstance();
+                if (position == 2) return SettingPlayerFragment.newInstance();
+                return null;
+            }
+        };
+        if (savedInstanceState == null) mManager.change(0);
+    }
+
+    private void initConfig() {
+        VodConfig.get().init().load(getCallback());
+        LiveConfig.get().init().load();
+        WallConfig.get().init();
+    }
+
+    private Callback getCallback() {
+        return new Callback() {
+            @Override
+            public void success() {
+                checkAction(getIntent());
+            }
+
+            @Override
+            public void error(String msg) {
+                checkAction(getIntent());
+                StateEvent.empty();
+                Notify.show(msg);
+            }
+        };
+    }
+
+    private void loadLive(String url) {
+        LiveConfig.load(Config.find(url, 1), new Callback() {
+            @Override
+            public void success() {
+                openLive();
+            }
+        });
+    }
+
+    private void setNavigation() {
+        mBinding.navigation.getMenu().findItem(R.id.vod).setVisible(true);
+        mBinding.navigation.getMenu().findItem(R.id.setting).setVisible(true);
+        mBinding.navigation.getMenu().findItem(R.id.live).setVisible(LiveConfig.hasUrl());
+    }
+
+    private boolean openLive() {
+        LiveActivity.start(this);
+        return false;
+    }
+
+    private boolean addShortcut(View view) {
+        ShortcutInfoCompat info = new ShortcutInfoCompat.Builder(this, getString(R.string.nav_live)).setIcon(IconCompat.createWithResource(this, R.mipmap.ic_launcher)).setIntent(new Intent(Intent.ACTION_VIEW, null, this, LiveActivity.class)).setShortLabel(getString(R.string.nav_live)).build();
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(this, ShortcutReceiver.class).setAction(ShortcutReceiver.ACTION), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        ShortcutManagerCompat.requestPinShortcut(this, info, pendingIntent.getIntentSender());
+        return true;
+    }
+
+    public void change(int position) {
+        mManager.change(position);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onConfigEvent(ConfigEvent event) {
+        switch (event.type()) {
+            case VOD:
+                RefreshEvent.home();
+                break;
+            case COMMON:
+                setNavigation();
+                break;
+            case BOOT:
+                LiveActivity.start(this);
+                break;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onServerEvent(ServerEvent event) {
+        if (event.type() == ServerEvent.Type.PUSH) VideoActivity.push(this, event.text());
+        if (event.type() == ServerEvent.Type.SEARCH) SearchActivity.start(this, event.text());
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (mBinding.navigation.getSelectedItemId() == item.getItemId()) return false;
+        if (item.getItemId() == R.id.setting) return mManager.change(1);
+        if (item.getItemId() == R.id.vod) return mManager.change(0);
+        if (item.getItemId() == R.id.live) return openLive();
+        return false;
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        App.post(() -> checkOrientation(newConfig), 100);
+    }
+
+    private void checkOrientation(Configuration newConfig) {
+        if (orientation != newConfig.orientation) {
+            orientation = newConfig.orientation;
+            RefreshEvent.home();
+        }
+    }
+
+    @Override
+    protected void onBackInvoked() {
+        if (!mBinding.navigation.getMenu().findItem(R.id.vod).isVisible()) {
+            setNavigation();
+        } else if (mManager.isVisible(2)) {
+            change(1);
+        } else if (mManager.isVisible(1)) {
+            mBinding.navigation.setSelectedItemId(R.id.vod);
+        } else if (mManager.canBack(0)) {
+            if (PlaybackService.isRunning()) moveTaskToBack(true);
+            else super.onBackInvoked();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        LiveConfig.get().clear();
+        VodConfig.get().clear();
+        AppDatabase.backup();
+        OkHttp.get().clear();
+        Source.get().exit();
+        Server.get().stop();
+        super.onDestroy();
+    }
+}
