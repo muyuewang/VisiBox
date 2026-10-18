@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/error_empty"
-        android:textColor="@color/white"
+        android:textColor="@color/text_glass"
         android:textSize="16sp" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

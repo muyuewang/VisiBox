@@ -25,7 +25,7 @@
             android:focusableInTouchMode="true"
             android:gravity="center"
             android:text="@string/search_source"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="16sp" />
 
         <com.visibox.tv.ui.custom.CustomSearchView
@@ -44,7 +44,7 @@
             android:nextFocusUp="@id/btnSource"
             android:padding="10dp"
             android:singleLine="true"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textColorHint="#99FFFFFF"
             android:textCursorDrawable="@drawable/shape_cursor"
             android:textSize="16sp" />
@@ -69,7 +69,7 @@
                 android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:text="@string/search_go"
-                android:textColor="@color/white"
+                android:textColor="@color/text_glass"
                 android:textSize="16sp" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -85,7 +85,7 @@
                 android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:text="@string/search_clear"
-                android:textColor="@color/white"
+                android:textColor="@color/text_glass"
                 android:textSize="16sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -120,7 +120,7 @@
                 android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:text="@string/search_remote"
-                android:textColor="@color/white"
+                android:textColor="@color/text_glass"
                 android:textSize="16sp" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -136,7 +136,7 @@
                 android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:text="@string/search_del"
-                android:textColor="@color/white"
+                android:textColor="@color/text_glass"
                 android:textSize="16sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -179,7 +179,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:text="@string/search_record"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="22sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -201,7 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:text="@string/search_hot"
-                android:textColor="@color/white"
+                android:textColor="@color/text_glass"
                 android:textSize="22sp" />
 
             <androidx.recyclerview.widget.RecyclerView

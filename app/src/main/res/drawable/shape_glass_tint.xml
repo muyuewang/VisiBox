@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <corners
+                android:topLeftRadius="20dp"
+                android:topRightRadius="20dp" />
+            <gradient
+                android:angle="270"
+                android:endColor="@color/glass_edge_bottom"
+                android:startColor="@color/glass_edge_top" />
+        </shape>
+    </item>
+
+    <!-- 真模糊在下层时，色罩要更透，否则看不到折射内容 -->
+    <item
+        android:bottom="1dp"
+        android:left="1dp"
+        android:right="1dp"
+        android:top="1dp">
+        <shape android:shape="rectangle">
+            <corners
+                android:topLeftRadius="19dp"
+                android:topRightRadius="19dp" />
+            <solid android:color="#45FFFFFF" />
+        </shape>
+    </item>
+
+</layer-list>

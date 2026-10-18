@@ -14,6 +14,7 @@ import com.visibox.tv.databinding.AdapterVodOvalBinding;
 import com.visibox.tv.databinding.AdapterVodRectBinding;
 import com.visibox.tv.ui.base.BaseVodHolder;
 import com.visibox.tv.ui.base.ViewType;
+import com.visibox.tv.utils.Glass;
 import com.visibox.tv.ui.holder.VodListHolder;
 import com.visibox.tv.ui.holder.VodOvalHolder;
 import com.visibox.tv.ui.holder.VodRectHolder;
@@ -44,11 +45,13 @@ public class VodPresenter extends Presenter {
     @NonNull
     @Override
     public Presenter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent) {
-        return switch (style.getViewType()) {
+        Presenter.ViewHolder holder = switch (style.getViewType()) {
             case ViewType.LIST -> new VodListHolder(AdapterVodListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false), listener);
             case ViewType.OVAL -> new VodOvalHolder(AdapterVodOvalBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false), listener).size(size);
             default -> new VodRectHolder(AdapterVodRectBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false), listener).size(size);
         };
+        Glass.focus(holder.view);
+        return holder;
     }
 
     @Override

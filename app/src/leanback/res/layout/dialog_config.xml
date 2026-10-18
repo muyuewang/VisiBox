@@ -68,7 +68,7 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/setting_choose"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="14sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -83,7 +83,7 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/dialog_positive"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="14sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -97,7 +97,7 @@
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/dialog_negative"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="14sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

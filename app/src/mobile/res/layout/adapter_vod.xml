@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_vod_site"
         android:singleLine="true"
-        android:textColor="@color/white"
+        android:textColor="@color/text_glass"
         android:textSize="12sp"
         android:visibility="gone"
         tools:text="泥巴"
@@ -48,7 +48,7 @@
         android:layout_above="@+id/progress"
         android:background="@drawable/shape_vod_remark"
         android:singleLine="true"
-        android:textColor="@color/white"
+        android:textColor="@color/text_glass"
         android:textSize="12sp"
         tools:text="1080p" />
 
@@ -75,7 +75,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:textColor="@color/white"
+        android:textColor="@color/text_glass"
         app:autoSizeMaxTextSize="14sp"
         app:autoSizeMinTextSize="12sp"
         app:autoSizeStepGranularity="1sp"

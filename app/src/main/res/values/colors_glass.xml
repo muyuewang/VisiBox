@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 页面底色：浅色玻璃需要亮底才有折射感 -->
+    <color name="page_a">#FFEFF2F8</color>
+    <color name="page_b">#FFDFE5F0</color>
+
+    <!-- 玻璃边缘光：上缘高光、下缘微暗（亮底下玻璃靠这条边才立得住） -->
+    <color name="glass_edge_top">#F2FFFFFF</color>
+    <color name="glass_edge_bottom">#1A000000</color>
+
+    <!-- 玻璃填充 -->
+    <color name="glass_fill">#73FFFFFF</color>
+    <color name="glass_fill_soft">#59FFFFFF</color>
+    <color name="glass_fill_strong">#A8FFFFFF</color>
+
+    <!-- 强调色：原 #2DD4AA 在亮底对比度不足，压深 -->
+    <color name="accent_glass">#FF0F9E80</color>
+    <color name="accent_glass_soft">#382DD4AA</color>
+    <color name="accent_glass_edge">#802DD4AA</color>
+
+    <!-- 内高光 / 阴影 -->
+    <color name="glass_sheen">#4DFFFFFF</color>
+    <color name="glass_shadow">#142850</color>
+
+    <!-- 文字：浅色体系下整体转深 -->
+    <color name="text_glass">#FF15181E</color>
+    <color name="text_glass_sub">#FF5B6270</color>
+
+</resources>

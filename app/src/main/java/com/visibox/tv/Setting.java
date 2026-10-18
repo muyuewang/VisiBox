@@ -117,6 +117,14 @@ public class Setting {
         Prefers.put("history_num", num);
     }
 
+    public static int getGlass() {
+        return Math.min(Math.max(Prefers.getInt("glass_level", 2), 0), 2);
+    }
+
+    public static void putGlass(int level) {
+        Prefers.put("glass_level", level);
+    }
+
     public static boolean getBoot() {
         return Prefers.getBoolean("boot_start");
     }

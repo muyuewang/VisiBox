@@ -23,7 +23,7 @@
         android:ellipsize="end"
         android:maxWidth="90dp"
         android:singleLine="true"
-        android:textColor="@color/white"
+        android:textColor="@color/text_glass"
         android:textSize="12sp"
         android:visibility="gone"
         tools:text="泥巴"
@@ -43,7 +43,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="3"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="14sp"
             tools:text="蜘蛛人" />
 
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:singleLine="true"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="12sp"
             tools:text="1080p" />
 

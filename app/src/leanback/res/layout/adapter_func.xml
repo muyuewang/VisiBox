@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:singleLine="true"
-        android:textColor="@color/white"
+        android:textColor="@color/text_glass"
         android:textSize="16sp"
         tools:text="点播" />
 

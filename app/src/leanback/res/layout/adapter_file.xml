@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:singleLine="true"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="16sp"
             tools:text="Download" />
 

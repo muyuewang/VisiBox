@@ -63,7 +63,7 @@
         android:gravity="center"
         android:padding="6dp"
         android:singleLine="true"
-        android:textColor="@color/white"
+        android:textColor="@color/text_glass"
         android:textSize="16sp"
         tools:text="蜘蛛人" />
 

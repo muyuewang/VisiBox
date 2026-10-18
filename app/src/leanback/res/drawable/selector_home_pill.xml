@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- 聚焦：白底（文字转黑，见 colors/pill_text），醒目指向 -->
-    <item android:state_focused="true">
-        <shape android:shape="rectangle">
-            <corners android:radius="18dp" />
-            <solid android:color="#FFFFFFFF" />
-        </shape>
-    </item>
-    <!-- 选中：实心青绿白字 -->
-    <item android:state_selected="true">
-        <shape android:shape="rectangle">
-            <corners android:radius="18dp" />
-            <solid android:color="#FF2DD4AA" />
-        </shape>
-    </item>
-    <item>
-        <shape android:shape="rectangle">
-            <corners android:radius="18dp" />
-            <solid android:color="#33FFFFFF" />
-        </shape>
-    </item>
+    <!-- 聚焦：玻璃提亮 + 上缘高光（亮度维度） -->
+    <item android:drawable="@drawable/shape_glass_strong" android:state_focused="true" />
+    <!-- 选中：青绿光透过玻璃（色调维度） -->
+    <item android:drawable="@drawable/shape_glass_selected" android:state_selected="true" />
+    <!-- 默认：最暗的玻璃 -->
+    <item android:drawable="@drawable/shape_glass_soft" />
 </selector>

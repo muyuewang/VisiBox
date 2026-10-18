@@ -105,6 +105,10 @@
     <string name="setting_boot">開機自啟</string>
     <string name="setting_history_num">歷史條數</string>
     <string name="setting_home_col">首頁列數</string>
+    <string name="setting_glass">玻璃效果</string>
+    <string name="setting_glass_off">關</string>
+    <string name="setting_glass_weak">弱</string>
+    <string name="setting_glass_strong">強</string>
     <string name="setting_col_value">%1$d 列</string>
     <string name="setting_boot_on">開</string>
     <string name="setting_boot_off">關</string>

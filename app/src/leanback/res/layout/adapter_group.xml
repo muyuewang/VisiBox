@@ -12,11 +12,15 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/selector_live"
+        android:background="@drawable/selector_home_pill"
         android:duplicateParentState="true"
         android:ellipsize="marquee"
+        android:paddingStart="16dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="6dp"
         android:singleLine="true"
-        android:textColor="@color/live"
+        android:textColor="@color/pill_text"
         android:textSize="16sp"
         tools:text="收藏" />
 

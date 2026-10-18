@@ -10,6 +10,6 @@
     android:gravity="center"
     android:nextFocusUp="@id/episode"
     android:nextFocusDown="@id/part"
-    android:textColor="@color/white"
+    android:textColor="@color/text_glass"
     android:textSize="16sp"
     tools:text="11" />

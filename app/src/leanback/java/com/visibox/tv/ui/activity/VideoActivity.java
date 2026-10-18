@@ -3,6 +3,7 @@ package com.visibox.tv.ui.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -71,6 +72,8 @@ import com.visibox.tv.ui.dialog.SubtitleDialog;
 import com.visibox.tv.ui.dialog.TrackDialog;
 import com.visibox.tv.utils.Clock;
 import com.visibox.tv.utils.FileChooser;
+import com.visibox.tv.utils.Glass;
+import com.visibox.tv.utils.GlassBlur;
 import com.visibox.tv.utils.ImgUtil;
 import com.visibox.tv.utils.KeyUtil;
 import com.visibox.tv.utils.Notify;
@@ -114,6 +117,7 @@ public class VideoActivity extends PlaybackActivity implements CustomKeyDownVod.
     private boolean autoMode;
     private boolean useParse;
     private Runnable mR1;
+    private boolean frostDone;
     private Runnable mR2;
     private Runnable mR3;
     private Runnable mR4;
@@ -857,6 +861,11 @@ public class VideoActivity extends PlaybackActivity implements CustomKeyDownVod.
 
     private void showControl(View view) {
         mBinding.control.getRoot().setVisibility(View.VISIBLE);
+        // 抓一帧真模糊铺在控制条下，只做一次，避免每次按键都读回显存
+        if (!frostDone && Glass.enabled()) {
+            frostDone = true;
+            GlassBlur.frost(this, mBinding.control.getRoot(), R.drawable.shape_glass_tint);
+        }
         view.requestFocus();
         setR1Callback();
     }
@@ -887,6 +896,19 @@ public class VideoActivity extends PlaybackActivity implements CustomKeyDownVod.
     private void setArtwork(String url) {
         mHistory.setVodPic(url);
         setArtwork();
+        setBackdrop();
+    }
+
+    /** 液态玻璃：把海报真模糊后铺满详情背景 */
+    private void setBackdrop() {
+        String url = mHistory.getVodPic();
+        if (url.isEmpty() || !Glass.enabled()) return;
+        ImgUtil.loadBlur(url, new CustomTarget<>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                GlassBlur.into(mBinding.backdrop, resource, url);
+            }
+        });
     }
 
     private void setArtwork() {

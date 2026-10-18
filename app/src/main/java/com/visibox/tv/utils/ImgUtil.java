@@ -55,6 +55,15 @@ public class ImgUtil {
         }
     }
 
+    /** 供液态玻璃做背景模糊用：拉到固定尺寸，够用且省内存 */
+    public static void loadBlur(String url, CustomTarget<Bitmap> target) {
+        try {
+            Glide.with(App.get()).asBitmap().load(getUrl(url)).override(ResUtil.dp2px(360), ResUtil.dp2px(540)).error(R.drawable.artwork).into(target);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void load(Context context, String url, CustomTarget<Drawable> target) {
         try {
             Glide.with(context).load(getUrl(url)).override(ResUtil.getScreenWidth(), ResUtil.getScreenHeight()).error(R.drawable.artwork).into(target);

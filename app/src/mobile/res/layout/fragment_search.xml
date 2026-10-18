@@ -25,7 +25,7 @@
             android:maxLength="255"
             android:singleLine="true"
             android:textAppearance="@style/ToolbarTextAppearance"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textColorHint="@color/white"
             android:textCursorDrawable="@drawable/shape_cursor" />
 
@@ -50,7 +50,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/search_record"
-                android:textColor="@color/white"
+                android:textColor="@color/text_glass"
                 android:textSize="18sp" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -76,7 +76,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/search_hot"
-                android:textColor="@color/white"
+                android:textColor="@color/text_glass"
                 android:textSize="18sp" />
 
             <androidx.recyclerview.widget.RecyclerView

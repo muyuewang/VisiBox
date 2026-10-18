@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_config_addr"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -45,7 +45,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -73,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_line"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <Space
@@ -112,7 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_live_addr"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -124,7 +124,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -152,7 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_player_sel"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -164,7 +164,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -192,7 +192,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_player"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <Space
@@ -231,7 +231,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_home_default"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <Space
@@ -264,7 +264,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_live_default"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <Space
@@ -297,7 +297,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_config_history"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <Space
@@ -330,7 +330,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_live_history"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <Space
@@ -369,7 +369,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_wall_addr"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -381,7 +381,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -409,7 +409,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_wall_default"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <Space
@@ -442,7 +442,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_wall_refresh"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <Space
@@ -475,7 +475,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_multi"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -487,7 +487,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -521,7 +521,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_doh"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -533,7 +533,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -561,7 +561,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_incognito"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -573,7 +573,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -601,7 +601,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_size"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -613,7 +613,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -641,7 +641,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_scale"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -653,7 +653,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -687,7 +687,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_render"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -699,7 +699,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -727,7 +727,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_buffer"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -739,7 +739,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -767,7 +767,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_danmaku"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -779,7 +779,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -807,7 +807,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_thread"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -819,7 +819,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -853,7 +853,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_cache"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -865,7 +865,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -893,7 +893,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_backup"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <Space
@@ -926,7 +926,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_restore"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <Space
@@ -959,7 +959,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_version"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -971,7 +971,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -1005,7 +1005,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_boot"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -1017,7 +1017,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -1045,7 +1045,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_history_num"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -1057,7 +1057,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -1085,7 +1085,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_home_col"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -1097,7 +1097,7 @@
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -1107,11 +1107,46 @@
                     android:src="@drawable/ic_setting_chevron" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-            <Space
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/glass"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_margin="4dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@drawable/selector_item"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingEnd="12dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setting_glass"
+                    android:textColor="@color/text_glass"
+                    android:textSize="17sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/glassText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="end"
+                    android:singleLine="true"
+                    android:textColor="@color/text_glass_sub"
+                    android:textSize="15sp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="6dp"
+                    android:src="@drawable/ic_setting_chevron" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

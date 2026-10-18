@@ -60,6 +60,7 @@ import com.visibox.tv.service.PlaybackService;
 import com.visibox.tv.ui.adapter.BaseDiffCallback;
 import com.visibox.tv.ui.base.BaseActivity;
 import com.visibox.tv.ui.custom.CustomRowPresenter;
+import com.visibox.tv.ui.custom.GlassSheenDrawable;
 import com.visibox.tv.ui.custom.CustomSelector;
 import com.visibox.tv.ui.custom.CustomTitleView;
 import com.visibox.tv.ui.dialog.ConfigDialog;
@@ -148,6 +149,7 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
     @Override
     protected void initEvent() {
         mBinding.title.setListener(this);
+        new GlassSheenDrawable(24).attach(mBinding.home);
         mBinding.home.setOnClickListener(v -> {
             // 分类浏览中点「主页」返回首页；仅在首页时才是切换源
             if (categoryMode) {
@@ -271,8 +273,9 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
             chip.setPadding(ResUtil.dp2px(16), ResUtil.dp2px(6), ResUtil.dp2px(16), ResUtil.dp2px(6));
             chip.setBackgroundResource(R.drawable.selector_home_pill);
             chip.setFocusable(true);
-            chip.setSelected(type.getTypeId().equals(currentType));
+            chip.setSelected(!currentType.isEmpty() && type.getTypeId().equals(currentType));
             chip.setOnClickListener(v -> loadCategory(type, index));
+            new GlassSheenDrawable(24).attach(chip);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMarginEnd(ResUtil.dp2px(8));
             mBinding.categories.addView(chip, params);
@@ -285,7 +288,7 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
     private void markCategory(String typeId) {
         for (int i = 0; i < mBinding.categories.getChildCount(); i++) {
             View child = mBinding.categories.getChildAt(i);
-            child.setSelected(currentType.equals(typeId));
+            child.setSelected(!currentType.isEmpty() && currentType.equals(typeId));
         }
     }
 

@@ -25,7 +25,7 @@ CELL = '''            <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/{label}"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -37,7 +37,7 @@ CELL = '''            <androidx.appcompat.widget.LinearLayoutCompat
                     android:ellipsize="end"
                     android:gravity="end"
                     android:singleLine="true"
-                    android:textColor="#B3FFFFFF"
+                    android:textColor="@color/text_glass_sub"
                     android:textSize="15sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -67,7 +67,7 @@ CELL_NOVAL = '''            <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/{label}"
-                    android:textColor="@color/white"
+                    android:textColor="@color/text_glass"
                     android:textSize="17sp" />
 
                 <Space
@@ -108,7 +108,7 @@ ROWS = [
     [("cache", "setting_cache", "cacheText"), ("backup", "setting_backup", None),
      ("restore", "setting_restore", None), ("version", "setting_version", "versionText")],
     [("boot", "setting_boot", "bootText"), ("historyNum", "setting_history_num", "historyNumText"),
-     ("homeCol", "setting_home_col", "homeColText"), None],
+     ("homeCol", "setting_home_col", "homeColText"), ("glass", "setting_glass", "glassText")],
 ]
 
 ROOT = '''<?xml version="1.0" encoding="utf-8"?>

@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.viewbinding.ViewBinding;
 
 import com.visibox.tv.R;
+import com.visibox.tv.utils.GlassBlur;
 import com.visibox.tv.utils.ResUtil;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -61,6 +62,7 @@ public abstract class BaseDialog extends BottomSheetDialogFragment {
         BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
         dialog.setOnShowListener((DialogInterface f) -> setBehavior(dialog));
         setWindow(dialog);
+        GlassBlur.behind(getActivity(), dialog);
         return dialog;
     }
 

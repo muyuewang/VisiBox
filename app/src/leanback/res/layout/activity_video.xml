@@ -6,6 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- 液态玻璃：真模糊后的海报铺底 -->
+    <ImageView
+        android:id="@+id/backdrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <!-- 亮底罩：保证 10 英尺下的文字对比度 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B3EFF2F8" />
+
     <FrameLayout
         android:id="@+id/video"
         android:layout_width="400dp"
@@ -62,7 +75,7 @@
         android:layout_marginEnd="24dp"
         android:layout_toEndOf="@+id/video"
         android:singleLine="true"
-        android:textColor="@color/white"
+        android:textColor="@color/text_glass"
         android:textSize="24sp"
         tools:text="慶餘年第二季" />
 
@@ -75,7 +88,7 @@
         android:layout_marginTop="6dp"
         android:layout_marginEnd="24dp"
         android:singleLine="true"
-        android:textColor="@color/white"
+        android:textColor="@color/text_glass"
         android:textSize="16sp"
         tools:text="更新到第二季" />
 
@@ -95,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:singleLine="true"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="16sp"
             tools:text="站源：泥巴" />
 
@@ -105,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:singleLine="true"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="16sp"
             tools:text="年份：2022" />
 
@@ -115,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:singleLine="true"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="16sp"
             tools:text="地區：台灣" />
 
@@ -124,7 +137,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="16sp"
             tools:text="類型：科幻" />
 
@@ -140,7 +153,7 @@
         android:layout_marginEnd="24dp"
         android:nextFocusDown="@id/actor"
         android:singleLine="true"
-        android:textColor="@color/white"
+        android:textColor="@color/text_glass"
         android:textSize="16sp"
         tools:text="導演：FongMi" />
 
@@ -155,7 +168,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:nextFocusDown="@id/content"
-        android:textColor="@color/white"
+        android:textColor="@color/text_glass"
         android:textSize="16sp"
         tools:text="演員：FongMi" />
 
@@ -181,7 +194,7 @@
             android:nextFocusDown="@id/flag"
             android:singleLine="true"
             android:text="@string/detail_desc"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="16sp"
             app:drawableStartCompat="@drawable/ic_detail_desc" />
 
@@ -199,7 +212,7 @@
             android:nextFocusDown="@id/flag"
             android:singleLine="true"
             android:text="@string/keep"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="16sp"
             app:drawableStartCompat="@drawable/ic_detail_keep_off" />
 
@@ -217,7 +230,7 @@
             android:nextFocusDown="@id/flag"
             android:singleLine="true"
             android:text="@string/play_change"
-            android:textColor="@color/white"
+            android:textColor="@color/text_glass"
             android:textSize="16sp"
             app:drawableStartCompat="@drawable/ic_detail_change" />
 

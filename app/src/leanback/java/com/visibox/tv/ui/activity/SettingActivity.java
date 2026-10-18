@@ -38,6 +38,7 @@ import com.visibox.tv.ui.dialog.RestoreDialog;
 import com.visibox.tv.ui.dialog.SiteDialog;
 import com.visibox.tv.utils.FileChooser;
 import com.visibox.tv.utils.FileUtil;
+import com.visibox.tv.utils.GlassBlur;
 import com.visibox.tv.utils.Notify;
 import com.visibox.tv.utils.PermissionUtil;
 import com.visibox.tv.utils.ResUtil;
@@ -158,6 +159,22 @@ public class SettingActivity extends BaseActivity implements ConfigCallback, Sit
         // 列数与「图片尺寸」同源（column = |size - 7|），循环 1..7 列
         Setting.putSize((Setting.getSize() + 6) % 7);
         mBinding.homeColText.setText(getHomeColText());
+        mBinding.glassText.setText(getGlassText());
+    }
+
+    private void setGlass(View view) {
+        // 关 → 弱 → 强：低端盒子可关掉真模糊与动效
+        Setting.putGlass((Setting.getGlass() + 1) % 3);
+        if (Setting.getGlass() == 0) GlassBlur.clear();
+        mBinding.glassText.setText(getGlassText());
+    }
+
+    private String getGlassText() {
+        return switch (Setting.getGlass()) {
+            case 0 -> ResUtil.getString(R.string.setting_glass_off);
+            case 1 -> ResUtil.getString(R.string.setting_glass_weak);
+            default -> ResUtil.getString(R.string.setting_glass_strong);
+        };
     }
 
     private void onLine(View view) {
@@ -198,6 +215,7 @@ public class SettingActivity extends BaseActivity implements ConfigCallback, Sit
         mBinding.bootText.setText(getSwitch(Setting.getBoot()));
         mBinding.historyNumText.setText(ResUtil.getString(R.string.setting_num_value, Setting.getHistoryNum()));
         mBinding.homeColText.setText(getHomeColText());
+        mBinding.glassText.setText(getGlassText());
     }
 
     /**
@@ -221,6 +239,7 @@ public class SettingActivity extends BaseActivity implements ConfigCallback, Sit
         mBinding.bootText.setText(getSwitch(Setting.getBoot()));
         mBinding.historyNumText.setText(ResUtil.getString(R.string.setting_num_value, Setting.getHistoryNum()));
         mBinding.homeColText.setText(getHomeColText());
+        mBinding.glassText.setText(getGlassText());
     }
 
     private void setCacheText() {
@@ -261,6 +280,7 @@ public class SettingActivity extends BaseActivity implements ConfigCallback, Sit
         mBinding.boot.setOnClickListener(this::setBoot);
         mBinding.historyNum.setOnClickListener(this::setHistoryNum);
         mBinding.homeCol.setOnClickListener(this::setHomeCol);
+        mBinding.glass.setOnClickListener(this::setGlass);
         mBinding.render.setOnClickListener(this::setRender);
         mBinding.buffer.setOnClickListener(this::setBuffer);
         mBinding.scale.setOnClickListener(this::setScale);

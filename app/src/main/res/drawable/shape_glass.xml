@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 外层：上缘高光 → 下缘微暗，只露 1dp 边 -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="18dp" />
+            <gradient
+                android:angle="270"
+                android:endColor="@color/glass_edge_bottom"
+                android:startColor="@color/glass_edge_top" />
+        </shape>
+    </item>
+
+    <!-- 内层：磨砂玻璃本体 -->
+    <item
+        android:bottom="1dp"
+        android:left="1dp"
+        android:right="1dp"
+        android:top="1dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="17dp" />
+            <solid android:color="@color/glass_fill" />
+        </shape>
+    </item>
+
+</layer-list>

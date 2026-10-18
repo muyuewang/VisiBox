@@ -106,6 +106,10 @@
     <string name="setting_boot">Start on boot</string>
     <string name="setting_history_num">History limit</string>
     <string name="setting_home_col">Home columns</string>
+    <string name="setting_glass">Glass effect</string>
+    <string name="setting_glass_off">Off</string>
+    <string name="setting_glass_weak">Weak</string>
+    <string name="setting_glass_strong">Strong</string>
     <string name="setting_col_value">%1$d columns</string>
     <string name="setting_boot_on">On</string>
     <string name="setting_boot_off">Off</string>

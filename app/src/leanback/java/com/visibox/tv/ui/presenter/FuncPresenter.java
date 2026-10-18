@@ -8,6 +8,7 @@ import androidx.leanback.widget.Presenter;
 
 import com.visibox.tv.bean.Func;
 import com.visibox.tv.databinding.AdapterFuncBinding;
+import com.visibox.tv.ui.custom.GlassSheenDrawable;
 
 public class FuncPresenter extends Presenter {
 
@@ -24,7 +25,9 @@ public class FuncPresenter extends Presenter {
     @NonNull
     @Override
     public Presenter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent) {
-        return new ViewHolder(AdapterFuncBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        ViewHolder holder = new ViewHolder(AdapterFuncBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        new GlassSheenDrawable(16).attach(holder.view);
+        return holder;
     }
 
     @Override

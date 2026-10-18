@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:singleLine="true"
-                android:textColor="@color/white"
+                android:textColor="@color/text_glass"
                 android:textSize="16sp"
                 android:visibility="invisible"
                 tools:text="慶餘年第一季：第一集" />
