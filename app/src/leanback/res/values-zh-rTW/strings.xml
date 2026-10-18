@@ -1,0 +1,28 @@
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
+
+    <!-- Home -->
+    <string name="home_vod">點播</string>
+    <string name="home_live">直播</string>
+    <string name="home_search">搜尋</string>
+    <string name="home_keep">收藏</string>
+    <string name="home_push">推送</string>
+    <string name="home_setting">設定</string>
+    <string name="home_history">最近觀看</string>
+    <string name="home_recommend">更新推薦</string>
+    <string name="home_history_btn">歷史</string>
+    <string name="home_history_empty">暫無觀看歷史</string>
+    <string name="home_back_tip">當前在分類瀏覽，按「主頁」返回後查看歷史</string>
+    <string name="home_config">配置</string>
+    <string name="home_line">線路</string>
+    <string name="home_local">本地</string>
+    <string name="home_tab">主頁</string>
+    <string name="home_notice">接口和App都是免費的，謹防倒賣</string>
+
+    <!-- Collect -->
+    <string name="collect_result">「<xliff:g name="name">%s</xliff:g>」的搜尋結果</string>
+
+    <!-- Push -->
+    <string name="push_clip">推送剪貼簿內容</string>
+    <string name="push_info">使用手機掃描 QR Code，或於瀏覽器輸入網址\n<xliff:g name="name">%s</xliff:g></string>
+
+</resources>

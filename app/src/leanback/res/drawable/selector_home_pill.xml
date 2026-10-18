@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 聚焦：白底（文字转黑，见 colors/pill_text），醒目指向 -->
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="18dp" />
+            <solid android:color="#FFFFFFFF" />
+        </shape>
+    </item>
+    <!-- 选中：实心青绿白字 -->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="18dp" />
+            <solid android:color="#FF2DD4AA" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="18dp" />
+            <solid android:color="#33FFFFFF" />
+        </shape>
+    </item>
+</selector>

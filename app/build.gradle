@@ -1,0 +1,169 @@
+plugins {
+    id 'com.android.application'
+}
+
+def localProps = new Properties()
+rootProject.file('local.properties').withInputStream {
+    localProps.load(it)
+}
+
+android {
+    namespace = 'com.fongmi.android.tv'
+
+    compileSdk {
+        version = release(37)
+    }
+
+    defaultConfig {
+        // 改包名只需改这一行；Manifest 内均使用 ${applicationId} 占位符，无需连带修改。
+        applicationId "com.visibox.android"
+        minSdk 24
+        //noinspection ExpiredTargetSdkVersion
+        targetSdk 28
+        versionCode 17
+        versionName "1.8.2"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString(), "eventBusIndex": "com.fongmi.android.tv.event.EventIndex"]
+            }
+        }
+    }
+
+    flavorDimensions = ["mode", "abi"]
+
+    productFlavors {
+        leanback {
+            dimension "mode"
+        }
+        mobile {
+            dimension "mode"
+        }
+        arm64_v8a {
+            dimension "abi"
+            ndk { abiFilters "arm64-v8a" }
+        }
+        armeabi_v7a {
+            dimension "abi"
+            ndk { abiFilters "armeabi-v7a" }
+        }
+    }
+
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(localProps['storeFile'])
+            keyAlias localProps['keyAlias']
+            keyPassword localProps['storePassword']
+            storePassword localProps['storePassword']
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled = true
+            shrinkResources = true
+            signingConfig = signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-rules-media.pro'
+        }
+    }
+
+    packagingOptions {
+        resources {
+            exclude 'META-INF/beans.xml'
+            exclude 'META-INF/versions/9/OSGI-INF/MANIFEST.MF'
+        }
+    }
+
+    configurations.configureEach {
+        exclude group: 'com.android.support'
+        resolutionStrategy {
+            force 'com.squareup.okhttp3:okhttp:' + okhttpVersion
+        }
+    }
+
+    lint {
+        disable 'UnsafeOptInUsageError'
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled = true
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+androidComponents {
+    onVariants(selector().withBuildType('release')) { variant ->
+        def flavors = variant.productFlavors.collectEntries { [(it.first): it.second] }
+        def mode = flavors['mode'] ?: 'mode'
+        def abi = flavors['abi'] ?: 'abi'
+        variant.outputs.each { output ->
+            output.outputFileName.set("${mode}-${abi}.apk")
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.aar"])
+    implementation project(':catvod')
+    implementation project(':chaquo')
+    implementation project(':quickjs')
+    // MPV 内核（含 FFmpeg 与 libass，MIT）。32 位老盒子若无对应 .so，运行时会回落到 Exo
+    implementation 'dev.jdtech.mpv:libmpv:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.core:core-splashscreen:1.2.0'
+    implementation 'androidx.lifecycle:lifecycle-service:2.10.0'
+    implementation 'androidx.media:media:1.7.1'
+    implementation 'androidx.media3:media3-common:' + media3Version
+    implementation 'androidx.media3:media3-container:' + media3Version
+    implementation 'androidx.media3:media3-database:' + media3Version
+    implementation 'androidx.media3:media3-datasource:' + media3Version
+    implementation 'androidx.media3:media3-datasource-okhttp:' + media3Version
+    implementation 'androidx.media3:media3-datasource-rtmp:' + media3Version
+    implementation 'androidx.media3:media3-decoder:' + media3Version
+    implementation 'androidx.media3:media3-effect:' + media3Version
+    implementation 'androidx.media3:media3-exoplayer:' + media3Version
+    implementation 'androidx.media3:media3-exoplayer-dash:' + media3Version
+    implementation 'androidx.media3:media3-exoplayer-hls:' + media3Version
+    implementation 'androidx.media3:media3-exoplayer-rtsp:' + media3Version
+    implementation 'androidx.media3:media3-exoplayer-smoothstreaming:' + media3Version
+    implementation 'androidx.media3:media3-extractor:' + media3Version
+    implementation 'androidx.media3:media3-session:' + media3Version
+    implementation 'androidx.media3:media3-ui:' + media3Version
+    implementation 'androidx.palette:palette:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
+    implementation 'androidx.room:room-runtime:2.8.4'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0'
+    implementation 'cat.ereza:customactivityoncrash:2.4.0'
+    implementation 'com.airbnb.android:lottie:6.7.1'
+    implementation 'com.github.bassaer:materialdesigncolors:1.0.0'
+    implementation 'com.github.bumptech.glide:glide:' + glideVersion
+    implementation 'com.github.bumptech.glide:annotations:' + glideVersion
+    implementation 'com.github.bumptech.glide:avif-integration:' + glideVersion
+    implementation 'com.github.bumptech.glide:okhttp3-integration:' + glideVersion
+    implementation 'com.github.jahirfiquitiva:TextDrawable:1.0.3'
+    implementation 'com.github.TeamNewPipe:NewPipeExtractor:v0.26.1'
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    implementation 'com.google.android.material:material:1.14.0-beta01'
+    implementation 'com.guolindev.permissionx:permissionx:1.8.1'
+    implementation 'org.jupnp:org.jupnp:3.0.4'
+    implementation 'org.jupnp:org.jupnp.android:3.0.4'
+    implementation 'org.jupnp:org.jupnp.support:3.0.4'
+    implementation 'org.greenrobot:eventbus:3.3.1'
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
+    implementation('org.simpleframework:simple-xml:2.7.1') { exclude group: 'stax', module: 'stax-api' exclude group: 'xpp3', module: 'xpp3' }
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.31'
+    leanbackImplementation 'androidx.leanback:leanback:1.2.0'
+    leanbackImplementation 'com.github.JessYanCoding:AndroidAutoSize:1.2.1'
+    mobileImplementation 'androidx.biometric:biometric:1.1.0'
+    mobileImplementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    annotationProcessor 'androidx.room:room-compiler:2.8.4'
+    annotationProcessor 'com.github.bumptech.glide:compiler:' + glideVersion
+    annotationProcessor 'org.greenrobot:eventbus-annotation-processor:3.3.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs_nio:2.1.5'
+}

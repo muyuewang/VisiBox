@@ -1,0 +1,20 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace = 'com.p2p'
+
+    compileSdk {
+        version = release(37)
+    }
+
+    defaultConfig {
+        minSdk 24
+        targetSdk 37
+    }
+}
+
+dependencies {
+    implementation project(':catvod')
+}
