@@ -108,6 +108,9 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
     private boolean fellBack;
     private boolean categoryMode;
     private boolean categoryScrollPending;
+    /** 启动 intent 只处理一次：配置快照会让 success 回调走两遍（快照一次、网络一次），
+     *  不加这道闸，带 ACTION_VIEW 进来时会连着开两个播放页 */
+    private boolean actionHandled;
     private String currentType = "";
     // 当前选中的分类胶囊；用对象引用比对，避免 typeId 重复时整排一起亮
     private TextView mSelectedChip;
@@ -135,6 +138,8 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        // 新 intent 是真正的新动作，闸门重新打开
+        actionHandled = false;
         checkAction(intent);
     }
 
@@ -178,6 +183,8 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
     }
 
     private void checkAction(Intent intent) {
+        if (actionHandled) return;
+        actionHandled = true;
         if (Intent.ACTION_SEND.equals(intent.getAction())) {
             VideoActivity.push(this, intent.getStringExtra(Intent.EXTRA_TEXT));
         } else if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {

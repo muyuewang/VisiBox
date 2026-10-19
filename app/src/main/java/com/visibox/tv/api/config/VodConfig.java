@@ -40,6 +40,8 @@ public class VodConfig extends BaseConfig {
     private List<String> ads;
     private List<String> flags;
     private List<Parse> parses;
+    /** 正在解析本地快照：这条路径不联网，爬虫 jar 也不下载，留给随后的网络刷新去做 */
+    private boolean fromSnapshot;
 
     public static VodConfig get() {
         return Loader.INSTANCE;
@@ -110,9 +112,38 @@ public class VodConfig extends BaseConfig {
     }
 
     @Override
+    protected boolean cacheEnabled() {
+        return true;
+    }
+
+    @Override
     protected void load(Config config) throws Throwable {
-        String json = Decoder.getJson(UrlUtil.convert(config.getUrl()), TAG);
+        String url = UrlUtil.convert(config.getUrl());
+        // 一、先用本地快照把界面撑起来（stale-while-revalidate）
+        if (cacheEnabled() && ConfigCache.enabled(url)) {
+            String cached = ConfigCache.read(url);
+            if (!TextUtils.isEmpty(cached)) {
+                try {
+                    JsonObject object = Json.parse(cached).getAsJsonObject();
+                    fromSnapshot = true;
+                    checkJson(config, object);
+                    android.util.Log.d("VodConfig", "snapshot hit, sites=" + getSites().size() + ", age=" + ConfigCache.age(url) + "ms");
+                    onSnapshot();
+                } catch (Throwable e) {
+                    // 快照坏了（格式变更、写了一半）就当没有，清掉让下面网络流程全权接管
+                    android.util.Log.w("VodConfig", "snapshot invalid", e);
+                    ConfigCache.drop(url);
+                } finally {
+                    fromSnapshot = false;
+                }
+            }
+        }
+        // 二、联网刷新，成功才覆盖快照；失败时旧快照原样保留
+        String json = Decoder.getJson(url, TAG);
+        // 先解析再落盘：{"msg":"..."} 这类错误响应也能通过 JSON 语法检查，
+        // 但 checkJson 会抛异常，缓存它等于下次启动白解析一遍
         checkJson(config, Json.parse(json).getAsJsonObject());
+        ConfigCache.write(url, json);
     }
 
     @Override
@@ -176,7 +207,10 @@ public class VodConfig extends BaseConfig {
 
     private void initSite(Config config, JsonObject object) {
         String spider = Json.safeString(object, "spider");
-        BaseLoader.get().parseJar(spider, true);
+        // 快照路径跳过 jar 下载：parseJar 每次冷启动都会同步拉一遍爬虫 jar，
+        // 真让它跑就等于把「秒开」又拖回网络等待。jar 由随后的网络刷新装载，
+        // 用户在刷新完成前点开站点时，getSpider() 也会按需把它装上，不会缺类。
+        if (!fromSnapshot) BaseLoader.get().parseJar(spider, true);
         List<Site> items = Json.safeListElement(object, "sites").stream().map(e -> Site.objectFrom(e, spider)).distinct().collect(Collectors.toCollection(ArrayList::new));
         // 多仓：把其他已勾选仓库的站点并入当前站点表，站点各自携带自己的 spider
         items.addAll(MultiConfig.loadExtra(config, items));

@@ -202,6 +202,11 @@
 
     <!-- Error -->
     <string name="error_config_get">Configuration get failed</string>
+    <string name="config_cache_tip">Config refresh failed, using local snapshot (%1$s)</string>
+    <string name="cache_age_now">just now</string>
+    <string name="cache_age_minute">%1$d min ago</string>
+    <string name="cache_age_hour">%1$d h ago</string>
+    <string name="cache_age_day">%1$d d ago</string>
     <string name="error_play_next">It\'s the last episode!</string>
     <string name="error_play_prev">It\'s the first episode!</string>
     <string name="error_play_parse">Unable to parse url</string>

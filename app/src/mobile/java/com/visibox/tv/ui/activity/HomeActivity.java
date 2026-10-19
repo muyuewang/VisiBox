@@ -55,6 +55,8 @@ public class HomeActivity extends BaseActivity implements NavigationBarView.OnIt
     private FragmentStateManager mManager;
     private ActivityHomeBinding mBinding;
     private int orientation;
+    /** 启动 intent 只处理一次：配置快照会让 success 回调走两遍，否则会连开两个播放页 */
+    private boolean actionHandled;
 
     @Override
     protected ViewBinding getBinding() {
@@ -64,6 +66,7 @@ public class HomeActivity extends BaseActivity implements NavigationBarView.OnIt
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        actionHandled = false;
         checkAction(intent);
     }
 
@@ -88,6 +91,8 @@ public class HomeActivity extends BaseActivity implements NavigationBarView.OnIt
     }
 
     private void checkAction(Intent intent) {
+        if (actionHandled) return;
+        actionHandled = true;
         if (Intent.ACTION_SEND.equals(intent.getAction())) {
             VideoActivity.push(this, intent.getStringExtra(Intent.EXTRA_TEXT));
         } else if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {

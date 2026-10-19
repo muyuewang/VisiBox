@@ -9,6 +9,7 @@ import com.visibox.tv.event.ConfigEvent;
 import com.visibox.tv.impl.Callback;
 import com.visibox.tv.server.Server;
 import com.visibox.tv.utils.Notify;
+import com.visibox.tv.utils.ResUtil;
 import com.visibox.tv.utils.Task;
 import com.visibox.tv.utils.UrlUtil;
 import com.github.catvod.bean.Header;
@@ -22,6 +23,7 @@ import com.google.gson.JsonParser;
 import java.io.InterruptedIOException;
 import java.util.List;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 abstract class BaseConfig {
@@ -32,9 +34,25 @@ abstract class BaseConfig {
 
     private final AtomicInteger taskId = new AtomicInteger(0);
 
+    /**
+     * 快照通道。只对「由 load() 发起的那次加载」有效，所以放在 ThreadLocal 里：
+     * ensureLoaded() 之类旁路调用跑在别的线程上，不该冒出一次 success 回调。
+     */
+    private final ThreadLocal<Snapshot> snapshot = new ThreadLocal<>();
+
     protected boolean sync;
     protected volatile Config config;
     private volatile Future<?> future;
+
+    private static final class Snapshot {
+
+        private final Callback callback;
+        private final AtomicBoolean fired = new AtomicBoolean(false);
+
+        private Snapshot(Callback callback) {
+            this.callback = callback;
+        }
+    }
 
     protected abstract String getTag();
 
@@ -43,6 +61,28 @@ abstract class BaseConfig {
     protected abstract void load(Config config) throws Throwable;
 
     protected abstract boolean isLoaded();
+
+    /** 是否启用配置快照，默认关闭（需要子类自己实现快照解析） */
+    protected boolean cacheEnabled() {
+        return false;
+    }
+
+    /**
+     * 子类用本地快照解析成功后调用：先把界面放出来，网络刷新继续在后台跑。
+     * 同一次加载只会生效一次，重复调用无副作用。
+     */
+    protected void onSnapshot() {
+        Snapshot current = snapshot.get();
+        if (current == null || !current.fired.compareAndSet(false, true)) return;
+        App.post(current.callback::success);
+        App.post(this::postEvent);
+    }
+
+    /** 本次加载是否已经用快照放行过（决定网络失败时要不要打扰用户） */
+    protected boolean snapshotFired() {
+        Snapshot current = snapshot.get();
+        return current != null && current.fired.get();
+    }
 
     public synchronized void ensureLoaded() {
         try {
@@ -88,6 +128,7 @@ abstract class BaseConfig {
     }
 
     protected void loadConfig(int id, Config config, Callback callback) {
+        snapshot.set(new Snapshot(callback));
         try {
             Server.get().start();
             OkHttp.cancel(getTag());
@@ -100,10 +141,18 @@ abstract class BaseConfig {
             e.printStackTrace();
             if (isCanceled(e)) return;
             if (taskId.get() != id) return;
-            if (TextUtils.isEmpty(config.getUrl())) App.post(() -> callback.error(""));
-            else App.post(() -> callback.error(Notify.getError(R.string.error_config_get, e)));
+            if (snapshotFired()) {
+                // 快照已经让界面可用了，这时候再弹「配置获取失败」只会让用户以为 App 坏了
+                String url = config.getUrl();
+                App.post(() -> Notify.show(ResUtil.getString(R.string.config_cache_tip, ConfigCache.ageText(ConfigCache.age(url)))));
+            } else if (TextUtils.isEmpty(config.getUrl())) {
+                App.post(() -> callback.error(""));
+            } else {
+                App.post(() -> callback.error(Notify.getError(R.string.error_config_get, e)));
+            }
         } finally {
             if (taskId.get() == id) postEvent();
+            snapshot.remove();
         }
     }
 

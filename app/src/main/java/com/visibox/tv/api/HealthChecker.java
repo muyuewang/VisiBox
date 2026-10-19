@@ -194,6 +194,9 @@ public final class HealthChecker {
             return "证书验证失败";
         if (type.contains("NoRouteToHost") || lower.contains("unreachable"))
             return "网络不可达";
+        // csp_ 开头的爬虫接口不是 URL，探测时 OkHttp 会抛 "Expected URL scheme"，
+        // 原文直接显示在源列表上就成了技术噪音
+        if (lower.contains("url scheme") || lower.contains("no scheme")) return "接口地址无效";
         // 状态码要按词边界匹配：直接 contains("5") 会把任何带 5 的错误都误判成服务端错误
         if (raw.matches("(?s).*\\b401\\b.*") || raw.matches("(?s).*\\b403\\b.*")) return "接口拒绝访问";
         if (raw.matches("(?s).*\\b404\\b.*")) return "接口不存在";

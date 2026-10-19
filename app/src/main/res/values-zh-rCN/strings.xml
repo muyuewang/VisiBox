@@ -201,6 +201,11 @@
 
     <!-- Error -->
     <string name="error_config_get">配置取得失败</string>
+    <string name="config_cache_tip">配置刷新失败，正在使用本地快照（%1$s）</string>
+    <string name="cache_age_now">刚刚</string>
+    <string name="cache_age_minute">%1$d 分钟前</string>
+    <string name="cache_age_hour">%1$d 小时前</string>
+    <string name="cache_age_day">%1$d 天前</string>
     <string name="error_play_next">已经是最后一集了！</string>
     <string name="error_play_prev">已经是第一集了！</string>
     <string name="error_play_parse">播放地址解析失败</string>
