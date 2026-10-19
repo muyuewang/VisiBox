@@ -11,6 +11,7 @@ import androidx.media3.common.Tracks;
 
 import com.visibox.tv.App;
 import com.visibox.tv.R;
+import com.visibox.tv.Setting;
 import com.visibox.tv.bean.Track;
 import com.visibox.tv.player.exo.TrackUtil;
 import com.visibox.tv.utils.ResUtil;
@@ -83,6 +84,7 @@ public class MpvPlayerEngine implements PlayerEngine {
         this.spec = spec;
         player.setRequestHeaders(spec.getHeaders());
         player.setMediaItem(TextUtils.isEmpty(spec.getFormat()) ? MediaItem.fromUri(spec.getUrl()) : new MediaItem.Builder().setUri(spec.getUrl()).setMimeType(spec.getFormat()).build());
+        player.setPicture(Setting.getPictureBrightness(), Setting.getPictureContrast(), Setting.getPictureSaturation(), Setting.getPictureHue());
         player.prepare();
         player.play();
     }

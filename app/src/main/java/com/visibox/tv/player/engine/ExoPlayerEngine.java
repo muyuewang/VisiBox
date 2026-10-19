@@ -8,6 +8,7 @@ import androidx.media3.common.Tracks;
 
 import com.visibox.tv.R;
 import com.visibox.tv.bean.Track;
+import com.visibox.tv.player.effect.AudioFx;
 import com.visibox.tv.player.exo.ErrorMsgProvider;
 import com.visibox.tv.player.exo.ExoUtil;
 import com.visibox.tv.player.exo.TrackUtil;
@@ -35,6 +36,7 @@ public class ExoPlayerEngine implements PlayerEngine {
 
     @Override
     public void release() {
+        AudioFx.detach();
         player.release();
     }
 

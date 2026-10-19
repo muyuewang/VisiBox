@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.visibox.tv.bean.Collect;
@@ -16,8 +17,18 @@ public class CollectAdapter extends RecyclerView.Adapter<CollectAdapter.ViewHold
 
     private final List<Collect> mItems;
 
+    private Listener mListener;
+
+    public interface Listener {
+        void onItemClick(int position);
+    }
+
     public CollectAdapter() {
         mItems = new ArrayList<>();
+    }
+
+    public void setListener(@Nullable Listener listener) {
+        this.mListener = listener;
     }
 
     public void add(Collect item) {
@@ -30,7 +41,13 @@ public class CollectAdapter extends RecyclerView.Adapter<CollectAdapter.ViewHold
         notifyDataSetChanged();
     }
 
+    public boolean contains(Collect item) {
+        return item != null && mItems.contains(item);
+    }
+
+    @Nullable
     public Collect get(int position) {
+        if (position < 0 || position >= mItems.size()) return null;
         return mItems.get(position);
     }
 
@@ -47,8 +64,14 @@ public class CollectAdapter extends RecyclerView.Adapter<CollectAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Collect item = mItems.get(position);
+        Collect item = get(holder.getBindingAdapterPosition());
+        if (item == null) return;
         holder.binding.text.setText(item.getSite().getName());
+        holder.binding.text.setActivated(item.isActivated());
+        holder.itemView.setOnClickListener(v -> {
+            int pos = holder.getBindingAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION && mListener != null) mListener.onItemClick(pos);
+        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

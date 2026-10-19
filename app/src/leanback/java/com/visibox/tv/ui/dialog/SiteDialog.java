@@ -18,6 +18,7 @@ import com.visibox.tv.databinding.DialogSiteBinding;
 import com.visibox.tv.impl.SiteCallback;
 import com.visibox.tv.ui.adapter.SiteAdapter;
 import com.visibox.tv.ui.custom.SpaceItemDecoration;
+import com.visibox.tv.utils.Notify;
 import com.visibox.tv.utils.ResUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -54,6 +55,12 @@ public class SiteDialog implements SiteAdapter.OnClickListener {
     }
 
     public void show() {
+        // 没有可选站点时不能静默返回：setDialog() 里会 return，界面毫无反应，
+        // 用户只会反复点「主页」却什么都出不来
+        if (adapter.getItemCount() == 0) {
+            Notify.show(R.string.site_empty_tip);
+            return;
+        }
         setType(type);
         initView();
         initEvent();

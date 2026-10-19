@@ -22,7 +22,10 @@
             <corners
                 android:topLeftRadius="23dp"
                 android:topRightRadius="23dp" />
-            <solid android:color="@color/glass_fill_strong" />
+            <gradient
+                android:angle="315"
+                android:startColor="@color/glass_fill_strong"
+                android:endColor="@color/glass_fill_strong_end" />
         </shape>
     </item>
 

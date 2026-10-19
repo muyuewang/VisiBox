@@ -13,11 +13,11 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop" />
 
-    <!-- 亮底罩：保证 10 英尺下的文字对比度 -->
+    <!-- 亮底罩：中段透出海报颜色，顶/底加厚保证文字对比度 -->
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#B3EFF2F8" />
+        android:background="@drawable/bg_detail_scrim" />
 
     <FrameLayout
         android:id="@+id/video"
@@ -26,7 +26,7 @@
         android:layout_margin="24dp"
         android:background="@color/black"
         android:focusable="true"
-        android:focusableInTouchMode="true"
+        android:focusableInTouchMode="false"
         android:foreground="@drawable/selector_video"
         android:nextFocusLeft="@id/video"
         android:nextFocusRight="@id/content"
@@ -188,7 +188,7 @@
             android:background="@drawable/selector_item"
             android:drawablePadding="6dp"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:gravity="center"
             android:nextFocusUp="@id/actor"
             android:nextFocusDown="@id/flag"
@@ -206,7 +206,7 @@
             android:background="@drawable/selector_item"
             android:drawablePadding="6dp"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:gravity="center"
             android:nextFocusUp="@id/actor"
             android:nextFocusDown="@id/flag"
@@ -223,7 +223,7 @@
             android:background="@drawable/selector_item"
             android:drawablePadding="6dp"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:gravity="center"
             android:nextFocusRight="@id/change1"
             android:nextFocusUp="@id/actor"

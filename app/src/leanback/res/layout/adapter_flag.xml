@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/selector_item"
     android:focusable="true"
-    android:focusableInTouchMode="true"
+    android:focusableInTouchMode="false"
     android:gravity="center"
     android:nextFocusDown="@id/episode"
     android:textColor="@color/text"

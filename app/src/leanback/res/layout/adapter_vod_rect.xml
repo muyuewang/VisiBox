@@ -5,9 +5,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:foreground="@drawable/selector_vod">
+    android:focusableInTouchMode="false">
 
+    <!-- 焦点描边交给 ShapeableImageView 自己画（Glass.focus → setStrokeWidth），
+         这里不要再叠 foreground 圆角矩形环：环的内圈半径和海报对不齐，会把圆角盖成直角 -->
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image"
         android:layout_width="match_parent"

@@ -122,8 +122,14 @@ public class ConfigDialog implements DialogInterface.OnDismissListener {
     }
 
     private void onChoose(View view) {
-        FileChooser.from(launcher).show();
         dialog.dismiss();
+        // 调用方没注册 ActivityResultLauncher 时（历史遗留调用点），FileChooser.from(null) 会直接 NPE，
+        // 这里回落到内置文件浏览页，宁可少一个系统选择器也不能崩
+        if (launcher == null) {
+            view.getContext().startActivity(new Intent(view.getContext(), com.visibox.tv.ui.activity.FileActivity.class));
+            return;
+        }
+        FileChooser.from(launcher).show();
     }
 
     private void detect(String s) {

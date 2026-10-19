@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/selector_item_round"
     android:focusable="true"
-    android:focusableInTouchMode="true"
+    android:focusableInTouchMode="false"
     android:gravity="center"
     android:textColor="@color/text_glass"
     android:textSize="16sp"

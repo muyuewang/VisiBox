@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- 详情页亮底罩：中段开大口，让海报模糊后的颜色透出来，顶部/底部稍厚保证文字对比度 -->
+    <gradient
+        android:angle="270"
+        android:centerColor="#2EFFFFFF"
+        android:centerY="0.45"
+        android:endColor="#B3EFF2F8"
+        android:startColor="#99EFF2F8"
+        android:type="linear" />
+
+</shape>

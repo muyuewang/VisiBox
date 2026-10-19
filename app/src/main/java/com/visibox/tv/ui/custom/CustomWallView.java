@@ -22,6 +22,7 @@ import com.visibox.tv.Setting;
 import com.visibox.tv.databinding.ViewWallBinding;
 import com.visibox.tv.event.ConfigEvent;
 import com.visibox.tv.utils.FileUtil;
+import com.visibox.tv.utils.GlassWallpaper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -100,7 +101,7 @@ public class CustomWallView extends FrameLayout implements DefaultLifecycleObser
     }
 
     private void loadRes(int wall) {
-        if (wall == 1) binding.image.setImageResource(R.drawable.wallpaper_1);
+        if (wall == 1) binding.image.setImageDrawable(new GlassWallpaper());
         else if (wall == 2) binding.image.setImageResource(R.drawable.wallpaper_2);
         else if (wall == 3) binding.image.setImageResource(R.drawable.wallpaper_3);
         else if (wall == 4) binding.image.setImageResource(R.drawable.wallpaper_4);
@@ -123,7 +124,7 @@ public class CustomWallView extends FrameLayout implements DefaultLifecycleObser
 
     private void loadImage() {
         if (cache != null) binding.image.setImageDrawable(cache);
-        else binding.image.setImageResource(R.drawable.wallpaper_1);
+        else binding.image.setImageDrawable(new GlassWallpaper());
     }
 
     private GifDrawable gif(File file) {

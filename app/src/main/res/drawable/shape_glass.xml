@@ -20,7 +20,10 @@
         android:top="1dp">
         <shape android:shape="rectangle">
             <corners android:radius="17dp" />
-            <solid android:color="@color/glass_fill" />
+            <gradient
+                android:angle="315"
+                android:startColor="@color/glass_fill"
+                android:endColor="@color/glass_fill_end" />
         </shape>
     </item>
 

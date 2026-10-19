@@ -8,7 +8,7 @@
     android:background="@drawable/selector_item_round"
     android:ellipsize="marquee"
     android:focusable="true"
-    android:focusableInTouchMode="true"
+    android:focusableInTouchMode="false"
     android:singleLine="true"
     android:textColor="@color/text_glass"
     android:textSize="16sp"

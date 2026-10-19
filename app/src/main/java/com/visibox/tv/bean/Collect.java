@@ -50,6 +50,10 @@ public class Collect implements Parcelable, Diffable<Collect> {
         return list == null ? new ArrayList<>() : list;
     }
 
+    public void setList(List<Vod> list) {
+        this.list = list;
+    }
+
     public boolean isActivated() {
         return activated;
     }

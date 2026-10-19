@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- 聚焦：玻璃提亮 + 上缘高光（亮度维度） -->
-    <item android:drawable="@drawable/shape_glass_strong" android:state_focused="true" />
-    <!-- 选中：青绿光透过玻璃（色调维度） -->
-    <item android:drawable="@drawable/shape_glass_selected" android:state_selected="true" />
-    <!-- 默认：最暗的玻璃 -->
-    <item android:drawable="@drawable/shape_glass_soft" />
+    <!-- 选中优先于聚焦：选中=绿底，聚焦只在绿底外加白描边 -->
+    <item
+        android:drawable="@drawable/shape_pill_selected_focus"
+        android:state_selected="true"
+        android:state_focused="true" />
+    <item android:drawable="@drawable/shape_pill_selected" android:state_selected="true" />
+    <item android:drawable="@drawable/shape_pill_focus" android:state_focused="true" />
+    <item android:drawable="@drawable/shape_pill_normal" />
 </selector>

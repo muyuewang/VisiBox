@@ -223,6 +223,11 @@ public class PlayerManager implements ParseCallback {
         danPlayer.setTextSize(size);
     }
 
+    /** 弹幕样式改动后即时刷新 */
+    public void applyDanmakuStyle() {
+        if (danPlayer != null) danPlayer.applyStyle();
+    }
+
     public String setSpeed(float speed) {
         if (!player.isCommandAvailable(Player.COMMAND_SET_SPEED_AND_PITCH)) return getSpeedText();
         player.setPlaybackParameters(player.getPlaybackParameters().withSpeed(speed));

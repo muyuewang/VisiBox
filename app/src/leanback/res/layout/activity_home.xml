@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/selector_home_pill"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:paddingStart="20dp"
             android:paddingTop="6dp"
             android:paddingEnd="20dp"

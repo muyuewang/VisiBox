@@ -85,6 +85,8 @@
     <string name="setting_wall_refresh">重新整理壁紙</string>
     <string name="setting_title">設定</string>
     <string name="home_empty_tip">該源首頁無推薦內容，按「主頁」瀏覽分類</string>
+    <string name="home_timeout_tip">接口無回應：按「配置」換接口，或按「主頁」換站點後重試</string>
+    <string name="site_empty_tip">目前接口沒有可選站點，請先在「設定」裡更換接口</string>
     <string name="setting_render">渲染方式</string>
     <string name="setting_buffer">EXO緩衝</string>
     <string name="setting_scale">畫面縮放</string>
@@ -125,6 +127,17 @@
     <string name="setting_backup">備份</string>
     <string name="setting_restore">還原</string>
     <string name="setting_version">版本</string>
+    <string name="setting_group_api">接口與線路</string>
+    <string name="setting_group_live">直播</string>
+    <string name="setting_group_play">播放與首頁</string>
+    <string name="setting_group_look">外觀與維護</string>
+    <string name="setting_group_more">更多</string>
+    <string name="setting_group_net">網路</string>
+    <string name="setting_group_player">播放細節</string>
+    <string name="setting_group_display">顯示</string>
+    <string name="setting_group_other">其他</string>
+    <string name="setting_customize">個人化設定</string>
+    <string name="setting_back">返回設定</string>
     <string name="setting_choose">選擇</string>
     <string name="setting_off">關</string>
     <string name="setting_on">開</string>
@@ -151,6 +164,7 @@
     <string name="player_tunnel">隧道模式</string>
     <string name="player_buffer">緩衝時間</string>
     <string name="player_speed">長按倍速</string>
+    <string name="player_skip_silence">跳過靜音</string>
     <string name="player_ua">User-Agent</string>
 
     <!-- Search -->
@@ -245,6 +259,90 @@
         <item>選擇音軌</item>
         <item>選擇視軌</item>
         <item>選擇字幕</item>
+    </string-array>
+
+    <string name="adjust_picture">畫面調節</string>
+    <string name="adjust_audio">音效</string>
+    <string name="adjust_subtitle">字幕樣式</string>
+    <string name="adjust_danmaku">彈幕樣式</string>
+    <string name="adjust_reset">恢復預設</string>
+    <string name="adjust_default">預設</string>
+    <string name="adjust_custom">已調整</string>
+    <string name="picture_brightness">亮度</string>
+    <string name="picture_contrast">對比度</string>
+    <string name="picture_saturation">飽和度</string>
+    <string name="picture_temperature">色溫</string>
+    <string name="picture_hue">色調</string>
+    <string name="audio_preset">預設</string>
+    <string name="subtitle_color">文字顏色</string>
+    <string name="subtitle_edge">描邊樣式</string>
+    <string name="subtitle_edge_color">描邊顏色</string>
+    <string name="subtitle_background">背景</string>
+    <string name="subtitle_size">字號</string>
+    <string name="subtitle_bottom">底部距離</string>
+    <string name="danmaku_size">彈幕字號</string>
+    <string name="danmaku_speed">滾動速度</string>
+    <string name="danmaku_alpha">透明度</string>
+    <string name="danmaku_lines">顯示行數</string>
+    <string name="danmaku_style">描邊樣式</string>
+    <string name="danmaku_offset">時間偏移</string>
+
+    <string-array name="audio_presets">
+        <item>標準</item>
+        <item>流行</item>
+        <item>搖滾</item>
+        <item>爵士</item>
+        <item>古典</item>
+        <item>低音增強</item>
+        <item>人聲</item>
+    </string-array>
+
+    <string-array name="audio_bands">
+        <item>60 Hz</item>
+        <item>230 Hz</item>
+        <item>910 Hz</item>
+        <item>3.6 kHz</item>
+        <item>14 kHz</item>
+    </string-array>
+
+    <string-array name="subtitle_colors">
+        <item>白色</item>
+        <item>黃色</item>
+        <item>綠色</item>
+        <item>青色</item>
+        <item>藍色</item>
+        <item>粉色</item>
+        <item>橙色</item>
+        <item>黑色</item>
+    </string-array>
+
+    <string-array name="subtitle_edges">
+        <item>無描邊</item>
+        <item>描邊</item>
+        <item>陰影</item>
+        <item>浮雕</item>
+        <item>凹陷</item>
+    </string-array>
+
+    <string-array name="edge_colors">
+        <item>黑色</item>
+        <item>白色</item>
+        <item>綠色</item>
+        <item>青色</item>
+        <item>黃色</item>
+        <item>粉色</item>
+        <item>橙色</item>
+    </string-array>
+
+    <string-array name="subtitle_backgrounds">
+        <item>透明</item>
+        <item>半透明黑</item>
+    </string-array>
+
+    <string-array name="danmaku_styles">
+        <item>描邊</item>
+        <item>陰影</item>
+        <item>無</item>
     </string-array>
 
 </resources>

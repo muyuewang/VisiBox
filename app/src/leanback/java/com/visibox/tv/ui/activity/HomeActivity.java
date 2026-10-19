@@ -11,6 +11,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.FocusHighlight;
@@ -105,6 +107,15 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
     private boolean categoryMode;
     private boolean categoryScrollPending;
     private String currentType = "";
+    // 当前选中的分类胶囊；用对象引用比对，避免 typeId 重复时整排一起亮
+    private TextView mSelectedChip;
+
+    // 首页「配置」里的「选择」按钮要选本地配置文件；原来没把 launcher 传进去，点了就 NPE
+    private final ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+        if (result.getResultCode() != RESULT_OK || result.getData() == null || result.getData().getData() == null) return;
+        String path = "file:/" + FileChooser.getPathFromUri(result.getData().getData()).replace(com.github.catvod.utils.Path.rootPath(), "");
+        setConfig(Config.find(path, 0));
+    });
 
     private Site getHome() {
         return VodConfig.get().getHome();
@@ -151,12 +162,10 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
         mBinding.title.setListener(this);
         new GlassSheenDrawable(24).attach(mBinding.home);
         mBinding.home.setOnClickListener(v -> {
-            // 分类浏览中点「主页」返回首页；仅在首页时才是切换源
-            if (categoryMode) {
-                getVideo();
-                return;
-            }
-            SiteDialog.create(this).show();
+            // 一次点击就出源选择：原来分类模式下第一次点击只是回首页并 return，
+            // 想换源得再点一次，加上焦点要先挪上来，体感就是「点好多下才出来」
+            if (categoryMode) getVideo();
+            showSiteDialog();
         });
         mBinding.recycler.addOnChildViewHolderSelectedListener(new OnChildViewHolderSelectedListener() {
             @Override
@@ -226,6 +235,11 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
         // 功能按钮行固定在顶栏，不随内容列表隐藏，空源时也能操作
         mBinding.funcRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mBinding.funcRecycler.setAdapter(new ItemBridgeAdapter(mFuncAdapter = new ArrayObjectAdapter(new FuncPresenter(this))));
+        // 启动即填充：原来只在 ConfigEvent.COMMON 里调 setFunc()，而该事件仅在「网络异步加载完成」时发出，
+        // 走本地缓存启动的路径永远不会触发，导致搜索/配置/线路/设置整行空白，源坏了也没入口换源
+        setFunc();
+        // 启动即选中「主页」：分类未选时它就是当前项，胶囊是青绿实底
+        mBinding.home.setSelected(true);
         mAdapter.add(R.string.home_history);
         mAdapter.add(R.string.home_recommend);
     }
@@ -273,8 +287,14 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
             chip.setPadding(ResUtil.dp2px(16), ResUtil.dp2px(6), ResUtil.dp2px(16), ResUtil.dp2px(6));
             chip.setBackgroundResource(R.drawable.selector_home_pill);
             chip.setFocusable(true);
-            chip.setSelected(!currentType.isEmpty() && type.getTypeId().equals(currentType));
-            chip.setOnClickListener(v -> loadCategory(type, index));
+            // 记下自己的 typeId，markCategory 靠它判断选中，别用入参互相比较
+            chip.setTag(type.getTypeId());
+            if (!currentType.isEmpty() && type.getTypeId().equals(currentType)) mSelectedChip = chip;
+            chip.setSelected(chip == mSelectedChip);
+            chip.setOnClickListener(v -> {
+                mSelectedChip = chip;
+                loadCategory(type, index);
+            });
             new GlassSheenDrawable(24).attach(chip);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMarginEnd(ResUtil.dp2px(8));
@@ -286,9 +306,11 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
      * 点分类：清掉推荐区，按分类重新拉取。
      */
     private void markCategory(String typeId) {
+        // 只让「当前点中的那一个」是选中态。之前拿入参和自己比，恒为 true，
+        // 一点分类整排胶囊全变选中色（用户看到的就是「未选中的都是绿的」）
         for (int i = 0; i < mBinding.categories.getChildCount(); i++) {
             View child = mBinding.categories.getChildAt(i);
-            child.setSelected(!currentType.isEmpty() && currentType.equals(typeId));
+            child.setSelected(child == mSelectedChip);
         }
     }
 
@@ -296,13 +318,16 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
         categoryMode = true;
         categoryScrollPending = true;
         currentType = type.getTypeId();
+        // 进了分类，「主页」不再是当前项；选中色只落在被点的那个分组上
+        mBinding.home.setSelected(false);
         markCategory(currentType);
         mResult = Result.empty();
         // 分类模式只展示海报墙：最近观看、更新推荐一并移除
         int from = mAdapter.indexOf(R.string.home_history);
         if (from == -1) from = 0;
         if (mAdapter.size() > from) mAdapter.removeItems(from, mAdapter.size() - from);
-        // 分类模式对齐点播页：顶栏与功能行隐藏，分类 Tab + 海报墙铺满
+        // 分类模式对齐点播页：顶栏与功能行都收起，让分类 Tab + 海报墙铺满
+        // （换源/设置走「主页」：一次点击即先回首页再弹源选择，不会摸不到入口）
         mBinding.toolbar.setVisibility(View.GONE);
         mBinding.funcRecycler.setVisibility(View.GONE);
         mBinding.progressLayout.showProgress();
@@ -348,6 +373,14 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
         VodConfig.get().init().load(getCallback());
         LiveConfig.get().init().load();
         WallConfig.get().init();
+        // 兜底：订阅站不可达时不会无限转圈，20 秒后先放行界面（配置若稍后到达会自动刷新）
+        // 放行时必须给可操作提示：空白页 + 无提示会让用户以为 App 坏了，也不知道去哪换源
+        App.post(() -> {
+            if (isFinishing() || !mBinding.progressLayout.isProgress()) return;
+            mBinding.progressLayout.setEmptyText(getString(R.string.home_timeout_tip));
+            mBinding.progressLayout.showEmpty();
+            mBinding.home.requestFocus();
+        }, 20000);
     }
 
     private Callback getCallback() {
@@ -391,6 +424,11 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
         categoryMode = false;
         categoryScrollPending = true;
         currentType = "";
+        // 回到首页 = 「主页」是当前选中项，胶囊保持青绿实底
+        mBinding.home.setSelected(true);
+        // 分类胶囊同步清掉选中色，否则回首页后还留着上一轮的高亮
+        mSelectedChip = null;
+        markCategory(currentType);
         mResult = Result.empty();
         mBinding.toolbar.setVisibility(View.VISIBLE);
         mBinding.funcRecycler.setVisibility(View.VISIBLE);
@@ -582,7 +620,7 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
         else if (item.getResId() == R.string.home_search) SearchActivity.start(this);
         else if (item.getResId() == R.string.home_setting) SettingActivity.start(this);
         else if (item.getResId() == R.string.home_history_btn) gotoHistory();
-        else if (item.getResId() == R.string.home_config) ConfigDialog.create(this).type(0).show();
+        else if (item.getResId() == R.string.home_config) ConfigDialog.create(this).launcher(launcher).type(0).show();
         else if (item.getResId() == R.string.home_line) HistoryDialog.create(this).show();
         else if (item.getResId() == R.string.home_local) startActivity(new Intent(this, FileActivity.class));
     }
@@ -623,6 +661,26 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
 
     @Override
     public void showDialog() {
+        showSiteDialog();
+    }
+
+    /**
+     * 站点选择：接口没加载出站点（源挂了 / 站点全被隐藏）时 SiteDialog 会静默什么都不做，
+     * 用户就会一直点「主页」也不出东西。这里改成直接给「配置」入口，并说明原因。
+     */
+    private void showSiteDialog() {
+        boolean hasSite = false;
+        for (Site site : VodConfig.get().getSites()) {
+            if (!site.isHide()) {
+                hasSite = true;
+                break;
+            }
+        }
+        if (!hasSite) {
+            Notify.show(R.string.site_empty_tip);
+            ConfigDialog.create(this).launcher(launcher).type(0).show();
+            return;
+        }
         SiteDialog.create(this).show();
     }
 

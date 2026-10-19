@@ -7,12 +7,19 @@
 
     <!-- 玻璃边缘光：上缘高光、下缘微暗（亮底下玻璃靠这条边才立得住） -->
     <color name="glass_edge_top">#F2FFFFFF</color>
-    <color name="glass_edge_bottom">#1A000000</color>
+    <color name="glass_edge_bottom">#3312283F</color>
 
-    <!-- 玻璃填充 -->
-    <color name="glass_fill">#73FFFFFF</color>
-    <color name="glass_fill_soft">#59FFFFFF</color>
-    <color name="glass_fill_strong">#A8FFFFFF</color>
+    <!--
+        玻璃填充：与 glass-preview.html 一致，不是纯白而是 135° 白色渐变。
+        起止 alpha 对应预览图的 rgba(255,255,255,.68) → rgba(255,255,255,.34)。
+        纯色填充会丢掉"一侧更亮"的体积感，整块看上去就是一张白纸。
+    -->
+    <color name="glass_fill">#ADFFFFFF</color>
+    <color name="glass_fill_end">#57FFFFFF</color>
+    <color name="glass_fill_soft">#85FFFFFF</color>
+    <color name="glass_fill_soft_end">#3DFFFFFF</color>
+    <color name="glass_fill_strong">#D6FFFFFF</color>
+    <color name="glass_fill_strong_end">#99FFFFFF</color>
 
     <!-- 强调色：原 #2DD4AA 在亮底对比度不足，压深 -->
     <color name="accent_glass">#FF0F9E80</color>
@@ -26,5 +33,8 @@
     <!-- 文字：浅色体系下整体转深 -->
     <color name="text_glass">#FF15181E</color>
     <color name="text_glass_sub">#FF5B6270</color>
+
+    <!-- 选中胶囊（青绿实底）上的文字：深墨绿，白字在 #2DD4AA 上对比度只有 1.9，读不清 -->
+    <color name="pill_text_on_accent">#FF06322A</color>
 
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 选中项是青绿实底，文字必须转深，否则 accent 绿字压在绿底上糊成一片 -->
+    <item android:color="@color/pill_text_on_accent" android:state_selected="true" />
     <item android:color="@color/text_glass" android:state_focused="true" />
-    <item android:color="@color/accent_glass" android:state_selected="true" />
     <item android:color="@color/text_glass_sub" />
 </selector>

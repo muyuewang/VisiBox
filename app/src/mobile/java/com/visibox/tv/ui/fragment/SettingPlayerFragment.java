@@ -18,6 +18,7 @@ import com.visibox.tv.impl.SpeedCallback;
 import com.visibox.tv.impl.UaCallback;
 import com.visibox.tv.ui.base.BaseFragment;
 import com.visibox.tv.ui.dialog.BufferDialog;
+import com.visibox.tv.ui.dialog.PlayerAdjust;
 import com.visibox.tv.ui.dialog.SpeedDialog;
 import com.visibox.tv.ui.dialog.UaDialog;
 import com.visibox.tv.utils.ResUtil;
@@ -64,6 +65,14 @@ public class SettingPlayerFragment extends BaseFragment implements UaCallback, B
         mBinding.renderText.setText((render = ResUtil.getStringArray(R.array.select_render))[Setting.getRender()]);
         mBinding.captionText.setText((caption = ResUtil.getStringArray(R.array.select_caption))[Setting.isCaption() ? 1 : 0]);
         mBinding.backgroundText.setText((background = ResUtil.getStringArray(R.array.select_background))[Setting.getBackground()]);
+        setAdjustText();
+    }
+
+    private void setAdjustText() {
+        mBinding.pictureText.setText(PlayerAdjust.pictureSummary(requireActivity()));
+        mBinding.audioFxText.setText(PlayerAdjust.audioSummary(requireActivity()));
+        mBinding.subtitleStyleText.setText(PlayerAdjust.subtitleSummary(requireActivity()));
+        mBinding.danmakuStyleText.setText(PlayerAdjust.danmakuSummary(requireActivity()));
     }
 
     @Override
@@ -82,6 +91,10 @@ public class SettingPlayerFragment extends BaseFragment implements UaCallback, B
         mBinding.audioDecode.setOnClickListener(this::setAudioDecode);
         mBinding.videoDecode.setOnClickListener(this::setVideoDecode);
         mBinding.danmakuLoad.setOnClickListener(this::setDanmakuLoad);
+        mBinding.picture.setOnClickListener(view -> PlayerAdjust.picture(requireActivity(), this::setAdjustText));
+        mBinding.audioFx.setOnClickListener(view -> PlayerAdjust.audio(requireActivity(), this::setAdjustText));
+        mBinding.subtitleStyle.setOnClickListener(view -> PlayerAdjust.subtitle(requireActivity(), this::setAdjustText));
+        mBinding.danmakuStyle.setOnClickListener(view -> PlayerAdjust.danmaku(requireActivity(), this::setAdjustText));
     }
 
     private void onUa(View view) {

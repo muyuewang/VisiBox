@@ -20,6 +20,7 @@
 
     <!-- Collect -->
     <string name="collect_result">“<xliff:g name="name">%s</xliff:g>”的搜索结果</string>
+    <string name="collect_no_site">“<xliff:g name="name">%s</xliff:g>”暂无可用搜索源</string>
 
     <!-- Push -->
     <string name="push_clip">推送剪贴板内容</string>

@@ -54,6 +54,8 @@ import com.visibox.tv.impl.CustomTarget;
 import com.visibox.tv.model.SiteViewModel;
 import com.visibox.tv.player.PlayerHelper;
 import com.visibox.tv.player.PlayerManager;
+import com.visibox.tv.player.effect.AudioFx;
+import com.visibox.tv.player.effect.PictureEffect;
 import com.visibox.tv.service.PlaybackService;
 import com.visibox.tv.ui.adapter.ArrayAdapter;
 import com.visibox.tv.ui.adapter.EpisodeAdapter;
@@ -68,6 +70,7 @@ import com.visibox.tv.ui.custom.CustomMovement;
 import com.visibox.tv.ui.custom.CustomSeekView;
 import com.visibox.tv.ui.dialog.ContentDialog;
 import com.visibox.tv.ui.dialog.DanmakuDialog;
+import com.visibox.tv.ui.dialog.PlayerAdjust;
 import com.visibox.tv.ui.dialog.SubtitleDialog;
 import com.visibox.tv.ui.dialog.TrackDialog;
 import com.visibox.tv.utils.Clock;
@@ -314,6 +317,9 @@ public class VideoActivity extends PlaybackActivity implements CustomKeyDownVod.
         mBinding.control.action.danmaku.setOnClickListener(view -> onDanmaku());
         mBinding.control.action.opening.setOnClickListener(view -> onOpening());
         mBinding.control.action.speed.setOnLongClickListener(view -> onSpeedLong());
+        mBinding.control.action.scale.setOnLongClickListener(view -> onPicture());
+        mBinding.control.action.audio.setOnLongClickListener(view -> onAudioFx());
+        mBinding.control.action.danmaku.setOnLongClickListener(view -> onDanmakuStyle());
         mBinding.control.action.reset.setOnLongClickListener(view -> onResetToggle());
         mBinding.control.action.ending.setOnLongClickListener(view -> onEndingReset());
         mBinding.control.action.opening.setOnLongClickListener(view -> onOpeningReset());
@@ -637,7 +643,7 @@ public class VideoActivity extends PlaybackActivity implements CustomKeyDownVod.
 
     private void setDanmakuSize() {
         if (service() == null) return;
-        player().setDanmakuSize(isFullscreen() ? 1.2f : 0.8f);
+        player().setDanmakuSize(Setting.getDanmakuSize() * (isFullscreen() ? 1.1f : 0.95f));
     }
 
     private void onContent() {
@@ -816,6 +822,24 @@ public class VideoActivity extends PlaybackActivity implements CustomKeyDownVod.
     private void onDanmaku() {
         DanmakuDialog.create().player(player()).show(this);
         hideControl();
+    }
+
+    /** 长按「比例」→ 画面调节 */
+    private boolean onPicture() {
+        PlayerAdjust.picture(this, () -> PictureEffect.apply(player().getPlayer()));
+        return true;
+    }
+
+    /** 长按「音轨」→ 音效（均衡器） */
+    private boolean onAudioFx() {
+        PlayerAdjust.audio(this, AudioFx::apply);
+        return true;
+    }
+
+    /** 长按「弹幕」→ 弹幕样式 */
+    private boolean onDanmakuStyle() {
+        PlayerAdjust.danmaku(this, () -> player().applyDanmakuStyle());
+        return true;
     }
 
     private void onToggle() {

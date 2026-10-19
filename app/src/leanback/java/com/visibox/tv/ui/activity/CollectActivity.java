@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,6 +18,7 @@ import androidx.leanback.widget.OnChildViewHolderSelectedListener;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.visibox.tv.App;
@@ -24,6 +27,7 @@ import com.visibox.tv.Setting;
 import com.visibox.tv.api.config.VodConfig;
 import com.visibox.tv.bean.Collect;
 import com.visibox.tv.bean.Site;
+import com.visibox.tv.bean.Vod;
 import com.visibox.tv.databinding.ActivityCollectBinding;
 import com.visibox.tv.model.SiteViewModel;
 import com.visibox.tv.ui.adapter.CollectAdapter;
@@ -37,11 +41,17 @@ import java.util.List;
 
 public class CollectActivity extends BaseActivity {
 
+    private static final String TAG = "CollectDebug";
+
     private ActivityCollectBinding mBinding;
     private CollectAdapter mAdapter;
     private SiteViewModel mViewModel;
     private List<Site> mSites;
     private View mOldView;
+    private final SparseArray<CollectFragment> mFragments = new SparseArray<>();
+    /** 「全部」标签的累计结果，Fragment 重建时用它回填，避免聚合结果丢失 */
+    private final List<Vod> mAllItems = new ArrayList<>();
+    private boolean mAlive;
 
     public static void start(Activity activity, String keyword) {
         Intent intent = new Intent(activity, CollectActivity.class);
@@ -49,8 +59,14 @@ public class CollectActivity extends BaseActivity {
         activity.startActivity(intent);
     }
 
-    private CollectFragment getFragment() {
-        return (CollectFragment) mBinding.pager.getAdapter().instantiateItem(mBinding.pager, 0);
+    @Nullable
+    private CollectFragment getFragment(int position) {
+        return mFragments.get(position);
+    }
+
+    @Nullable
+    private CollectFragment getAllFragment() {
+        return getFragment(0);
     }
 
     private String getKeyword() {
@@ -66,6 +82,10 @@ public class CollectActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         getIntent().putExtras(intent);
+        App.removeCallbacks(mRunnable);
+        mViewModel.stopSearch();
+        clearFragments();
+        mAllItems.clear();
         mAdapter.clear();
         setPager();
         search();
@@ -73,6 +93,7 @@ public class CollectActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mAlive = true;
         setRecyclerView();
         setViewModel();
         saveKeyword();
@@ -83,9 +104,18 @@ public class CollectActivity extends BaseActivity {
 
     @Override
     protected void initEvent() {
+        mAdapter.setListener(position -> {
+            if (!mAlive || position == RecyclerView.NO_POSITION) return;
+            if (position < 0 || position >= mAdapter.getItemCount()) return;
+            if (position == mBinding.pager.getCurrentItem()) return;
+            App.removeCallbacks(mRunnable);
+            mBinding.recycler.setSelectedPosition(position);
+            setPage(position);
+        });
         mBinding.pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                if (mBinding.recycler.getSelectedPosition() == position) return;
                 mBinding.recycler.setSelectedPosition(position);
                 mBinding.recycler.requestFocus();
             }
@@ -93,7 +123,7 @@ public class CollectActivity extends BaseActivity {
         mBinding.recycler.addOnChildViewHolderSelectedListener(new OnChildViewHolderSelectedListener() {
             @Override
             public void onChildViewHolderSelected(@NonNull RecyclerView parent, @Nullable RecyclerView.ViewHolder child, int position, int subposition) {
-                onChildSelected(child);
+                onChildSelected(child, position);
             }
         });
     }
@@ -106,11 +136,25 @@ public class CollectActivity extends BaseActivity {
     private void setViewModel() {
         mViewModel = new ViewModelProvider(this).get(SiteViewModel.class);
         mViewModel.getSearch().observe(this, result -> {
-            if (result.getList().isEmpty()) return;
-            getFragment().addVideo(result.getList());
-            mAdapter.add(Collect.create(result.getList()));
-            mBinding.pager.getAdapter().notifyDataSetChanged();
+            if (!mAlive || result == null || result.getList().isEmpty()) return;
+            mAllItems.addAll(result.getList());
+            CollectFragment fragment = getAllFragment();
+            if (fragment != null) fragment.addVideo(result.getList());
+            addCollect(Collect.create(result.getList()));
         });
+    }
+
+    /** 单个 tab 的数据更新失败不能拖垮整个页面；同一站点只建一个标签 */
+    private void addCollect(Collect item) {
+        try {
+            if (mAdapter.contains(item)) return;
+            mAdapter.add(item);
+        } catch (Exception e) {
+            Log.e(TAG, "addCollect failed", e);
+            return;
+        }
+        PagerAdapter adapter = mBinding.pager.getAdapter();
+        if (adapter != null) adapter.notifyDataSetChanged();
     }
 
     private void saveKeyword() {
@@ -122,7 +166,22 @@ public class CollectActivity extends BaseActivity {
     }
 
     private void setSites() {
-        mSites = VodConfig.get().getSites().stream().filter(Site::isSearchable).toList();
+        List<Site> all = VodConfig.get().getSites();
+        mSites = all.stream().filter(Site::isSearchable).toList();
+        // 兜底：部分订阅把 searchable 全部标 0，过滤后变死页，此时回退为全部站点
+        if (mSites.isEmpty() && !all.isEmpty()) mSites = all;
+        Log.d(TAG, "setSites: all=" + all.size() + " searchable=" + mSites.size());
+    }
+
+    private void clearFragments() {
+        FragmentManager fm = getSupportFragmentManager();
+        for (int i = 0; i < mFragments.size(); i++) {
+            CollectFragment fragment = mFragments.valueAt(i);
+            if (fragment != null && fragment.isAdded()) fm.beginTransaction().remove(fragment).commitAllowingStateLoss();
+        }
+        mFragments.clear();
+        if (mOldView != null) mOldView.setActivated(false);
+        mOldView = null;
     }
 
     private void setPager() {
@@ -130,43 +189,98 @@ public class CollectActivity extends BaseActivity {
     }
 
     private void search() {
-        if (mSites.isEmpty()) return;
-        mAdapter.add(Collect.all());
-        mBinding.pager.getAdapter().notifyDataSetChanged();
+        mAllItems.clear();
+        mAdapter.clear();
+        // 先放「全部」标签，保证页面在任何情况下都不是白板
+        addCollect(Collect.all());
+        if (mSites.isEmpty()) {
+            Log.w(TAG, "search aborted: no sites, keyword=" + getKeyword());
+            mBinding.result.setText(getString(R.string.collect_no_site, getKeyword()));
+            return;
+        }
         mBinding.result.setText(getString(R.string.collect_result, getKeyword()));
         mViewModel.searchContent(mSites, getKeyword(), false);
     }
 
-    private void onChildSelected(@Nullable RecyclerView.ViewHolder child) {
+    private void onChildSelected(@Nullable RecyclerView.ViewHolder child, int position) {
         if (mOldView != null) mOldView.setActivated(false);
         if ((mOldView = child != null ? child.itemView : null) == null) return;
         mOldView.setActivated(true);
+        Collect item = mAdapter.get(position);
+        if (item != null) item.setActivated(true);
+        if (!mAlive || position < 0 || position >= mAdapter.getItemCount()) return;
+        if (position == mBinding.pager.getCurrentItem()) return;
+        App.removeCallbacks(mRunnable);
         App.post(mRunnable, 100);
+    }
+
+    private void setPage(int position) {
+        if (!mAlive) return;
+        if (position < 0 || position >= mAdapter.getItemCount()) return;
+        if (position == mBinding.pager.getCurrentItem()) return;
+        try {
+            mBinding.pager.setCurrentItem(position);
+        } catch (Exception ignored) {
+        }
     }
 
     private final Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
-            mBinding.pager.setCurrentItem(mBinding.recycler.getSelectedPosition());
+            setPage(mBinding.recycler.getSelectedPosition());
         }
     };
 
     @Override
     protected void onBackInvoked() {
+        mAlive = false;
+        App.removeCallbacks(mRunnable);
         mViewModel.stopSearch();
         super.onBackInvoked();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mAlive = false;
+        App.removeCallbacks(mRunnable);
+        if (mViewModel != null) {
+            mViewModel.stopSearch();
+            mViewModel.getSearch().removeObservers(this);
+        }
+        clearFragments();
+        super.onDestroy();
     }
 
     class PageAdapter extends FragmentStatePagerAdapter {
 
         public PageAdapter(@NonNull FragmentManager fm) {
-            super(fm);
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
         @NonNull
         @Override
         public Fragment getItem(int position) {
+            if (position == 0) {
+                // 「全部」用累计结果重建，Fragment 被重建时也不会丢数据
+                Collect all = Collect.all();
+                all.setList(new ArrayList<>(mAllItems));
+                return CollectFragment.newInstance(getKeyword(), all);
+            }
             return CollectFragment.newInstance(getKeyword(), mAdapter.get(position));
+        }
+
+        @NonNull
+        @Override
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+            Fragment fragment = (Fragment) super.instantiateItem(container, position);
+            if (fragment instanceof CollectFragment collect) mFragments.put(position, collect);
+            return fragment;
+        }
+
+        @Override
+        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+            if (object instanceof CollectFragment) mFragments.remove(position);
+            super.destroyItem(container, position, object);
         }
 
         @Override
@@ -175,7 +289,9 @@ public class CollectActivity extends BaseActivity {
         }
 
         @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        public int getItemPosition(@NonNull Object object) {
+            // 保留已存在的 Fragment（含已加载的海报），只有新增标签才创建
+            return POSITION_UNCHANGED;
         }
 
         @Nullable

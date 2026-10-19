@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 选中 + 聚焦：仍是青绿底（选中就是绿的，不能被聚焦态刷成白色），外加白描边提示焦点 -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="12dp" />
+            <solid android:color="#FF20C79F" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="2dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="10.5dp" />
+            <solid android:color="#FF2DD4AA" />
+        </shape>
+    </item>
+
+</layer-list>

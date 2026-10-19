@@ -81,7 +81,31 @@ public class GlassBlur {
         }
         if (small == null) return null;
         blurSmall(small, radius);
+        // 模糊会把颜色糊成灰，补一点饱和度，否则盖上层亮底罩后就是一片白
+        // 1.8 与预览图的 saturate(180%) 对齐
+        saturate(small, 1.8f);
         return small;
+    }
+
+    /** 提升饱和度：亮度保持，颜色按倍数拉开 */
+    private static void saturate(Bitmap bmp, float factor) {
+        int w = bmp.getWidth();
+        int h = bmp.getHeight();
+        int[] pix = new int[w * h];
+        bmp.getPixels(pix, 0, w, 0, 0, w, h);
+        for (int i = 0; i < pix.length; i++) {
+            int c = pix[i];
+            int a = (c >>> 24) & 0xFF;
+            int r = (c >> 16) & 0xFF;
+            int g = (c >> 8) & 0xFF;
+            int b = c & 0xFF;
+            int gray = (int) (0.299f * r + 0.587f * g + 0.114f * b);
+            r = clamp((int) (gray + (r - gray) * factor), 0, 255);
+            g = clamp((int) (gray + (g - gray) * factor), 0, 255);
+            b = clamp((int) (gray + (b - gray) * factor), 0, 255);
+            pix[i] = (a << 24) | (r << 16) | (g << 8) | b;
+        }
+        bmp.setPixels(pix, 0, w, 0, 0, w, h);
     }
 
     /** 对已经是 1/8 尺寸的位图直接做两轮盒式模糊 */

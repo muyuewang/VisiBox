@@ -30,6 +30,8 @@ import com.visibox.tv.Setting;
 import com.visibox.tv.bean.Drm;
 import com.visibox.tv.bean.Sub;
 import com.visibox.tv.player.PlayerHelper;
+import com.visibox.tv.player.effect.AudioFx;
+import com.visibox.tv.player.effect.PictureEffect;
 import com.visibox.tv.player.engine.PlaySpec;
 import com.visibox.tv.player.engine.PlayerEngine;
 import com.visibox.tv.utils.UrlUtil;
@@ -45,9 +47,10 @@ public class ExoUtil {
 
     public static void setPlayerView(PlayerView view) {
         view.getSubtitleView().setStyle(getCaptionStyle());
-        view.getSubtitleView().setApplyEmbeddedStyles(true);
+        view.getSubtitleView().setApplyEmbeddedStyles(false);
         view.getSubtitleView().setApplyEmbeddedFontSizes(false);
         if (Setting.getSubtitleTextSize() != 0) view.getSubtitleView().setFractionalTextSize(Setting.getSubtitleTextSize());
+        view.getSubtitleView().setBottomPaddingFraction(Setting.getSubtitleBottom() / 100f);
     }
 
     public static ExoPlayer buildPlayer(int decode, Player.Listener listener) {
@@ -55,8 +58,11 @@ public class ExoUtil {
         if (BuildConfig.DEBUG) player.addAnalyticsListener(new EventLogger());
         player.setAudioAttributes(AudioAttributes.DEFAULT, true);
         player.setHandleAudioBecomingNoisy(true);
+        player.setSkipSilenceEnabled(Setting.isSkipSilence());
         player.setPlayWhenReady(true);
         player.addListener(listener);
+        PictureEffect.apply(player);
+        AudioFx.attach(player);
         return player;
     }
 
@@ -88,7 +94,17 @@ public class ExoUtil {
     }
 
     private static CaptionStyleCompat getCaptionStyle() {
-        return Setting.isCaption() ? CaptionStyleCompat.createFromCaptionStyle(((CaptioningManager) App.get().getSystemService(Context.CAPTIONING_SERVICE)).getUserStyle()) : new CaptionStyleCompat(Color.WHITE, Color.TRANSPARENT, Color.TRANSPARENT, CaptionStyleCompat.EDGE_TYPE_OUTLINE, Color.BLACK, null);
+        if (Setting.isCaption()) return CaptionStyleCompat.createFromCaptionStyle(((CaptioningManager) App.get().getSystemService(Context.CAPTIONING_SERVICE)).getUserStyle());
+        int foreground = Setting.getSubtitleColor();
+        int background = Setting.getSubtitleBackground() == 1 ? 0x99000000 : Color.TRANSPARENT;
+        int edgeType = switch (Setting.getSubtitleEdge()) {
+            case 0 -> CaptionStyleCompat.EDGE_TYPE_NONE;
+            case 2 -> CaptionStyleCompat.EDGE_TYPE_DROP_SHADOW;
+            case 3 -> CaptionStyleCompat.EDGE_TYPE_RAISED;
+            case 4 -> CaptionStyleCompat.EDGE_TYPE_DEPRESSED;
+            default -> CaptionStyleCompat.EDGE_TYPE_OUTLINE;
+        };
+        return new CaptionStyleCompat(foreground, background, Color.TRANSPARENT, edgeType, Setting.getSubtitleEdgeColor(), null);
     }
 
     private static LoadControl buildLoadControl() {

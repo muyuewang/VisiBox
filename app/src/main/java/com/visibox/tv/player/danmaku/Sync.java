@@ -2,6 +2,8 @@ package com.visibox.tv.player.danmaku;
 
 import androidx.media3.common.Player;
 
+import com.visibox.tv.Setting;
+
 import master.flame.danmaku.danmaku.model.AbsDanmakuSync;
 
 public class Sync extends AbsDanmakuSync {
@@ -14,7 +16,7 @@ public class Sync extends AbsDanmakuSync {
 
     @Override
     public long getUptimeMillis() {
-        return player.getCurrentPosition();
+        return player.getCurrentPosition() + Setting.getDanmakuOffset();
     }
 
     @Override

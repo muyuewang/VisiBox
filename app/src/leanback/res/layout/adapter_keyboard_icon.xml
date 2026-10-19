@@ -7,5 +7,5 @@
     android:background="@drawable/selector_keyboard"
     android:focusable="true"
     android:scaleType="center"
-    android:focusableInTouchMode="true"
+    android:focusableInTouchMode="false"
     tools:src="@drawable/ic_keyboard_back" />

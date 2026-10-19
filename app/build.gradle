@@ -20,8 +20,8 @@ android {
         minSdk 24
         //noinspection ExpiredTargetSdkVersion
         targetSdk 28
-        versionCode 19
-        versionName "1.10.0"
+        versionCode 23
+        versionName "1.11.3"
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString(), "eventBusIndex": "com.visibox.tv.event.EventIndex"]

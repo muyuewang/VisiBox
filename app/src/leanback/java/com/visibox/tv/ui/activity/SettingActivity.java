@@ -57,6 +57,7 @@ public class SettingActivity extends BaseActivity implements ConfigCallback, Sit
     private ActivitySettingBinding mBinding;
     private String[] size;
     private int type;
+    private boolean morePage;
 
     public static void start(Activity activity) {
         activity.startActivity(new Intent(activity, SettingActivity.class));
@@ -286,6 +287,29 @@ public class SettingActivity extends BaseActivity implements ConfigCallback, Sit
         mBinding.scale.setOnClickListener(this::setScale);
         mBinding.danmaku.setOnClickListener(this::setDanmaku);
         mBinding.thread.setOnClickListener(this::setThread);
+        mBinding.customize.setOnClickListener(v -> showMore(true));
+        mBinding.back.setOnClickListener(v -> showMore(false));
+    }
+
+    /**
+     * 一级页只放常用项，不常用的（DoH/渲染/缓冲/弹幕/列数/玻璃等）收进「个性化设置」，
+     * 两页共用同一个布局文件里的两组容器，切换只是显隐，点击逻辑不用重复写。
+     */
+    private void showMore(boolean show) {
+        morePage = show;
+        mBinding.pageMain.setVisibility(show ? View.GONE : View.VISIBLE);
+        mBinding.pageMore.setVisibility(show ? View.VISIBLE : View.GONE);
+        if (show) mBinding.doh.requestFocus();
+        else mBinding.vod.requestFocus();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (morePage) {
+            showMore(false);
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override

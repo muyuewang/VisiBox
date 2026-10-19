@@ -3,7 +3,10 @@
     android:color="?attr/colorControlHighlight">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/glass_fill_soft" />
+            <gradient
+                android:angle="315"
+                android:startColor="@color/glass_fill_soft"
+                android:endColor="@color/glass_fill_soft_end" />
             <corners android:radius="28dp" />
             <padding
                 android:bottom="6dp"

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.media3.common.Player;
 
 import com.visibox.tv.App;
+import com.visibox.tv.Setting;
 import com.visibox.tv.bean.Danmaku;
 import com.visibox.tv.utils.ResUtil;
 import com.visibox.tv.utils.Task;
@@ -35,17 +36,28 @@ public class DanPlayer implements DrawHandler.Callback, Player.Listener {
     }
 
     private void initContext() {
-        Map<Integer, Integer> lines = new HashMap<>();
-        lines.put(BaseDanmaku.TYPE_FIX_TOP, 2);
-        lines.put(BaseDanmaku.TYPE_SCROLL_RL, 2);
-        lines.put(BaseDanmaku.TYPE_SCROLL_LR, 2);
-        lines.put(BaseDanmaku.TYPE_FIX_BOTTOM, 2);
-        context.setScaleTextSize(0.8f);
-        context.setMaximumLines(lines);
-        context.setScrollSpeedFactor(1.2f);
-        context.setDanmakuTransparency(0.8f);
         context.setDanmakuMargin(ResUtil.dp2px(8));
-        context.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3);
+        applyStyle();
+    }
+
+    /** 把「弹幕样式」设置刷到渲染上下文，可随时调用 */
+    public void applyStyle() {
+        context.setScaleTextSize(Setting.getDanmakuSize());
+        context.setScrollSpeedFactor(Setting.getDanmakuSpeed());
+        context.setDanmakuTransparency(Setting.getDanmakuAlpha());
+        int style = switch (Setting.getDanmakuStyle()) {
+            case 1 -> IDisplayer.DANMAKU_STYLE_SHADOW;
+            case 2 -> IDisplayer.DANMAKU_STYLE_NONE;
+            default -> IDisplayer.DANMAKU_STYLE_STROKEN;
+        };
+        context.setDanmakuStyle(style, style == IDisplayer.DANMAKU_STYLE_STROKEN ? 3 : 4);
+        Map<Integer, Integer> lines = new HashMap<>();
+        int max = Setting.getDanmakuLines();
+        lines.put(BaseDanmaku.TYPE_FIX_TOP, max);
+        lines.put(BaseDanmaku.TYPE_SCROLL_RL, max);
+        lines.put(BaseDanmaku.TYPE_SCROLL_LR, max);
+        lines.put(BaseDanmaku.TYPE_FIX_BOTTOM, max);
+        context.setMaximumLines(lines);
     }
 
     public void attachPlayer(Player player) {

@@ -52,7 +52,10 @@ public class CollectFragment extends BaseFragment implements CustomScroller.Call
     }
 
     private String getKeyword() {
-        return mKeyword = mKeyword == null ? getArguments().getString("keyword") : mKeyword;
+        if (mKeyword != null) return mKeyword;
+        Bundle args = getArguments();
+        mKeyword = args == null ? "" : args.getString("keyword", "");
+        return mKeyword;
     }
 
     private CollectFragment setCollect(Collect collect) {
@@ -90,9 +93,10 @@ public class CollectFragment extends BaseFragment implements CustomScroller.Call
     }
 
     private boolean checkLastSize(List<Vod> items) {
-        if (mLast == null || items.isEmpty()) return false;
-        int size = Product.getColumn() - mLast.size();
-        if (size == 0) return false;
+        if (mLast == null || items == null || items.isEmpty()) return false;
+        int column = Math.max(1, Product.getColumn());
+        int size = column - mLast.size();
+        if (size <= 0) return false;
         size = Math.min(size, items.size());
         mLast.addAll(mLast.size(), items.subList(0, size));
         addVideo(items.subList(size, items.size()));
@@ -104,22 +108,29 @@ public class CollectFragment extends BaseFragment implements CustomScroller.Call
     }
 
     public void addVideo(List<Vod> items) {
-        if (checkLastSize(items) || getActivity() == null || getActivity().isFinishing()) return;
+        if (mAdapter == null || mBinding == null || items == null || items.isEmpty()) return;
+        Activity activity = getActivity();
+        if (activity == null || activity.isFinishing() || activity.isDestroyed()) return;
+        if (checkLastSize(items)) return;
         List<ListRow> rows = new ArrayList<>();
         VodPresenter presenter = new VodPresenter(this);
-        for (List<Vod> part : Lists.partition(items, Product.getColumn())) {
-            mLast = new ArrayObjectAdapter(presenter);
-            mLast.addAll(0, part);
-            rows.add(new ListRow(mLast));
+        int column = Math.max(1, Product.getColumn());
+        for (List<Vod> part : Lists.partition(items, column)) {
+            ArrayObjectAdapter last = new ArrayObjectAdapter(presenter);
+            last.addAll(0, part);
+            rows.add(new ListRow(last));
+            mLast = last;
         }
         mAdapter.addAll(mAdapter.size(), rows);
     }
 
     @Override
     public void onItemClick(Vod item) {
-        requireActivity().setResult(Activity.RESULT_OK);
-        if (item.isFolder()) VodActivity.start(requireActivity(), item.getSiteKey(), Result.folder(item));
-        else VideoActivity.collect(requireActivity(), item.getSiteKey(), item.getId(), item.getName(), item.getPic());
+        if (!isAdded() || getActivity() == null) return;
+        Activity activity = requireActivity();
+        activity.setResult(Activity.RESULT_OK);
+        if (item.isFolder()) VodActivity.start(activity, item.getSiteKey(), Result.folder(item));
+        else VideoActivity.collect(activity, item.getSiteKey(), item.getId(), item.getName(), item.getPic());
     }
 
     @Override
@@ -130,6 +141,7 @@ public class CollectFragment extends BaseFragment implements CustomScroller.Call
     @Override
     public void onLoadMore(String page) {
         if (mCollect == null || "all".equals(mCollect.getSite().getKey())) return;
+        if (getActivity() == null) return;
         mViewModel.searchContent(mCollect.getSite(), getKeyword(), false, page);
         mScroller.setLoading(true);
     }

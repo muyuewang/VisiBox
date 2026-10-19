@@ -12,14 +12,16 @@
         </shape>
     </item>
 
-    <!-- 内圈：全透明，只让海报透出来 -->
+    <!-- 内圈：全透明，只让海报透出来。
+         内圈半径必须是 外圈 16dp − 内缩 2.5dp = 13.5dp，否则环的角部会变宽，
+         在圆角海报上就是一块盖住圆角的白色三角，看起来像直角 -->
     <item
         android:bottom="2.5dp"
         android:left="2.5dp"
         android:right="2.5dp"
         android:top="2.5dp">
         <shape android:shape="rectangle">
-            <corners android:radius="14dp" />
+            <corners android:radius="13.5dp" />
             <solid android:color="#00FFFFFF" />
         </shape>
     </item>

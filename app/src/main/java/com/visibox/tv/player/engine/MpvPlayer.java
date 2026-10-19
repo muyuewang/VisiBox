@@ -445,6 +445,23 @@ public class MpvPlayer extends BasePlayer implements MPVLib.EventObserver {
         mpvLib.setPropertyDouble("volume", volume * 100d);
     }
 
+    /**
+     * 画面调节：mpv 原生支持 brightness / contrast / saturation / hue，
+     * 取值 -100 ~ 100，这里把 0.5 ~ 1.5 的倍率映射过去。
+     */
+    public void setPicture(float brightness, float contrast, float saturation, float hue) {
+        try {
+            double b = (brightness - 1f) * 60;
+            double c = (contrast - 1f) * 60;
+            double s = (saturation - 1f) * 60;
+            mpvLib.setPropertyDouble("brightness", b);
+            mpvLib.setPropertyDouble("contrast", c);
+            mpvLib.setPropertyDouble("saturation", s);
+            mpvLib.setPropertyDouble("hue", hue);
+        } catch (Exception ignored) {
+        }
+    }
+
     @Override
     public float getVolume() {
         Integer volume = mpvLib.getPropertyInt("volume");

@@ -13,7 +13,7 @@
         android:background="@drawable/selector_text"
         android:ellipsize="marquee"
         android:focusable="true"
-        android:focusableInTouchMode="true"
+        android:focusableInTouchMode="false"
         android:gravity="center"
         android:singleLine="true"
         android:textColor="@color/text"
@@ -27,7 +27,7 @@
         android:layout_marginStart="12dp"
         android:background="@drawable/selector_text"
         android:focusable="true"
-        android:focusableInTouchMode="true"
+        android:focusableInTouchMode="false"
         android:padding="8dp"
         android:src="@drawable/ic_live_pass" />
 
@@ -38,7 +38,7 @@
         android:layout_marginStart="12dp"
         android:background="@drawable/selector_text"
         android:focusable="true"
-        android:focusableInTouchMode="true"
+        android:focusableInTouchMode="false"
         android:padding="8dp"
         android:src="@drawable/ic_live_boot" />
 

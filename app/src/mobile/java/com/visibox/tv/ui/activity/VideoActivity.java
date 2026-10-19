@@ -904,7 +904,7 @@ public class VideoActivity extends PlaybackActivity implements Clock.Callback, C
 
     private void setDanmakuSize() {
         if (service() == null) return;
-        player().setDanmakuSize(isFullscreen() ? 1.0f : 0.8f);
+        player().setDanmakuSize(Setting.getDanmakuSize() * (isFullscreen() ? 1.05f : 0.95f));
     }
 
     private void setTransition() {

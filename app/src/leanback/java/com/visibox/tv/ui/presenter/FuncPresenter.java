@@ -36,6 +36,9 @@ public class FuncPresenter extends Presenter {
         ViewHolder holder = (ViewHolder) viewHolder;
         holder.binding.text.setText(item.getText());
         holder.binding.icon.setImageResource(item.getDrawable());
+        // ic_home_* 是纯白 PNG（旧深色主题遗留），浅色玻璃底上等于隐形，这里统一染成次级文字色
+        holder.binding.icon.setImageTintList(android.content.res.ColorStateList.valueOf(
+                androidx.core.content.ContextCompat.getColor(holder.view.getContext(), com.visibox.tv.R.color.text_glass_sub)));
         setOnClickListener(holder, view -> listener.onItemClick(item));
     }
 

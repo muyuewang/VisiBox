@@ -16,6 +16,7 @@ import com.visibox.tv.impl.SpeedCallback;
 import com.visibox.tv.impl.UaCallback;
 import com.visibox.tv.ui.base.BaseActivity;
 import com.visibox.tv.ui.dialog.BufferDialog;
+import com.visibox.tv.ui.dialog.PlayerAdjust;
 import com.visibox.tv.ui.dialog.SpeedDialog;
 import com.visibox.tv.ui.dialog.UaDialog;
 import com.visibox.tv.utils.ResUtil;
@@ -58,9 +59,18 @@ public class SettingPlayerActivity extends BaseActivity implements UaCallback, B
         mBinding.audioDecodeText.setText(getSwitch(Setting.isAudioPrefer()));
         mBinding.videoDecodeText.setText(getSwitch(Setting.isVideoPrefer()));
         mBinding.danmakuLoadText.setText(getSwitch(Setting.isDanmakuLoad()));
+        mBinding.skipSilenceText.setText(getSwitch(Setting.isSkipSilence()));
         mBinding.scaleText.setText((scale = ResUtil.getStringArray(R.array.select_scale))[Setting.getScale()]);
         mBinding.renderText.setText((render = ResUtil.getStringArray(R.array.select_render))[Setting.getRender()]);
         mBinding.captionText.setText((caption = ResUtil.getStringArray(R.array.select_caption))[Setting.isCaption() ? 1 : 0]);
+        setAdjustText();
+    }
+
+    private void setAdjustText() {
+        mBinding.pictureText.setText(PlayerAdjust.pictureSummary(this));
+        mBinding.audioFxText.setText(PlayerAdjust.audioSummary(this));
+        mBinding.subtitleStyleText.setText(PlayerAdjust.subtitleSummary(this));
+        mBinding.danmakuStyleText.setText(PlayerAdjust.danmakuSummary(this));
     }
 
     @Override
@@ -79,6 +89,11 @@ public class SettingPlayerActivity extends BaseActivity implements UaCallback, B
         mBinding.audioDecode.setOnClickListener(this::setAudioDecode);
         mBinding.videoDecode.setOnClickListener(this::setVideoDecode);
         mBinding.danmakuLoad.setOnClickListener(this::setDanmakuLoad);
+        mBinding.skipSilence.setOnClickListener(this::setSkipSilence);
+        mBinding.picture.setOnClickListener(view -> PlayerAdjust.picture(this, this::setAdjustText));
+        mBinding.audioFx.setOnClickListener(view -> PlayerAdjust.audio(this, this::setAdjustText));
+        mBinding.subtitleStyle.setOnClickListener(view -> PlayerAdjust.subtitle(this, this::setAdjustText));
+        mBinding.danmakuStyle.setOnClickListener(view -> PlayerAdjust.danmaku(this, this::setAdjustText));
     }
 
     private void setVisible() {
@@ -168,6 +183,11 @@ public class SettingPlayerActivity extends BaseActivity implements UaCallback, B
     private void setDanmakuLoad(View view) {
         Setting.putDanmakuLoad(!Setting.isDanmakuLoad());
         mBinding.danmakuLoadText.setText(getSwitch(Setting.isDanmakuLoad()));
+    }
+
+    private void setSkipSilence(View view) {
+        Setting.putSkipSilence(!Setting.isSkipSilence());
+        mBinding.skipSilenceText.setText(getSwitch(Setting.isSkipSilence()));
     }
 
     private void onBackground(View view) {

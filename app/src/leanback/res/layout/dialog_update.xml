@@ -53,7 +53,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_text"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:gravity="center"
             android:text="@string/update_confirm"
             android:textColor="@color/text_glass" />
@@ -65,7 +65,7 @@
             android:layout_weight="1"
             android:background="@drawable/selector_text"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:gravity="center"
             android:text="@string/dialog_negative"
             android:textColor="@color/text_glass" />

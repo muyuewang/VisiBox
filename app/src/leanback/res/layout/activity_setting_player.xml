@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/selector_item"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -48,7 +48,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/selector_item"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -77,7 +77,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/selector_item"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -100,13 +100,125 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/picture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/selector_item"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/adjust_picture"
+                android:textColor="@color/text_glass"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/pictureText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textColor="@color/text_glass"
+                android:textSize="18sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/audioFx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/selector_item"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/adjust_audio"
+                android:textColor="@color/text_glass"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/audioFxText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textColor="@color/text_glass"
+                android:textSize="18sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/subtitleStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/selector_item"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/adjust_subtitle"
+                android:textColor="@color/text_glass"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/subtitleStyleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textColor="@color/text_glass"
+                android:textSize="18sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/danmakuStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/selector_item"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/adjust_danmaku"
+                android:textColor="@color/text_glass"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/danmakuStyleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textColor="@color/text_glass"
+                android:textSize="18sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/buffer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/selector_item"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -144,7 +256,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/selector_item"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -176,13 +288,41 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/skipSilence"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/selector_item"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/player_skip_silence"
+                android:textColor="@color/text_glass"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/skipSilenceText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textColor="@color/text_glass"
+                android:textSize="18sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/tunnel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/selector_item"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -211,7 +351,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/selector_item"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -240,7 +380,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/selector_item"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -269,7 +409,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/selector_item"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -298,7 +438,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/selector_item"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -327,7 +467,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/selector_item"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -356,7 +496,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/selector_item"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -385,7 +525,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/selector_item"
             android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:focusableInTouchMode="false"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView

@@ -86,6 +86,8 @@
     <string name="setting_wall_refresh">Refresh wallpaper</string>
     <string name="setting_title">Settings</string>
     <string name="home_empty_tip">No recommendations from this source. Tap Home to browse categories.</string>
+    <string name="home_timeout_tip">Source not responding. Use Config to switch the API, or Home to switch site.</string>
+    <string name="site_empty_tip">No available site in this API. Switch the API in Config first.</string>
     <string name="setting_render">Renderer</string>
     <string name="setting_buffer">EXO buffer</string>
     <string name="setting_scale">Video scale</string>
@@ -126,6 +128,17 @@
     <string name="setting_backup">Backup</string>
     <string name="setting_restore">Restore</string>
     <string name="setting_version">Version</string>
+    <string name="setting_group_api">API &amp; Sources</string>
+    <string name="setting_group_live">Live</string>
+    <string name="setting_group_play">Playback &amp; Home</string>
+    <string name="setting_group_look">Appearance &amp; Maintenance</string>
+    <string name="setting_group_more">More</string>
+    <string name="setting_group_net">Network</string>
+    <string name="setting_group_player">Playback details</string>
+    <string name="setting_group_display">Display</string>
+    <string name="setting_group_other">Other</string>
+    <string name="setting_customize">Personalize</string>
+    <string name="setting_back">Back to settings</string>
     <string name="setting_choose">Choose</string>
     <string name="setting_off">Off</string>
     <string name="setting_on">On</string>
@@ -152,6 +165,7 @@
     <string name="player_tunnel">Tunnel mode</string>
     <string name="player_buffer">Buffer time</string>
     <string name="player_speed">Press speed</string>
+    <string name="player_skip_silence">Skip silence</string>
     <string name="player_ua">User-Agent</string>
 
     <!-- Search -->
@@ -251,6 +265,90 @@
         <item>Select audio track</item>
         <item>Select video track</item>
         <item>Select subtitle track</item>
+    </string-array>
+
+    <string name="adjust_picture">Picture</string>
+    <string name="adjust_audio">Audio effect</string>
+    <string name="adjust_subtitle">Subtitle style</string>
+    <string name="adjust_danmaku">Danmaku style</string>
+    <string name="adjust_reset">Reset to default</string>
+    <string name="adjust_default">Default</string>
+    <string name="adjust_custom">Adjusted</string>
+    <string name="picture_brightness">Brightness</string>
+    <string name="picture_contrast">Contrast</string>
+    <string name="picture_saturation">Saturation</string>
+    <string name="picture_temperature">Temperature</string>
+    <string name="picture_hue">Hue</string>
+    <string name="audio_preset">Preset</string>
+    <string name="subtitle_color">Text color</string>
+    <string name="subtitle_edge">Edge style</string>
+    <string name="subtitle_edge_color">Edge color</string>
+    <string name="subtitle_background">Background</string>
+    <string name="subtitle_size">Text size</string>
+    <string name="subtitle_bottom">Bottom offset</string>
+    <string name="danmaku_size">Text size</string>
+    <string name="danmaku_speed">Scroll speed</string>
+    <string name="danmaku_alpha">Opacity</string>
+    <string name="danmaku_lines">Max lines</string>
+    <string name="danmaku_style">Edge style</string>
+    <string name="danmaku_offset">Time offset</string>
+
+    <string-array name="audio_presets">
+        <item>Standard</item>
+        <item>Pop</item>
+        <item>Rock</item>
+        <item>Jazz</item>
+        <item>Classical</item>
+        <item>Bass boost</item>
+        <item>Vocal</item>
+    </string-array>
+
+    <string-array name="audio_bands">
+        <item>60 Hz</item>
+        <item>230 Hz</item>
+        <item>910 Hz</item>
+        <item>3.6 kHz</item>
+        <item>14 kHz</item>
+    </string-array>
+
+    <string-array name="subtitle_colors">
+        <item>White</item>
+        <item>Yellow</item>
+        <item>Green</item>
+        <item>Cyan</item>
+        <item>Blue</item>
+        <item>Pink</item>
+        <item>Orange</item>
+        <item>Black</item>
+    </string-array>
+
+    <string-array name="subtitle_edges">
+        <item>None</item>
+        <item>Outline</item>
+        <item>Shadow</item>
+        <item>Raised</item>
+        <item>Depressed</item>
+    </string-array>
+
+    <string-array name="edge_colors">
+        <item>Black</item>
+        <item>White</item>
+        <item>Green</item>
+        <item>Cyan</item>
+        <item>Yellow</item>
+        <item>Pink</item>
+        <item>Orange</item>
+    </string-array>
+
+    <string-array name="subtitle_backgrounds">
+        <item>Transparent</item>
+        <item>Dim black</item>
+    </string-array>
+
+    <string-array name="danmaku_styles">
+        <item>Outline</item>
+        <item>Shadow</item>
+        <item>None</item>
     </string-array>
 
 </resources>
