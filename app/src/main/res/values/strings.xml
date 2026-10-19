@@ -86,8 +86,15 @@
     <string name="setting_wall_refresh">Refresh wallpaper</string>
     <string name="setting_title">Settings</string>
     <string name="home_empty_tip">No recommendations from this source. Tap Home to browse categories.</string>
+    <string name="home_site_down_tip">Current source is unreachable (%1$s). Press Home to switch source.</string>
     <string name="home_timeout_tip">Source not responding. Use Config to switch the API, or Home to switch site.</string>
     <string name="site_empty_tip">No available site in this API. Switch the API in Config first.</string>
+    <string name="site_checking">Checking source availability…</string>
+    <string name="site_check_start">Checking %1$d sources…</string>
+    <string name="site_check_done">Check finished: %1$d of %2$d available</string>
+    <string name="site_check_one_ok">%1$s is reachable (%2$d ms)</string>
+    <string name="site_check_one_fail">%1$s is unavailable: %2$s</string>
+    <string name="site_all_down">All sources are unreachable. Switch the API in Config.</string>
     <string name="setting_render">Renderer</string>
     <string name="setting_buffer">EXO buffer</string>
     <string name="setting_scale">Video scale</string>
@@ -139,6 +146,7 @@
     <string name="setting_group_other">Other</string>
     <string name="setting_customize">Personalize</string>
     <string name="setting_back">Back to settings</string>
+    <string name="setting_crash_log">Crash logs</string>
     <string name="setting_choose">Choose</string>
     <string name="setting_off">Off</string>
     <string name="setting_on">On</string>
@@ -216,6 +224,14 @@
     <string name="crash_details">Error details</string>
     <string name="crash_details_title">Error details</string>
     <string name="crash_details_close">Close</string>
+    <string name="crash_copy">Copy log</string>
+    <string name="crash_log">Crash logs</string>
+    <string name="crash_log_empty">No crash recorded.</string>
+    <string name="crash_log_count">%1$d</string>
+    <string name="crash_log_clear">Clear all</string>
+    <string name="crash_log_copy_all">Copy all</string>
+    <string name="crash_log_view">View</string>
+    <string name="crash_log_cleared">Crash logs cleared</string>
 
     <!-- Hint -->
     <string name="copied">Copied</string>

@@ -85,8 +85,15 @@
     <string name="setting_wall_refresh">刷新壁纸</string>
     <string name="setting_title">设置</string>
     <string name="home_empty_tip">该源首页无推荐内容，按「主页」浏览分类</string>
+    <string name="home_site_down_tip">当前源不可用（%1$s），按「主页」换源</string>
     <string name="home_timeout_tip">接口无响应：按「配置」换接口，或按「主页」换站点后重试</string>
     <string name="site_empty_tip">当前接口没有可选站点，请先在「配置」里更换接口</string>
+    <string name="site_checking">正在检测源可用性…</string>
+    <string name="site_check_start">正在检测 %1$d 个源…</string>
+    <string name="site_check_done">检测完成：%1$d/%2$d 可用</string>
+    <string name="site_check_one_ok">%1$s 可用（%2$d 毫秒）</string>
+    <string name="site_check_one_fail">%1$s 不可用：%2$s</string>
+    <string name="site_all_down">所有源都不可达，请在「配置」里更换接口</string>
     <string name="setting_render">渲染方式</string>
     <string name="setting_buffer">EXO缓冲</string>
     <string name="setting_scale">画面缩放</string>
@@ -138,6 +145,7 @@
     <string name="setting_group_other">其他</string>
     <string name="setting_customize">个性化设置</string>
     <string name="setting_back">返回设置</string>
+    <string name="setting_crash_log">崩溃日志</string>
     <string name="setting_choose">选择</string>
     <string name="setting_off">关</string>
     <string name="setting_on">开</string>
@@ -215,6 +223,14 @@
     <string name="crash_details">错误信息</string>
     <string name="crash_details_title">错误信息</string>
     <string name="crash_details_close">关闭</string>
+    <string name="crash_copy">复制日志</string>
+    <string name="crash_log">崩溃日志</string>
+    <string name="crash_log_empty">暂无崩溃记录</string>
+    <string name="crash_log_count">%1$d 条</string>
+    <string name="crash_log_clear">清空</string>
+    <string name="crash_log_copy_all">复制全部</string>
+    <string name="crash_log_view">查看</string>
+    <string name="crash_log_cleared">崩溃日志已清空</string>
 
     <!-- Hint -->
     <string name="copied">已复制</string>

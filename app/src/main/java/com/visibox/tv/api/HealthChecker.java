@@ -173,10 +173,33 @@ public final class HealthChecker {
         return health.save();
     }
 
+    /**
+     * 把异常翻译成人话。
+     *
+     * <p>原始 message 是 {@code java.net.UnknownHostException: Unable to resolve host "gh-proxy.top"}
+     * 这类东西，用户看不懂，界面也没法直接展示。这里按常见失败类型归成一句短说明，
+     * 归不进去的才回退到原文（截断）。
+     */
     private static String describe(Throwable e) {
-        String message = e.getMessage();
-        if (message == null || message.isEmpty()) message = e.getClass().getSimpleName();
-        return message.length() > 60 ? message.substring(0, 60) : message;
+        String raw = e.getMessage() == null ? "" : e.getMessage();
+        String lower = raw.toLowerCase();
+        String type = e.getClass().getSimpleName();
+        if (type.contains("UnknownHost") || lower.contains("unknown host") || lower.contains("unable to resolve"))
+            return "域名解析失败";
+        if (type.contains("SocketTimeout") || lower.contains("timeout") || lower.contains("timed out"))
+            return "连接超时";
+        if (type.contains("ConnectException") || lower.contains("refused"))
+            return "连接被拒绝";
+        if (type.contains("SSL") || type.contains("Cert") || lower.contains("certificate"))
+            return "证书验证失败";
+        if (type.contains("NoRouteToHost") || lower.contains("unreachable"))
+            return "网络不可达";
+        // 状态码要按词边界匹配：直接 contains("5") 会把任何带 5 的错误都误判成服务端错误
+        if (raw.matches("(?s).*\\b401\\b.*") || raw.matches("(?s).*\\b403\\b.*")) return "接口拒绝访问";
+        if (raw.matches("(?s).*\\b404\\b.*")) return "接口不存在";
+        if (raw.matches("(?s).*\\b5\\d{2}\\b.*")) return "服务端错误";
+        if (raw.isEmpty()) return type;
+        return raw.length() > 60 ? raw.substring(0, 60) : raw;
     }
 
     /**
@@ -202,5 +225,62 @@ public final class HealthChecker {
     private static SiteHealth find(List<SiteHealth> all, String key) {
         for (SiteHealth item : all) if (item.getKey().equals(key)) return item;
         return null;
+    }
+
+    /**
+     * 单源异步重测，回调切回主线程。
+     *
+     * <p>源列表上的红点可能是几天前的结果（域名早就恢复了），用户需要一个当场能验证的入口，
+     * 而不是等 24 小时 TTL 过期。
+     */
+    public static void probeAsync(Site site, ProbeCallback callback) {
+        PROBE_POOL.submit(() -> {
+            SiteHealth health = probe(site);
+            if (callback != null) com.visibox.tv.App.post(() -> callback.onResult(health));
+        });
+    }
+
+    public interface ProbeCallback {
+
+        void onResult(SiteHealth health);
+    }
+
+    /**
+     * 统计已检测的源里可用的数量；未检测的不计入分母。
+     */
+    public static int countOk(List<Site> sites) {
+        List<SiteHealth> all = SiteHealth.findAll();
+        int ok = 0;
+        for (Site site : sites) {
+            SiteHealth health = find(all, site.getKey());
+            if (health != null && health.isChecked() && health.isOk()) ok++;
+        }
+        return ok;
+    }
+
+    public static int countChecked(List<Site> sites) {
+        List<SiteHealth> all = SiteHealth.findAll();
+        int count = 0;
+        for (Site site : sites) {
+            SiteHealth health = find(all, site.getKey());
+            if (health != null && health.isChecked()) count++;
+        }
+        return count;
+    }
+
+    /**
+     * 「所有检测过的源都失败了」——用来给出换配置的明确建议。
+     * 一个都没测过时返回 false，避免刚装好就报错。
+     */
+    public static boolean allFailed(List<Site> sites) {
+        int checked = countChecked(sites);
+        return checked > 0 && countOk(sites) == 0;
+    }
+
+    /**
+     * 取某个源的健康快照，未测过时返回空记录（{@code isChecked()} 为 false）。
+     */
+    public static SiteHealth healthOf(String key) {
+        return SiteHealth.find(key);
     }
 }

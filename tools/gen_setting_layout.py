@@ -107,7 +107,7 @@ HEADER = '''            <com.google.android.material.textview.MaterialTextView
 '''
 
 # (id, 标签字符串, 值字符串 id 或 None)；权重由 WEIGHTS 查表，默认 1
-WEIGHTS = {"vod": 2, "line": 2, "live": 2, "customize": 2, "version": 2, "wall": 2, "back": 2}
+WEIGHTS = {"vod": 2, "line": 2, "live": 2, "customize": 2, "version": 2, "wall": 2, "back": 2, "crashLog": 2}
 
 # "H" 开头的一行是分组标题
 ROWS_MAIN = [
@@ -138,7 +138,8 @@ ROWS_MORE = [
      ("homeCol", "setting_home_col", "homeColText"), ("historyNum", "setting_history_num", "historyNumText")],
     ("H", "setting_group_other"),
     [("wall", "setting_wall_addr", "wallUrl"), ("wallRefresh", "setting_wall_refresh", None),
-     ("boot", "setting_boot", "bootText"), ("back", "setting_back", None)],
+     ("boot", "setting_boot", "bootText")],
+    [("crashLog", "setting_crash_log", "crashText"), ("back", "setting_back", None)],
 ]
 
 ROOT = '''<?xml version="1.0" encoding="utf-8"?>

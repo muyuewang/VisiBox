@@ -13,6 +13,8 @@ plugins {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        // 国内镜像优先：mavenCentral 在本机网络下不可达，拉新构件会直接失败
+        maven { url = "https://maven.aliyun.com/repository/public" }
         mavenCentral()
         google()
         flatDir { dirs "$rootDir/app/libs" }

@@ -55,6 +55,13 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.ViewHolder> {
         boolean onSearchLongClick(Site item);
 
         boolean onChangeLongClick(Site item);
+
+        /**
+         * 长按站点名字。只在「选择源」模式（未进入搜索/换源勾选）下回调，用于重测该源。
+         */
+        default boolean onTextLongClick(Site item) {
+            return false;
+        }
     }
 
     public SiteAdapter search(boolean search) {
@@ -100,6 +107,7 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.ViewHolder> {
         holder.binding.search.setVisibility(search ? View.VISIBLE : View.GONE);
         holder.binding.change.setVisibility(change ? View.VISIBLE : View.GONE);
         holder.binding.text.setOnClickListener(v -> listener.onTextClick(item));
+        holder.binding.text.setOnLongClickListener(v -> listener.onTextLongClick(item));
         holder.binding.search.setOnClickListener(v -> listener.onSearchClick(position, item));
         holder.binding.change.setOnClickListener(v -> listener.onChangeClick(position, item));
         holder.binding.search.setOnLongClickListener(v -> listener.onSearchLongClick(item));

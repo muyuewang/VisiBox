@@ -33,6 +33,7 @@ import com.visibox.tv.Product;
 import com.visibox.tv.R;
 import com.visibox.tv.Setting;
 import com.visibox.tv.Updater;
+import com.visibox.tv.api.HealthChecker;
 import com.visibox.tv.api.config.LiveConfig;
 import com.visibox.tv.api.config.VodConfig;
 import com.visibox.tv.api.config.WallConfig;
@@ -43,6 +44,7 @@ import com.visibox.tv.bean.Func;
 import com.visibox.tv.bean.History;
 import com.visibox.tv.bean.Result;
 import com.visibox.tv.bean.Site;
+import com.visibox.tv.bean.SiteHealth;
 import com.visibox.tv.bean.Style;
 import com.visibox.tv.bean.Vod;
 import com.visibox.tv.databinding.ActivityHomeBinding;
@@ -470,9 +472,25 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
             mViewModel.categoryContent(getHome().getKey(), type.getTypeId(), "1", true, new HashMap<>());
             return;
         }
-        mBinding.progressLayout.setEmptyText(getString(R.string.home_empty_tip));
+        mBinding.progressLayout.setEmptyText(emptyTip());
         mBinding.progressLayout.showEmpty();
         mBinding.home.requestFocus();
+    }
+
+    /**
+     * 首页没有内容时的提示文案。
+     *
+     * <p>「无推荐内容」和「源根本连不上」对用户是两件事：前者换分类看，后者必须换源。
+     * 有健康记录且明确失败时，直接把失败原因写出来，比让用户猜强。
+     */
+    private String emptyTip() {
+        Site site = getHome();
+        SiteHealth health = site == null ? null : HealthChecker.healthOf(site.getKey());
+        if (health != null && health.isChecked() && !health.isOk()) {
+            String reason = health.getMessage() == null ? "" : health.getMessage();
+            if (!reason.isEmpty()) return ResUtil.getString(R.string.home_site_down_tip, reason);
+        }
+        return getString(R.string.home_empty_tip);
     }
 
     private void addGrid(List<Vod> items, Style style) {

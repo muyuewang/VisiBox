@@ -6,14 +6,21 @@ import android.view.LayoutInflater;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.visibox.tv.App;
+import com.visibox.tv.R;
 import com.visibox.tv.api.HealthChecker;
 import com.visibox.tv.api.config.VodConfig;
 import com.visibox.tv.bean.Site;
+import com.visibox.tv.bean.SiteHealth;
 import com.visibox.tv.databinding.DialogSiteBinding;
 import com.visibox.tv.impl.SiteCallback;
 import com.visibox.tv.ui.adapter.SiteAdapter;
 import com.visibox.tv.ui.custom.SpaceItemDecoration;
+import com.visibox.tv.utils.Notify;
+import com.visibox.tv.utils.ResUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.List;
 
 public class SiteDialog implements SiteAdapter.OnClickListener {
 
@@ -69,10 +76,53 @@ public class SiteDialog implements SiteAdapter.OnClickListener {
     }
 
     /**
-     * 打开站点列表时静默巡查过期源，完成后刷新状态点。不阻塞界面。
+     * 打开站点列表时巡查源可用性，完成后刷新状态点。不阻塞界面。
      */
     private void checkHealth() {
-        HealthChecker.autoCheck(adapter.getItems(), adapter::refreshHealth);
+        List<Site> items = adapter.getItems();
+        if (HealthChecker.allFailed(items)) {
+            recheckAll(items);
+            return;
+        }
+        HealthChecker.autoCheck(items, adapter::refreshHealth);
+    }
+
+    private void recheckAll(List<Site> items) {
+        Notify.show(ResUtil.getString(R.string.site_check_start, items.size()));
+        HealthChecker.check(items, new HealthChecker.Listener() {
+            @Override
+            public void onStart(int total) {
+            }
+
+            @Override
+            public void onResult(SiteHealth health, int done, int total) {
+            }
+
+            @Override
+            public void onFinish(List<SiteHealth> results) {
+                App.post(() -> {
+                    adapter.refreshHealth();
+                    int ok = HealthChecker.countOk(items);
+                    if (ok == 0) Notify.show(R.string.site_all_down);
+                    else Notify.show(ResUtil.getString(R.string.site_check_done, ok, items.size()));
+                });
+            }
+        });
+    }
+
+    /**
+     * 长按单个源 = 立刻重测它。
+     */
+    @Override
+    public boolean onTextLongClick(Site item) {
+        Notify.show(R.string.site_checking);
+        HealthChecker.probeAsync(item, health -> {
+            adapter.refreshHealth();
+            String message = health.getMessage() == null ? "" : health.getMessage();
+            if (health.isOk()) Notify.show(ResUtil.getString(R.string.site_check_one_ok, item.getName(), health.getLatency()));
+            else Notify.show(ResUtil.getString(R.string.site_check_one_fail, item.getName(), message));
+        });
+        return true;
     }
 
     private void setRecyclerView() {

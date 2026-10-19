@@ -31,12 +31,14 @@ import com.visibox.tv.impl.LiveCallback;
 import com.visibox.tv.impl.SiteCallback;
 import com.visibox.tv.ui.base.BaseActivity;
 import com.visibox.tv.ui.dialog.ConfigDialog;
+import com.visibox.tv.ui.dialog.CrashLogDialog;
 import com.visibox.tv.ui.dialog.DohDialog;
 import com.visibox.tv.ui.dialog.HistoryDialog;
 import com.visibox.tv.ui.dialog.LiveDialog;
 import com.visibox.tv.ui.dialog.RestoreDialog;
 import com.visibox.tv.ui.dialog.SiteDialog;
 import com.visibox.tv.utils.FileChooser;
+import com.visibox.tv.utils.CrashLog;
 import com.visibox.tv.utils.FileUtil;
 import com.visibox.tv.utils.GlassBlur;
 import com.visibox.tv.utils.Notify;
@@ -289,6 +291,7 @@ public class SettingActivity extends BaseActivity implements ConfigCallback, Sit
         mBinding.thread.setOnClickListener(this::setThread);
         mBinding.customize.setOnClickListener(v -> showMore(true));
         mBinding.back.setOnClickListener(v -> showMore(false));
+        mBinding.crashLog.setOnClickListener(v -> CrashLogDialog.show(this));
     }
 
     /**
@@ -299,8 +302,13 @@ public class SettingActivity extends BaseActivity implements ConfigCallback, Sit
         morePage = show;
         mBinding.pageMain.setVisibility(show ? View.GONE : View.VISIBLE);
         mBinding.pageMore.setVisibility(show ? View.VISIBLE : View.GONE);
-        if (show) mBinding.doh.requestFocus();
-        else mBinding.vod.requestFocus();
+        if (show) {
+            // 崩溃条数进页面时现算：用户可能刚从崩溃界面回来
+            mBinding.crashText.setText(ResUtil.getString(R.string.crash_log_count, CrashLog.count()));
+            mBinding.doh.requestFocus();
+        } else {
+            mBinding.vod.requestFocus();
+        }
     }
 
     @Override

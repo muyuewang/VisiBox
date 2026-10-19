@@ -9,11 +9,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.visibox.tv.App;
 import com.visibox.tv.R;
 import com.visibox.tv.Setting;
 import com.visibox.tv.api.HealthChecker;
 import com.visibox.tv.api.config.VodConfig;
 import com.visibox.tv.bean.Site;
+import com.visibox.tv.bean.SiteHealth;
 import com.visibox.tv.databinding.DialogSiteBinding;
 import com.visibox.tv.impl.SiteCallback;
 import com.visibox.tv.ui.adapter.SiteAdapter;
@@ -21,6 +23,8 @@ import com.visibox.tv.ui.custom.SpaceItemDecoration;
 import com.visibox.tv.utils.Notify;
 import com.visibox.tv.utils.ResUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.List;
 
 public class SiteDialog implements SiteAdapter.OnClickListener {
 
@@ -68,10 +72,60 @@ public class SiteDialog implements SiteAdapter.OnClickListener {
     }
 
     /**
-     * 打开站点列表时静默巡查过期源，完成后刷新状态点。不阻塞界面。
+     * 打开站点列表时巡查源可用性，完成后刷新状态点。不阻塞界面。
+     *
+     * <p>如果历史记录里「测过的源全挂」，多半是配置里那批域名整批失效了，
+     * 直接全量重测一遍——否则用户看到的永远是几天前的红点，会以为源再也救不回来。
      */
     private void checkHealth() {
-        HealthChecker.autoCheck(adapter.getItems(), adapter::refreshHealth);
+        List<Site> items = adapter.getItems();
+        if (HealthChecker.allFailed(items)) {
+            recheckAll(items);
+            return;
+        }
+        HealthChecker.autoCheck(items, adapter::refreshHealth);
+    }
+
+    /**
+     * 全量重测。只给一句开始提示和一句结果提示，中间进度不刷屏。
+     */
+    private void recheckAll(List<Site> items) {
+        Notify.show(ResUtil.getString(R.string.site_check_start, items.size()));
+        HealthChecker.check(items, new HealthChecker.Listener() {
+            @Override
+            public void onStart(int total) {
+            }
+
+            @Override
+            public void onResult(SiteHealth health, int done, int total) {
+            }
+
+            @Override
+            public void onFinish(List<SiteHealth> results) {
+                App.post(() -> {
+                    adapter.refreshHealth();
+                    int ok = HealthChecker.countOk(items);
+                    // 全挂时直接给「去换配置」，这比「0/12 可用」有用得多
+                    if (ok == 0) Notify.show(R.string.site_all_down);
+                    else Notify.show(ResUtil.getString(R.string.site_check_done, ok, items.size()));
+                });
+            }
+        });
+    }
+
+    /**
+     * 长按单个源 = 立刻重测它。红点可能来自几天前的探测，用户需要一个当场验证的手段。
+     */
+    @Override
+    public boolean onItemLongClick(Site item) {
+        Notify.show(R.string.site_checking);
+        HealthChecker.probeAsync(item, health -> {
+            adapter.refreshHealth();
+            String message = health.getMessage() == null ? "" : health.getMessage();
+            if (health.isOk()) Notify.show(ResUtil.getString(R.string.site_check_one_ok, item.getName(), health.getLatency()));
+            else Notify.show(ResUtil.getString(R.string.site_check_one_fail, item.getName(), message));
+        });
+        return true;
     }
 
     private boolean list() {

@@ -38,6 +38,13 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.ViewHolder> {
     public interface OnClickListener {
 
         void onItemClick(Site item);
+
+        /**
+         * 长按站点。只在「选择源」模式（type == 0）下回调，用于重测该源的可用性。
+         */
+        default boolean onItemLongClick(Site item) {
+            return false;
+        }
     }
 
     public void setType(int type) {
@@ -108,9 +115,16 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.ViewHolder> {
     }
 
     private boolean setLongListener(Site item) {
-        if (type == 1) setEnable(!item.isSearchable());
-        if (type == 2) setEnable(!item.isChangeable());
-        return true;
+        if (type == 1) {
+            setEnable(!item.isSearchable());
+            return true;
+        }
+        if (type == 2) {
+            setEnable(!item.isChangeable());
+            return true;
+        }
+        // 选择源模式：长按 = 重测这一个源（红点可能是几天前的旧结果）
+        return listener.onItemLongClick(item);
     }
 
     private void setEnable(boolean enable) {

@@ -20,8 +20,8 @@ android {
         minSdk 24
         //noinspection ExpiredTargetSdkVersion
         targetSdk 28
-        versionCode 23
-        versionName "1.11.3"
+        versionCode 24
+        versionName "1.11.4"
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString(), "eventBusIndex": "com.visibox.tv.event.EventIndex"]
@@ -64,8 +64,11 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled = true
-            shrinkResources = true
+            // 日常改代码时加 -PnoMinify 跳过 R8 与资源裁剪，几分钟就能装机验证；
+            // 这样产出的包没混淆也没裁剪，只能本机自测，正式发布必须不带该参数。
+            // （debug 变体走不通：AGP 9 + chaquopy 在 :catvod 的 abi 维度上变体匹配失败）
+            minifyEnabled = !project.hasProperty('noMinify')
+            shrinkResources = !project.hasProperty('noMinify')
             signingConfig = signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro', 'proguard-rules-media.pro'
         }
