@@ -8,6 +8,6 @@
     android:focusable="true"
     android:focusableInTouchMode="false"
     android:gravity="center"
-    android:textColor="@color/text"
+    android:textColor="@color/control_text"
     android:textSize="14sp"
     tools:text="解析" />

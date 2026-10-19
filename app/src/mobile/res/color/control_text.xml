@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 控制条功能文字：默认白，选中/选中态转亮青绿（深底可读） -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/accent_control" android:state_activated="true" />
+    <item android:color="@color/accent_control" android:state_selected="true" />
+    <item android:color="@color/accent_control" android:state_checked="true" />
+    <item android:color="@color/text_control" />
+</selector>

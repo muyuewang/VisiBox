@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    控制条功能文字（深色面板）。
+    常态白字；遥控聚焦时按钮翻白底，文字转深；选中/激活转亮青绿。
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/text_control_on_light" android:state_focused="true" />
+    <item android:color="@color/accent_control" android:state_activated="true" />
+    <item android:color="@color/accent_control" android:state_selected="true" />
+    <item android:color="@color/accent_control" android:state_checked="true" />
+    <item android:color="@color/text_control" />
+</selector>

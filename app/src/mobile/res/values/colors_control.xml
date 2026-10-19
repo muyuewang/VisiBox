@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+        播放器浮层专用配色。
+        浮层叠在视频画面上，底色不可预知，只能走「深底白字」，
+        不能沿用 App 的浅色玻璃体系（text_glass #15181E 近黑，压上去等于没有）。
+    -->
+    <color name="text_control">#FFFFFFFF</color>
+    <color name="text_control_sub">#CCFFFFFF</color>
+    <color name="accent_control">#FF2DD4AA</color>
+
+    <!-- 遮罩：上下两道压暗，中间留白不挡画面 -->
+    <color name="control_scrim_edge">#C2000000</color>
+    <color name="control_scrim_mid">#26000000</color>
+
+    <!-- 进度条：已播用亮青绿，缓冲/未播用白色半透明，深底上都读得出来 -->
+    <color name="control_bar_buffered">#5FFFFFFF</color>
+    <color name="control_bar_unplayed">#3DFFFFFF</color>
+
+    <!-- 文字阴影：遮罩保持透，白字靠阴影在任何画面上站得住 -->
+    <color name="control_text_shadow">#CC000000</color>
+
+</resources>

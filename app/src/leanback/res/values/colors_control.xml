@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+        播放浮层专用配色（全屏 / 电视）。
+        浮层叠在视频画面上，底色不可预知，只能走「深底白字」，
+        不能沿用 App 的浅色玻璃体系。
+    -->
+    <color name="text_control">#FFFFFFFF</color>
+    <color name="text_control_sub">#CCFFFFFF</color>
+    <color name="accent_control">#FF2DD4AA</color>
+
+    <!-- 聚焦态：按钮翻成白底，文字必须转深色，否则白底白字 -->
+    <color name="text_control_on_light">#FF101418</color>
+
+    <!-- 面板遮罩：顶部起透，越往下越实 -->
+    <color name="control_panel_top">#1A000000</color>
+    <color name="control_panel_mid">#A6000000</color>
+    <color name="control_panel_bottom">#E6000000</color>
+
+    <!-- 文字阴影：面板可以保持透，白字靠阴影在任何画面上站得住 -->
+    <color name="control_text_shadow">#CC000000</color>
+
+    <!-- 进度条 -->
+    <color name="control_bar_buffered">#5FFFFFFF</color>
+    <color name="control_bar_unplayed">#3DFFFFFF</color>
+
+</resources>

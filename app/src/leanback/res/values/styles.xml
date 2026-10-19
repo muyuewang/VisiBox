@@ -45,8 +45,12 @@
         <item name="android:focusable">true</item>
         <item name="android:focusableInTouchMode">true</item>
         <item name="android:nextFocusDown">@id/timeBar</item>
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColor">@color/control_text</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:shadowColor">@color/control_text_shadow</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">3</item>
     </style>
 
     <style name="BottomSheetDialog" parent="Theme.MaterialComponents.Light.BottomSheetDialog">

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black_20">
+    android:background="@drawable/bg_control_scrim">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/top"
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:singleLine="true"
-                android:textColor="@color/text_glass"
+                android:textColor="@color/text_control"
                 android:textSize="16sp"
                 android:visibility="invisible"
                 tools:text="慶餘年第一季：第一集" />

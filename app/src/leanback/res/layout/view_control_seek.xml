@@ -12,7 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFeatureSettings="tnum"
-        android:textColor="@color/grey_700"
+        android:shadowColor="@color/control_text_shadow"
+        android:shadowDx="0"
+        android:shadowDy="1"
+        android:shadowRadius="3"
+        android:textColor="@color/text_control_sub"
         android:textSize="16sp"
         tools:text="00:00:00" />
 
@@ -29,17 +33,21 @@
         android:nextFocusRight="@id/timeBar"
         android:nextFocusUp="@id/next"
         android:nextFocusDown="@id/timeBar"
-        app:buffered_color="@color/blue_200"
-        app:played_color="@color/blue_500"
-        app:scrubber_color="@color/blue_500"
-        app:unplayed_color="@color/grey_500" />
+        app:buffered_color="@color/control_bar_buffered"
+        app:played_color="@color/accent_control"
+        app:scrubber_color="@color/accent_control"
+        app:unplayed_color="@color/control_bar_unplayed" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFeatureSettings="tnum"
-        android:textColor="@color/grey_700"
+        android:shadowColor="@color/control_text_shadow"
+        android:shadowDx="0"
+        android:shadowDy="1"
+        android:shadowRadius="3"
+        android:textColor="@color/text_control_sub"
         android:textSize="16sp"
         tools:text="00:00:00" />
 

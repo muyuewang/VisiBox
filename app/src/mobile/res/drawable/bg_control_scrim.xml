@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    播放控制条遮罩。
+    原来是一层 20% 黑（#33000000），亮画面下几乎没有对比，底部按钮等于悬空。
+    改成上下压暗、中间透光的纵向渐变：顶部压住标题栏，底部压住进度条和功能条，
+    中间 55%~65% 区域保持通透，不糊画面。
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="270"
+        android:centerColor="@color/control_scrim_mid"
+        android:centerY="0.58"
+        android:endColor="@color/control_scrim_edge"
+        android:startColor="@color/control_scrim_edge"
+        android:type="linear" />
+</shape>

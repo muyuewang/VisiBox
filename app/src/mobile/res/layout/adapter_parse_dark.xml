@@ -7,6 +7,6 @@
     android:gravity="center"
     android:paddingStart="8dp"
     android:paddingEnd="8dp"
-    android:textColor="@color/text"
+    android:textColor="@color/control_text"
     android:textSize="14sp"
     tools:text="超級解析" />
