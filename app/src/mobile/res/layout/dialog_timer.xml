@@ -11,7 +11,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/play_timer"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="@color/text_glass"
         android:textSize="16sp" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -35,7 +35,7 @@
             android:background="@drawable/shape_accent"
             android:tag="5"
             android:text="@string/timer_5"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@color/text_glass"
             android:textSize="14sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -47,7 +47,7 @@
             android:background="@drawable/shape_accent"
             android:tag="15"
             android:text="@string/timer_15"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@color/text_glass"
             android:textSize="14sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -59,7 +59,7 @@
             android:background="@drawable/shape_accent"
             android:tag="30"
             android:text="@string/timer_30"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@color/text_glass"
             android:textSize="14sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -71,7 +71,7 @@
             android:background="@drawable/shape_accent"
             android:tag="60"
             android:text="@string/timer_60"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@color/text_glass"
             android:textSize="14sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -91,29 +91,41 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@color/text_glass"
             android:textSize="48sp"
             tools:text="5:00" />
 
-        <com.google.android.material.button.MaterialButton
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/delay"
-            style="?attr/materialButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:background="@drawable/selector_item_round"
+            android:gravity="center"
+            android:minWidth="96dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:singleLine="true"
             android:text="@string/timer_delay"
             android:textColor="@color/text_glass" />
 
-        <com.google.android.material.button.MaterialButton
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/reset"
-            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:background="@drawable/selector_item_round"
+            android:gravity="center"
+            android:minWidth="96dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:singleLine="true"
             android:text="@string/timer_cancel"
-            android:textColor="?android:attr/textColorPrimary" />
+            android:textColor="@color/text_glass_sub" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>

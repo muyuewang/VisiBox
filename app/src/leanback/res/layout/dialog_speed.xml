@@ -12,9 +12,9 @@
         android:stepSize="0.5"
         android:valueFrom="2"
         android:valueTo="5"
-        app:thumbColor="@color/blue_500"
+        app:thumbColor="@color/accent_glass"
         app:tickVisible="false"
-        app:trackColorActive="@color/blue_500"
-        app:trackColorInactive="@color/blue_50" />
+        app:trackColorActive="@color/accent_glass"
+        app:trackColorInactive="@color/accent_glass_soft" />
 
 </FrameLayout>

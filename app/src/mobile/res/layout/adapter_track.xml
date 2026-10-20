@@ -7,6 +7,6 @@
     android:background="@drawable/shape_accent"
     android:ellipsize="marquee"
     android:singleLine="true"
-    android:textColor="@color/control"
+    android:textColor="@color/text_glass"
     android:textSize="14sp"
     tools:text="中文、哥斯拉.srt" />

@@ -6,24 +6,32 @@
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
-    <com.google.android.material.button.MaterialButton
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text"
-        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_weight="1"
+        android:background="@drawable/selector_item_round"
         android:ellipsize="middle"
+        android:focusable="true"
+        android:focusableInTouchMode="false"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:singleLine="true"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="@color/text_glass"
         android:textSize="14sp"
         tools:text="https://fongmi.github.io/cat.json" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/selector_item_round"
+        android:focusable="true"
+        android:focusableInTouchMode="false"
+        android:padding="10dp"
         android:src="@drawable/ic_setting_delete" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

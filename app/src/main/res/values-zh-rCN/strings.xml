@@ -75,6 +75,8 @@
     <string name="setting_multi_on_toast">多仓聚合已开启</string>
     <string name="setting_multi_off_toast">多仓聚合已关闭</string>
         <string name="setting_config_addr">配置地址</string>
+    <string name="setting_local_source">内置源</string>
+    <string name="setting_local_source_toast">已加载内置本地包</string>
     <string name="setting_config_history">配置历史</string>
     <string name="setting_live_addr">直播地址</string>
     <string name="setting_live_history">直播历史</string>

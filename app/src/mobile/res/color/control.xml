@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    胶囊按钮文字（浅色玻璃底）：默认深字，激活/选中用青绿强调色。
+    原值默认回退 textColorPrimary（Material3 深色主题=白字），压浅灰底不可见，
+    现统一走浅色玻璃深字体系。
+-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="?attr/colorControlActivated" android:state_activated="true" />
-    <item android:color="?attr/colorControlNormal" android:state_enabled="false" />
-    <item android:color="?android:attr/textColorPrimary" />
+    <item android:color="@color/accent_glass" android:state_activated="true" />
+    <item android:color="@color/accent_glass" android:state_selected="true" />
+    <item android:color="@color/accent_glass" android:state_checked="true" />
+    <item android:color="@color/text_glass_sub" android:state_enabled="false" />
+    <item android:color="@color/text_glass" />
 </selector>

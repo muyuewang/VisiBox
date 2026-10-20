@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="middle"
             android:linksClickable="false"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@color/text_glass"
             android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@color/text_glass"
             android:textSize="14sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -34,7 +34,7 @@
             android:layout_marginTop="8dp"
             android:autoLink="all"
             android:linksClickable="false"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@color/text_glass"
             android:textSize="14sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

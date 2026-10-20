@@ -15,8 +15,8 @@
         android:stepSize="1"
         android:valueFrom="1"
         android:valueTo="10"
-        app:tickColor="@color/accent"
+        app:tickColor="@color/accent_glass"
         app:tickVisible="false"
-        app:trackColorInactive="@color/blue_50" />
+        app:trackColorInactive="@color/accent_glass_soft" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

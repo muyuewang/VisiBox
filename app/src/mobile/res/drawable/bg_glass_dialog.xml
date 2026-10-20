@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 玻璃弹窗容器：与 App 整体浅色玻璃风对齐 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <gradient
+        android:angle="315"
+        android:startColor="@color/glass_fill_strong"
+        android:endColor="@color/glass_fill_strong_end" />
+
+    <corners android:radius="28dp" />
+
+</shape>

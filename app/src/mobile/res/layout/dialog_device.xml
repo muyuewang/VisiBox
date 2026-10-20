@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/device_select"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textColor="@color/text_glass"
             android:textSize="16sp" />
 
         <androidx.appcompat.widget.AppCompatImageView

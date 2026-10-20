@@ -1,0 +1,13 @@
+{
+  "urls": [
+    { "name": "东篱", "url": "assets://local/东篱/index.json" },
+    { "name": "嗷呜", "url": "assets://local/嗷呜/index.json" },
+    { "name": "摸鱼", "url": "assets://local/摸鱼/index.json" },
+    { "name": "无意云", "url": "assets://local/无意云/index.json" },
+    { "name": "柒豪", "url": "assets://local/柒豪/柒豪4K.json" },
+    { "name": "王二小", "url": "assets://local/王二小/index.json" },
+    { "name": "肥猫", "url": "assets://local/肥猫/index.json" },
+    { "name": "虎斑", "url": "assets://local/虎斑/index.json" },
+    { "name": "饭太硬", "url": "assets://local/饭太硬/fty/fty.json" }
+  ]
+}

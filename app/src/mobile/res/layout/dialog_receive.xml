@@ -47,7 +47,7 @@
         android:layout_toEndOf="@+id/frame"
         android:ellipsize="end"
         android:maxLines="3"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="@color/text_glass"
         android:textSize="16sp"
         tools:text="狂飆" />
 
@@ -59,7 +59,7 @@
         android:layout_alignStart="@+id/name"
         android:layout_marginTop="2dp"
         android:singleLine="true"
-        android:textColor="?android:attr/textColorSecondary"
+        android:textColor="@color/text_glass_sub"
         android:textSize="14sp"
         tools:text="Xiaomi 13" />
 

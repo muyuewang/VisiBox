@@ -76,6 +76,8 @@
     <string name="setting_multi_on_toast">Multi-repo enabled</string>
     <string name="setting_multi_off_toast">Multi-repo disabled</string>
         <string name="setting_config_addr">Config URL</string>
+    <string name="setting_local_source">Local source</string>
+    <string name="setting_local_source_toast">Loaded built-in local package</string>
     <string name="setting_config_history">Config history</string>
     <string name="setting_live_addr">Live URL</string>
     <string name="setting_live_history">Live history</string>

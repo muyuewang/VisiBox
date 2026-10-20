@@ -12,7 +12,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/detail_episode"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="@color/text_glass"
         android:textSize="16sp" />
 
     <com.google.android.material.tabs.TabLayout
@@ -22,12 +22,12 @@
         android:layout_marginTop="8dp"
         android:background="@color/transparent"
         app:tabIndicatorAnimationMode="elastic"
-        app:tabIndicatorColor="?attr/colorControlActivated"
+        app:tabIndicatorColor="@color/accent_glass"
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorHeight="2dp"
         app:tabMode="scrollable"
-        app:tabSelectedTextColor="?attr/colorControlActivated"
-        app:tabTextColor="@color/grey_500" />
+        app:tabSelectedTextColor="@color/accent_glass"
+        app:tabTextColor="@color/text_glass_sub" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"

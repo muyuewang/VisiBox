@@ -23,7 +23,7 @@
         android:maxLines="3"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
-        android:textColor="@color/grey_700"
+        android:textColor="@color/text_glass_sub"
         android:textSize="18sp"
         tools:text="@string/push_info" />
 

@@ -8,6 +8,14 @@
         <item name="android:navigationBarColor">@color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialog</item>
+        <item name="materialAlertDialogTheme">@style/Theme.MaterialAlertDialog.Glass</item>
+    </style>
+
+    <style name="Theme.MaterialAlertDialog.Glass" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorAccent">@color/accent_glass</item>
+        <item name="colorPrimary">@color/accent_glass</item>
+        <item name="android:background">@drawable/bg_glass_dialog</item>
+        <item name="backgroundTint">@color/transparent</item>
     </style>
 
     <style name="Theme.Splash" parent="Theme.SplashScreen">

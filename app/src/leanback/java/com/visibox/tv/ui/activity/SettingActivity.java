@@ -257,6 +257,7 @@ public class SettingActivity extends BaseActivity implements ConfigCallback, Sit
     @Override
     protected void initEvent() {
         mBinding.vod.setOnClickListener(this::onVod);
+        mBinding.localSource.setOnClickListener(this::onLocalSource);
         mBinding.doh.setOnClickListener(this::setDoh);
         mBinding.live.setOnClickListener(this::onLive);
         mBinding.wall.setOnClickListener(this::onWall);
@@ -377,6 +378,13 @@ public class SettingActivity extends BaseActivity implements ConfigCallback, Sit
 
     private void onVod(View view) {
         ConfigDialog.create(this).launcher(launcher).type(type = 0).show();
+    }
+
+    // 内置本地源：一键把 assets 里的聚合配置设为当前配置地址并加载，完全离线可用
+    private void onLocalSource(View view) {
+        Config config = Config.find("assets://local/depot.json", 0);
+        load(config);
+        Notify.show(R.string.setting_local_source_toast);
     }
 
     private void onLive(View view) {
