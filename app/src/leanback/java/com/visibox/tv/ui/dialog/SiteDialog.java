@@ -20,6 +20,7 @@ import com.visibox.tv.databinding.DialogSiteBinding;
 import com.visibox.tv.impl.SiteCallback;
 import com.visibox.tv.ui.adapter.SiteAdapter;
 import com.visibox.tv.ui.custom.SpaceItemDecoration;
+import com.visibox.tv.utils.GlassBlur;
 import com.visibox.tv.utils.Notify;
 import com.visibox.tv.utils.ResUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -31,6 +32,7 @@ public class SiteDialog implements SiteAdapter.OnClickListener {
     private final DialogSiteBinding binding;
     private final SiteAdapter adapter;
     private final AlertDialog dialog;
+    private final Activity activity;
     private final int GRID_COUNT = 10;
 
     private RecyclerView.ItemDecoration decoration;
@@ -42,6 +44,7 @@ public class SiteDialog implements SiteAdapter.OnClickListener {
     }
 
     public SiteDialog(Activity activity) {
+        this.activity = activity;
         this.adapter = new SiteAdapter(this);
         this.binding = DialogSiteBinding.inflate(LayoutInflater.from(activity));
         this.dialog = new MaterialAlertDialogBuilder(activity).setView(binding.getRoot()).create();
@@ -174,6 +177,7 @@ public class SiteDialog implements SiteAdapter.OnClickListener {
         params.width = (int) (ResUtil.getScreenWidth() * getWidth());
         dialog.getWindow().setAttributes(params);
         dialog.getWindow().setDimAmount(0);
+        GlassBlur.glass(activity, dialog, binding.getRoot(), R.drawable.bg_glass_dialog);
         dialog.show();
     }
 

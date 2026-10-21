@@ -151,6 +151,14 @@
     <string name="setting_choose">選擇</string>
     <string name="setting_off">關</string>
     <string name="setting_on">開</string>
+    <string name="setting_history_show">最近觀看顯示</string>
+    <string name="setting_source_lock">首頁源鎖定</string>
+    <string name="setting_search_ui">搜尋UI</string>
+    <string name="setting_search_ui_horizontal">橫向</string>
+    <string name="setting_search_ui_vertical">縱向</string>
+    <string name="setting_source_lock_tip">首頁源已鎖定</string>
+    <string name="setting_source_lock_off_tip">首頁源已解鎖</string>
+    <string name="setting_effect_now">已立即生效</string>
 
     <!-- Backup & Restore -->
     <string name="restore_select">選擇備份</string>

@@ -6,10 +6,12 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.visibox.tv.R;
 import com.visibox.tv.databinding.DialogDohBinding;
 import com.visibox.tv.impl.DohCallback;
 import com.visibox.tv.ui.adapter.DohAdapter;
 import com.visibox.tv.ui.custom.SpaceItemDecoration;
+import com.visibox.tv.utils.GlassBlur;
 import com.visibox.tv.utils.ResUtil;
 import com.github.catvod.bean.Doh;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -20,6 +22,7 @@ public class DohDialog implements DohAdapter.OnClickListener {
     private final DohCallback callback;
     private final AlertDialog dialog;
     private final DohAdapter adapter;
+    private final Activity activity;
 
     public static DohDialog create(Activity activity) {
         return new DohDialog(activity);
@@ -31,6 +34,7 @@ public class DohDialog implements DohAdapter.OnClickListener {
     }
 
     public DohDialog(Activity activity) {
+        this.activity = activity;
         this.callback = (DohCallback) activity;
         this.binding = DialogDohBinding.inflate(LayoutInflater.from(activity));
         this.dialog = new MaterialAlertDialogBuilder(activity).setView(binding.getRoot()).create();
@@ -55,6 +59,7 @@ public class DohDialog implements DohAdapter.OnClickListener {
         params.width = (int) (ResUtil.getScreenWidth() * 0.4f);
         dialog.getWindow().setAttributes(params);
         dialog.getWindow().setDimAmount(0);
+        GlassBlur.glass(activity, dialog, binding.getRoot(), R.drawable.bg_glass_dialog);
         dialog.show();
     }
 

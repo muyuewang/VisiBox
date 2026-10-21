@@ -7,18 +7,22 @@ import android.view.WindowManager;
 import androidx.appcompat.app.AlertDialog;
 
 import com.visibox.tv.App;
+import com.visibox.tv.R;
+import com.visibox.tv.utils.GlassBlur;
 import com.visibox.tv.utils.ResUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class WebDialog {
 
     private final AlertDialog dialog;
+    private final View view;
 
     public static WebDialog create(View view) {
         return new WebDialog(view);
     }
 
     public WebDialog(View view) {
+        this.view = view;
         this.dialog = new MaterialAlertDialogBuilder(App.activity()).setView(view).create();
         this.dialog.setOnDismissListener((DialogInterface.OnDismissListener) view);
     }
@@ -39,6 +43,7 @@ public class WebDialog {
         params.width = (int) (ResUtil.getScreenWidth() * 0.8f);
         dialog.getWindow().setAttributes(params);
         dialog.getWindow().setDimAmount(0);
+        GlassBlur.glass(App.activity(), dialog, view, R.drawable.bg_glass_dialog);
         dialog.show();
     }
 }

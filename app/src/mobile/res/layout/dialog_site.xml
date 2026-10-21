@@ -4,6 +4,11 @@
     android:id="@+id/recycler"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="24dp"
+    android:background="@drawable/bg_glass_dialog"
+    android:clipToPadding="false"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     app:maxHeight="376dp" />

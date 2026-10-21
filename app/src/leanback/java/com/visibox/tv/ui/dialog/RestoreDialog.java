@@ -6,11 +6,13 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.visibox.tv.R;
 import com.visibox.tv.databinding.DialogRestoreBinding;
 import com.visibox.tv.db.AppDatabase;
 import com.visibox.tv.impl.Callback;
 import com.visibox.tv.ui.adapter.RestoreAdapter;
 import com.visibox.tv.ui.custom.SpaceItemDecoration;
+import com.visibox.tv.utils.GlassBlur;
 import com.visibox.tv.utils.ResUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -21,6 +23,7 @@ public class RestoreDialog implements RestoreAdapter.OnClickListener {
     private final DialogRestoreBinding binding;
     private final RestoreAdapter adapter;
     private final AlertDialog dialog;
+    private final Activity activity;
     private Callback callback;
 
     public static RestoreDialog create(Activity activity) {
@@ -28,6 +31,7 @@ public class RestoreDialog implements RestoreAdapter.OnClickListener {
     }
 
     public RestoreDialog(Activity activity) {
+        this.activity = activity;
         this.binding = DialogRestoreBinding.inflate(LayoutInflater.from(activity));
         this.dialog = new MaterialAlertDialogBuilder(activity).setView(binding.getRoot()).create();
         this.adapter = new RestoreAdapter(this);
@@ -52,6 +56,7 @@ public class RestoreDialog implements RestoreAdapter.OnClickListener {
         params.width = (int) (ResUtil.getScreenWidth() * 0.4f);
         dialog.getWindow().setAttributes(params);
         dialog.getWindow().setDimAmount(0);
+        GlassBlur.glass(activity, dialog, binding.getRoot(), R.drawable.bg_glass_dialog);
         dialog.show();
     }
 

@@ -11,6 +11,7 @@
     <string name="home_recommend">更新推薦</string>
     <string name="home_history_btn">歷史</string>
     <string name="home_history_empty">暫無觀看歷史</string>
+    <string name="home_category_empty">該分類暫無內容</string>
     <string name="home_back_tip">當前在分類瀏覽，按「主頁」返回後查看歷史</string>
     <string name="home_config">配置</string>
     <string name="home_line">線路</string>

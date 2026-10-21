@@ -53,6 +53,20 @@ public class CollectActivity extends BaseActivity {
     private final List<Vod> mAllItems = new ArrayList<>();
     private boolean mAlive;
 
+    /** 搜索 UI 是否纵向（左侧竖排站点列表），false 为横向（顶部横排站点 Tab） */
+    private static boolean isVerticalUi() {
+        return Setting.getSearchUi() == 1;
+    }
+
+    /**
+     * 返回当前模式下激活的站点导航容器：纵向用左侧 recycler，横向用顶部 recyclerTop。
+     * 返回 BaseGridView（VerticalGridView/HorizontalGridView 公共父类），
+     * 以使用 setSelectedPosition/getSelectedPosition/addOnChildViewHolderSelectedListener 等 Leanback API。
+     */
+    private androidx.leanback.widget.BaseGridView getNavView() {
+        return isVerticalUi() ? mBinding.recycler : mBinding.recyclerTop;
+    }
+
     public static void start(Activity activity, String keyword) {
         Intent intent = new Intent(activity, CollectActivity.class);
         intent.putExtra("keyword", keyword);
@@ -109,18 +123,21 @@ public class CollectActivity extends BaseActivity {
             if (position < 0 || position >= mAdapter.getItemCount()) return;
             if (position == mBinding.pager.getCurrentItem()) return;
             App.removeCallbacks(mRunnable);
-            mBinding.recycler.setSelectedPosition(position);
+            getNavView().setSelectedPosition(position);
             setPage(position);
         });
         mBinding.pager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                if (mBinding.recycler.getSelectedPosition() == position) return;
-                mBinding.recycler.setSelectedPosition(position);
-                mBinding.recycler.requestFocus();
+                // 脏位置（NO_POSITION/越界）不能反写站点列表选中态：会传染出错误的切页回调，
+                // 最终把站点列表的选中项清空、视觉上「消失」
+                if (position == RecyclerView.NO_POSITION || position < 0 || position >= mAdapter.getItemCount()) return;
+                if (getNavView().getSelectedPosition() == position) return;
+                getNavView().setSelectedPosition(position);
+                getNavView().requestFocus();
             }
         });
-        mBinding.recycler.addOnChildViewHolderSelectedListener(new OnChildViewHolderSelectedListener() {
+        getNavView().addOnChildViewHolderSelectedListener(new OnChildViewHolderSelectedListener() {
             @Override
             public void onChildViewHolderSelected(@NonNull RecyclerView parent, @Nullable RecyclerView.ViewHolder child, int position, int subposition) {
                 onChildSelected(child, position);
@@ -129,8 +146,22 @@ public class CollectActivity extends BaseActivity {
     }
 
     private void setRecyclerView() {
-        mBinding.recycler.setVerticalSpacing(ResUtil.dp2px(8));
-        mBinding.recycler.setAdapter(mAdapter = new CollectAdapter());
+        mAdapter = new CollectAdapter();
+        if (isVerticalUi()) {
+            // 纵向：左侧竖排站点列表，顶部横排容器隐藏
+            mBinding.recyclerTop.setVisibility(View.GONE);
+            mBinding.recycler.setVisibility(View.VISIBLE);
+            mBinding.recycler.setVerticalSpacing(ResUtil.dp2px(8));
+            mBinding.recycler.setAdapter(mAdapter);
+            mBinding.recyclerTop.setAdapter(null);
+        } else {
+            // 横向：顶部横排站点 Tab，左侧竖排容器隐藏
+            mBinding.recycler.setVisibility(View.GONE);
+            mBinding.recyclerTop.setVisibility(View.VISIBLE);
+            mBinding.recyclerTop.setHorizontalSpacing(ResUtil.dp2px(8));
+            mBinding.recyclerTop.setAdapter(mAdapter);
+            mBinding.recycler.setAdapter(null);
+        }
     }
 
     private void setViewModel() {
@@ -206,9 +237,10 @@ public class CollectActivity extends BaseActivity {
         if (mOldView != null) mOldView.setActivated(false);
         if ((mOldView = child != null ? child.itemView : null) == null) return;
         mOldView.setActivated(true);
+        // NO_POSITION / 越界时绝不能切页，否则会把左侧站点列表选中态清掉、视觉上「消失」
+        if (!mAlive || position == RecyclerView.NO_POSITION || position < 0 || position >= mAdapter.getItemCount()) return;
         Collect item = mAdapter.get(position);
         if (item != null) item.setActivated(true);
-        if (!mAlive || position < 0 || position >= mAdapter.getItemCount()) return;
         if (position == mBinding.pager.getCurrentItem()) return;
         App.removeCallbacks(mRunnable);
         App.post(mRunnable, 100);
@@ -227,7 +259,7 @@ public class CollectActivity extends BaseActivity {
     private final Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
-            setPage(mBinding.recycler.getSelectedPosition());
+            setPage(getNavView().getSelectedPosition());
         }
     };
 

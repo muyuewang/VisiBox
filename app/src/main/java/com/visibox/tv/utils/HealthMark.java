@@ -34,27 +34,31 @@ public final class HealthMark {
         builder.append("● ");
         builder.setSpan(new ForegroundColorSpan(color(health)), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.append(name == null ? "" : name);
-        CharSequence suffix = suffix(health);
-        if (suffix.length() > 0) {
-            int start = builder.length();
-            builder.append(suffix);
-            builder.setSpan(new ForegroundColorSpan(COLOR_HINT), start, builder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
         return builder;
     }
 
     /**
      * 名字后面的补充说明：失败给原因，慢给耗时，其余为空。
+     * 供列表行内独立右对齐展示，避免与站点名挤作一行导致排版参差。
      */
-    private static CharSequence suffix(SiteHealth health) {
+    public static CharSequence suffix(SiteHealth health) {
         if (health == null || !health.isChecked()) return "";
         if (!health.isOk()) {
             String message = health.getMessage();
-            return message == null || message.isEmpty() ? "" : " · " + message;
+            return message == null || message.isEmpty() ? "" : message;
         }
         long latency = health.getLatency();
         if (latency < SLOW_THRESHOLD) return "";
-        return " · " + String.format(Locale.US, "%.1fs", latency / 1000f);
+        return String.format(Locale.US, "%.1fs", latency / 1000f);
+    }
+
+    /**
+     * 同 {@link #suffix(SiteHealth)}，但带上「 · 」分隔前缀，适合直接拼在站点名后。
+     * TV 端网格单元格紧凑，后缀与名字合在一个 TextView 里展示。
+     */
+    public static CharSequence prefixHint(SiteHealth health) {
+        CharSequence suffix = suffix(health);
+        return suffix.length() == 0 ? "" : " · " + suffix;
     }
 
     public static int color(SiteHealth health) {

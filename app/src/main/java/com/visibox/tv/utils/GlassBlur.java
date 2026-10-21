@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Outline;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.view.ViewOutlineProvider;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -245,6 +247,27 @@ public class GlassBlur {
                     AppCompatResources.getDrawable(activity, tintRes)
             };
             view.setBackground(new LayerDrawable(layers));
+        });
+    }
+
+    /** 弹窗通用毛玻璃：透明窗口底 + 模糊当前界面 + 玻璃色罩 + 圆角裁剪 */
+    public static void glass(Activity activity, Dialog dialog, View root, int tintRes) {
+        Window window = dialog == null ? null : dialog.getWindow();
+        if (window != null) window.setBackgroundDrawableResource(android.R.color.transparent);
+        frost(activity, root, tintRes);
+        if (root != null) clip(root, 28);
+    }
+
+    /** 给视图裁圆角，避免内容四角露出直角 */
+    public static void clip(View view, int radiusDp) {
+        if (view == null) return;
+        float radius = ResUtil.dp2px(radiusDp);
+        view.setClipToOutline(true);
+        view.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View v, Outline outline) {
+                outline.setRoundRect(0, 0, v.getWidth(), v.getHeight(), radius);
+            }
         });
     }
 }

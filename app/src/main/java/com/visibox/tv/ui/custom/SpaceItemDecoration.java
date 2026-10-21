@@ -26,13 +26,10 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, RecyclerView parent, @NonNull RecyclerView.State state) {
         int position = parent.getChildAdapterPosition(view);
         if (position >= 0 && spanCount == -1) {
-            outRect.left = position == 0 ? 0 : spacing / 2;
-            outRect.right = position == parent.getAdapter().getItemCount() - 1 ? 0 : spacing / 2;
+            if (position > 0) outRect.top = spacing;
         } else if (position >= 0 && spanCount > 0) {
-            int column = position % spanCount;
-            outRect.left = column * spacing / spanCount;
-            outRect.right = spacing - (column + 1) * spacing / spanCount;
-            if (position >= spanCount) outRect.top = spacing;
+            // 网格均分模式：不注水平 offset 与垂直行距（item 自身的 margin 已提供键位间隙），
+            // 避免叠加导致内容总高超出可视高度、最后一行(7/8/9)被底部裁剪
         } else {
             outRect.left = 0;
             outRect.right = 0;

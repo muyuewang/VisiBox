@@ -177,32 +177,46 @@ public final class HealthChecker {
      * 把异常翻译成人话。
      *
      * <p>原始 message 是 {@code java.net.UnknownHostException: Unable to resolve host "gh-proxy.top"}
-     * 这类东西，用户看不懂，界面也没法直接展示。这里按常见失败类型归成一句短说明，
-     * 归不进去的才回退到原文（截断）。
+     * 这类东西，用户看不懂，界面也没法直接展示。这里按常见失败类型归成一句短说明。
+     *
+     * <p>关键点：很多 OkHttp / 爬虫异常的真实原因藏在 {@code Caused by: ...} 的 cause 链里，
+     * 只读顶层 message 会漏判，导致英文原文直接漏到界面。所以这里把整条 cause 链拼起来一起
+     * 归类，并把集合贴上抛出点类型名，保证「域名解析失败」「连接超时」这类词永远优先命中。
+     *
+     * <p>归不进去的也不再回退英文原文，统一给一句干净的中文兜底，避免界面上冒出一堆技术噪音。
      */
     private static String describe(Throwable e) {
-        String raw = e.getMessage() == null ? "" : e.getMessage();
+        StringBuilder rawBuf = new StringBuilder();
+        for (Throwable t = e; t != null; t = t.getCause()) {
+            if (rawBuf.length() > 0) rawBuf.append(" caused by ");
+            rawBuf.append(t.getClass().getSimpleName()).append(": ");
+            String msg = t.getMessage();
+            if (msg != null && !msg.isEmpty()) rawBuf.append(msg).append(" ");
+        }
+        String raw = rawBuf.toString().trim();
         String lower = raw.toLowerCase();
-        String type = e.getClass().getSimpleName();
-        if (type.contains("UnknownHost") || lower.contains("unknown host") || lower.contains("unable to resolve"))
+        if (lower.contains("unknownhost") || lower.contains("unknown host") || lower.contains("unable to resolve")
+                || lower.contains("nodename") || lower.contains("name or service not known"))
             return "域名解析失败";
-        if (type.contains("SocketTimeout") || lower.contains("timeout") || lower.contains("timed out"))
+        if (lower.contains("sockettimeout") || lower.contains("timeout") || lower.contains("timed out")
+                || lower.contains("connecttimedout"))
             return "连接超时";
-        if (type.contains("ConnectException") || lower.contains("refused"))
+        if (lower.contains("connectexception") || lower.contains("refused") || lower.contains("connection reset"))
             return "连接被拒绝";
-        if (type.contains("SSL") || type.contains("Cert") || lower.contains("certificate"))
+        if (lower.contains("ssl") || lower.contains("cert") || lower.contains("certificate") || lower.contains("handshake"))
             return "证书验证失败";
-        if (type.contains("NoRouteToHost") || lower.contains("unreachable"))
+        if (lower.contains("noroutetohost") || lower.contains("unreachable") || lower.contains("network is unreachable"))
             return "网络不可达";
-        // csp_ 开头的爬虫接口不是 URL，探测时 OkHttp 会抛 "Expected URL scheme"，
-        // 原文直接显示在源列表上就成了技术噪音
+        // csp_ 开头的爬虫接口不是 URL，探测时 OkHttp 会抛 "Expected URL scheme"
         if (lower.contains("url scheme") || lower.contains("no scheme")) return "接口地址无效";
+        if (lower.contains("closable") || lower.contains("eofexception") || lower.contains("unexpected end of stream"))
+            return "连接被中断";
         // 状态码要按词边界匹配：直接 contains("5") 会把任何带 5 的错误都误判成服务端错误
         if (raw.matches("(?s).*\\b401\\b.*") || raw.matches("(?s).*\\b403\\b.*")) return "接口拒绝访问";
         if (raw.matches("(?s).*\\b404\\b.*")) return "接口不存在";
         if (raw.matches("(?s).*\\b5\\d{2}\\b.*")) return "服务端错误";
-        if (raw.isEmpty()) return type;
-        return raw.length() > 60 ? raw.substring(0, 60) : raw;
+        // 兜底：不再把英文原文甩给用户
+        return "连接异常";
     }
 
     /**

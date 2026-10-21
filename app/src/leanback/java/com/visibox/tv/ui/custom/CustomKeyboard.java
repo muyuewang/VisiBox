@@ -22,7 +22,9 @@ public class CustomKeyboard implements KeyboardAdapter.OnClickListener {
     private void initView() {
         binding.keyboard.setItemAnimator(null);
         binding.keyboard.setHasFixedSize(false);
-        binding.keyboard.addItemDecoration(new SpaceItemDecoration(7, 8));
+        // 键位 item 用 match_parent 宽度由 GridLayoutManager 平均分 6 列，
+        // 间距只留垂直 8dp 行距，不注水平 offset，避免与网格均分叠加造成逐行左漂移
+        binding.keyboard.addItemDecoration(new SpaceItemDecoration(6, 8));
         binding.keyboard.setAdapter(adapter = new KeyboardAdapter(this));
     }
 

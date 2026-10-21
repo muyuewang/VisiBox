@@ -11,6 +11,7 @@
     <string name="home_recommend">Recommend</string>
     <string name="home_history_btn">History</string>
     <string name="home_history_empty">No watch history</string>
+    <string name="home_category_empty">No content in this category</string>
     <string name="home_back_tip">Browsing a category. Press Home to return.</string>
     <string name="home_config">Config</string>
     <string name="home_line">Line</string>
@@ -25,5 +26,10 @@
     <!-- Push -->
     <string name="push_clip">Push clipboard content</string>
     <string name="push_info">Scan QR Code or enter the URL in browser\n<xliff:g name="name">%s</xliff:g></string>
+
+    <!-- Dialog -->
+    <string name="dialog_line_title">Line</string>
+    <string name="dialog_live_line_title">Live Line</string>
+    <string name="dialog_history_title">History</string>
 
 </resources>

@@ -97,7 +97,9 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Site item = mItems.get(position);
         boolean on = !search || change;
-        holder.binding.text.setText(HealthMark.decorate(item.getName(), health.get(item.getKey())));
+        SiteHealth h = health.get(item.getKey());
+        holder.binding.text.setText(HealthMark.decorate(item.getName(), h));
+        holder.binding.hint.setText(HealthMark.suffix(h));
         holder.binding.text.setEnabled(on);
         holder.binding.text.setFocusable(on);
         holder.binding.text.setSelected(on && item.isActivated());

@@ -81,6 +81,8 @@ public class CollectFragment extends BaseFragment implements CustomScroller.Call
         mBinding.recycler.setAdapter(new ItemBridgeAdapter(mAdapter = new ArrayObjectAdapter(selector)));
         mBinding.recycler.addOnScrollListener(mScroller = new CustomScroller(this));
         mBinding.recycler.setHeader(getActivity(), R.id.result, R.id.recycler);
+        // 搜索结果页必须保持左侧站点列表常显：关闭「上下键自动收起头部」的沉浸式行为
+        mBinding.recycler.setAutoHideHeader(false);
         mBinding.recycler.setVerticalSpacing(ResUtil.dp2px(16));
     }
 

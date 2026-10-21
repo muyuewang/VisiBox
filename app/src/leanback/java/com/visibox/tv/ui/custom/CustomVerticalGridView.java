@@ -24,6 +24,8 @@ public class CustomVerticalGridView extends VerticalGridView {
     private boolean pressDown;
     private boolean pressUp;
     private boolean moveTop;
+    /** 是否随上下键自动隐藏/显示头部（搜索结果页需保持左侧站点列表常显，应设为 false） */
+    private boolean autoHideHeader = true;
 
     public CustomVerticalGridView(@NonNull Context context) {
         this(context, null);
@@ -44,6 +46,7 @@ public class CustomVerticalGridView extends VerticalGridView {
         setOnChildViewHolderSelectedListener(new OnChildViewHolderSelectedListener() {
             @Override
             public void onChildViewHolderSelected(@NonNull RecyclerView parent, @Nullable ViewHolder child, int position, int subposition) {
+                if (!autoHideHeader) return;
                 if (pressDown && position == 1) hideHeader();
                 if (pressUp && position == 0) showHeader();
             }
@@ -56,6 +59,10 @@ public class CustomVerticalGridView extends VerticalGridView {
 
     public void setMoveTop(boolean moveTop) {
         this.moveTop = moveTop;
+    }
+
+    public void setAutoHideHeader(boolean autoHideHeader) {
+        this.autoHideHeader = autoHideHeader;
     }
 
     public void hideHeader() {

@@ -174,6 +174,14 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
             if (categoryMode) getVideo();
             showSiteDialog();
         });
+        // 焦点移回「主页」即恢复首页内容（影视仓式：选中=展示）；
+        // 点击仍是弹站点列表，两者职责分开，互不冲突。
+        mBinding.home.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) return;
+            App.post(() -> {
+                if (mBinding.home.hasFocus() && categoryMode) getVideo();
+            }, 160);
+        });
         mBinding.recycler.addOnChildViewHolderSelectedListener(new OnChildViewHolderSelectedListener() {
             @Override
             public void onChildViewHolderSelected(@NonNull RecyclerView parent, @Nullable RecyclerView.ViewHolder child, int position, int subposition) {
@@ -227,12 +235,13 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
             if (categoryScrollPending) {
                 categoryScrollPending = false;
                 App.post(() -> {
-                    int position = mAdapter.indexOf(R.string.home_recommend);
-                    if (position == -1) position = 0;
-                    mBinding.recycler.scrollToPosition(position);
-                    if (categoryMode) {
-                        mBinding.recycler.requestFocus();
-                        mBinding.recycler.setSelectedPosition(position);
+                    // 只把海报墙滚到顶部，不抢焦点：焦点继续停留在分类胶囊上，
+                    // 等用户按下方向键再聚焦第一个海报（影视仓式「停留，等我按」）
+                    mBinding.recycler.scrollToPosition(0);
+                    // 内容重建会触发 RecyclerView 焦点自动转移到新 item，这里把焦点
+                    // 稳回当前选中的分类胶囊，避免「切完分类焦点自动跳到第一张海报」
+                    if (categoryMode && mSelectedChip != null && !mSelectedChip.hasFocus()) {
+                        mSelectedChip.requestFocus();
                     }
                 }, 300);
             }
@@ -300,11 +309,20 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
             chip.setTag(type.getTypeId());
             if (!currentType.isEmpty() && type.getTypeId().equals(currentType)) mSelectedChip = chip;
             chip.setSelected(chip == mSelectedChip);
-            chip.setOnClickListener(v -> {
-                mSelectedChip = chip;
-                loadCategory(type, index);
-            });
+            chip.setOnClickListener(v -> loadCategory(type, index));
+            // 先 attach 玻璃高光（它内部会 setOnFocusChangeListener(this)），
+            // 再挂我们的焦点监听，否则会被 attach 覆盖、焦点切换永远不触发
             new GlassSheenDrawable(24).attach(chip);
+            // 影视仓式「焦点即切换」：焦点落到哪个分类，右侧立刻切到该分类海报，
+            // 不再要求再按一次 OK。用 post 兜底判断焦点是否还停在这个胶囊上，
+            // 避免方向键快速扫过时连续触发一堆无谓的刷新。
+            chip.setOnFocusChangeListener((v, hasFocus) -> {
+                if (!hasFocus) return;
+                mSelectedChip = chip;
+                App.post(() -> {
+                    if (chip.hasFocus() && !type.getTypeId().equals(currentType)) loadCategory(type, index);
+                }, 160);
+            });
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMarginEnd(ResUtil.dp2px(8));
             mBinding.categories.addView(chip, params);
@@ -470,7 +488,15 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
      * 2. 连分类都没有 → 显示提示，引导用户走「主页」浏览
      */
     private void onEmptyHome(Result result) {
-        if (!fellBack && !categoryMode && !result.getTypes().isEmpty()) {
+        // 分类模式下该分类没内容：显示空提示即可，焦点仍留在当前分类胶囊上，
+        // 不抢回「主页」——否则会触发主页焦点监听 getVideo()，变成「点进空分类就自己跳回主页」
+        if (categoryMode) {
+            mBinding.progressLayout.setEmptyText(getString(R.string.home_category_empty));
+            mBinding.progressLayout.showEmpty();
+            if (mSelectedChip != null && !mSelectedChip.hasFocus()) mSelectedChip.requestFocus();
+            return;
+        }
+        if (!fellBack && !result.getTypes().isEmpty()) {
             fellBack = true;
             Class type = result.getTypes().get(0);
             currentType = type.getTypeId();
@@ -533,6 +559,20 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
         // 分类模式下历史区已整体移除，此时插入会打乱结构并把视图拽回顶部；
         // 挂起处理，退出分类（getVideo）时再恢复
         if (categoryMode) return;
+        // 个性化设置「最近观看显示」关闭：不渲染最近观看区（含入口 anchor）
+        if (!Setting.isHistoryShow()) {
+            int anchor = mAdapter.indexOf(R.string.home_history);
+            if (anchor != -1) {
+                int from = anchor;
+                // 只移除 anchor 与紧随其后的历史 ListRow，不动推荐区
+                int recommendAnchor = mAdapter.indexOf(R.string.home_recommend);
+                int end = recommendAnchor != -1 ? recommendAnchor : mAdapter.size();
+                // anchor 已在，且紧邻的是历史 ListRow（存在则 -1 空位），安全移除
+                if (end > anchor) mAdapter.removeItems(anchor, end - anchor);
+            }
+            mHistoryAdapter = new ArrayObjectAdapter(mPresenter = new HistoryPresenter(this));
+            return;
+        }
         List<History> items = History.get();
         int historyIndex = getHistoryIndex();
         int recommendIndex = getRecommendIndex();
@@ -716,6 +756,11 @@ public class HomeActivity extends BaseActivity implements CustomTitleView.Listen
 
     @Override
     public void setSite(Site item) {
+        // 首页源锁定：忽略切源请求，保持当前首页源不变
+        if (Setting.isSourceLock()) {
+            Notify.show(R.string.setting_source_lock_tip);
+            return;
+        }
         VodConfig.get().setHome(item);
     }
 

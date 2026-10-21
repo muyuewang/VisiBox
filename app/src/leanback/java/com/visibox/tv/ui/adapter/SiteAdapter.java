@@ -91,7 +91,8 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Site item = mItems.get(position);
-        holder.binding.text.setText(HealthMark.decorate(item.getName(), health.get(item.getKey())));
+        SiteHealth h = health.get(item.getKey());
+        holder.binding.text.setText(HealthMark.decorate(item.getName(), h).toString() + HealthMark.prefixHint(h));
         holder.binding.check.setChecked(getChecked(item));
         holder.binding.text.setSelected(item.isActivated());
         holder.binding.text.setActivated(item.isActivated());

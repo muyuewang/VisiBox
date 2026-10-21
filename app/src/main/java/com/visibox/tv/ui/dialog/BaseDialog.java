@@ -49,6 +49,11 @@ public abstract class BaseDialog extends BottomSheetDialogFragment {
         return false;
     }
 
+    /** 居中卡片弹窗（非贴底 BottomSheet）：垂直居中 + 宽度自适应内容 */
+    protected boolean centered() {
+        return false;
+    }
+
     protected void setDimAmount(float amount) {
         if (getDialog() != null && getDialog().getWindow() != null) {
             getDialog().getWindow().setDimAmount(amount);
@@ -72,6 +77,12 @@ public abstract class BaseDialog extends BottomSheetDialogFragment {
         BottomSheetBehavior<FrameLayout> behavior = BottomSheetBehavior.from(bottomSheet);
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         behavior.setSkipCollapsed(true);
+        if (centered()) {
+            // 居中卡片：不贴底，高度包内容，圆角完整的玻璃底
+            behavior.setPeekHeight(0);
+            behavior.setHideable(false);
+            bottomSheet.setBackgroundColor(ResUtil.getColor(R.color.transparent));
+        }
     }
 
     private void setWindow(Dialog dialog) {

@@ -211,6 +211,30 @@ public class SettingActivity extends BaseActivity implements ConfigCallback, Sit
         mBinding.danmakuText.setText(getSwitch(Setting.isDanmakuShow()));
     }
 
+    private void setHistoryShow(View view) {
+        Setting.putHistoryShow(!Setting.isHistoryShow());
+        mBinding.historyShowText.setText(getSwitch(Setting.isHistoryShow()));
+        // 立即生效：首页监听 HOME 事件走 getVideo()→getHistory()，即时增删「最近观看」区
+        RefreshEvent.home();
+    }
+
+    private void setSourceLock(View view) {
+        Setting.putSourceLock(!Setting.isSourceLock());
+        mBinding.sourceLockText.setText(getSwitch(Setting.isSourceLock()));
+        Notify.show(Setting.isSourceLock() ? R.string.setting_source_lock_tip : R.string.setting_source_lock_off_tip);
+    }
+
+    private String getSearchUiText() {
+        return getString(Setting.getSearchUi() == 1 ? R.string.setting_search_ui_vertical : R.string.setting_search_ui_horizontal);
+    }
+
+    private void setSearchUi(View view) {
+        Setting.putSearchUi(Setting.getSearchUi() == 1 ? 0 : 1);
+        mBinding.searchUiText.setText(getSearchUiText());
+        // 立即生效：搜索页在 next start 时按新方向渲染（数据即时保留，无需重启）
+        Notify.show(R.string.setting_effect_now);
+    }
+
     private void setThread(View view) {
         int[] values = {4, 8, 12, 16, 24, 32};
         Setting.putThread(next(values, Setting.getThread()));
@@ -239,6 +263,9 @@ public class SettingActivity extends BaseActivity implements ConfigCallback, Sit
         mBinding.scaleText.setText(getScaleText());
         mBinding.danmakuText.setText(getSwitch(Setting.isDanmakuShow()));
         mBinding.threadText.setText(ResUtil.getString(R.string.setting_thread_value, Setting.getThread()));
+        mBinding.historyShowText.setText(getSwitch(Setting.isHistoryShow()));
+        mBinding.sourceLockText.setText(getSwitch(Setting.isSourceLock()));
+        mBinding.searchUiText.setText(getSearchUiText());
         mBinding.bootText.setText(getSwitch(Setting.getBoot()));
         mBinding.historyNumText.setText(ResUtil.getString(R.string.setting_num_value, Setting.getHistoryNum()));
         mBinding.homeColText.setText(getHomeColText());
@@ -290,6 +317,9 @@ public class SettingActivity extends BaseActivity implements ConfigCallback, Sit
         mBinding.scale.setOnClickListener(this::setScale);
         mBinding.danmaku.setOnClickListener(this::setDanmaku);
         mBinding.thread.setOnClickListener(this::setThread);
+        mBinding.historyShow.setOnClickListener(this::setHistoryShow);
+        mBinding.sourceLock.setOnClickListener(this::setSourceLock);
+        mBinding.searchUi.setOnClickListener(this::setSearchUi);
         mBinding.customize.setOnClickListener(v -> showMore(true));
         mBinding.back.setOnClickListener(v -> showMore(false));
         mBinding.crashLog.setOnClickListener(v -> CrashLogDialog.show(this));

@@ -6,12 +6,14 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.visibox.tv.R;
 import com.visibox.tv.api.config.LiveConfig;
 import com.visibox.tv.bean.Live;
 import com.visibox.tv.databinding.DialogLiveBinding;
 import com.visibox.tv.impl.LiveCallback;
 import com.visibox.tv.ui.adapter.LiveAdapter;
 import com.visibox.tv.ui.custom.SpaceItemDecoration;
+import com.visibox.tv.utils.GlassBlur;
 import com.visibox.tv.utils.ResUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -21,12 +23,14 @@ public class LiveDialog implements LiveAdapter.OnClickListener {
     private final LiveCallback callback;
     private final LiveAdapter adapter;
     private final AlertDialog dialog;
+    private final Activity activity;
 
     public static LiveDialog create(Activity activity) {
         return new LiveDialog(activity);
     }
 
     private LiveDialog(Activity activity) {
+        this.activity = activity;
         this.adapter = new LiveAdapter(this);
         this.callback = (LiveCallback) activity;
         this.binding = DialogLiveBinding.inflate(LayoutInflater.from(activity));
@@ -57,6 +61,7 @@ public class LiveDialog implements LiveAdapter.OnClickListener {
         params.width = (int) (ResUtil.getScreenWidth() * 0.4f);
         dialog.getWindow().setAttributes(params);
         dialog.getWindow().setDimAmount(0);
+        GlassBlur.glass(activity, dialog, binding.getRoot(), R.drawable.bg_glass_dialog);
         dialog.show();
     }
 

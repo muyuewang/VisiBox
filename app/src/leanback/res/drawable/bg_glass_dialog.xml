@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 液态玻璃弹窗容器：双层结构，上缘高光 + 下缘微暗的玻璃边缘光，
+     内部 135° 半透明白色渐变填充（可透出底层内容），与全 App 浅色玻璃风对齐 -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="28dp" />
+            <gradient
+                android:angle="270"
+                android:endColor="@color/glass_edge_bottom"
+                android:startColor="@color/glass_edge_top" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="1dp"
+        android:left="1dp"
+        android:right="1dp"
+        android:top="1dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="27dp" />
+            <gradient
+                android:angle="315"
+                android:startColor="@color/glass_fill_soft"
+                android:endColor="@color/glass_fill_soft_end" />
+        </shape>
+    </item>
+
+</layer-list>

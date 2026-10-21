@@ -135,7 +135,11 @@ public class SiteDialog implements SiteAdapter.OnClickListener {
 
     private void setDialog() {
         if (adapter.getItemCount() == 0) return;
-        dialog.getWindow().setDimAmount(0);
+        // 让内容区自己的玻璃圆角背景完整露出，不再被 Material3 弹窗默认白底盖住
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialog.getWindow().setDimAmount(0);
+        }
         dialog.show();
     }
 

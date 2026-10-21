@@ -10,28 +10,49 @@
     android:padding="16dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_marginEnd="20dp"
         android:orientation="vertical">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/btnSource"
+        <!-- 换源 | 麦克风 -->
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:nextFocusDown="@id/keyword"
-            android:background="@drawable/selector_func"
-            android:focusable="true"
-            android:focusableInTouchMode="false"
-            android:gravity="center"
-            android:text="@string/search_source"
-            android:textColor="@color/text_glass"
-            android:textSize="16sp" />
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/btnSource"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:nextFocusDown="@id/keyword"
+                android:nextFocusRight="@id/mic"
+                android:background="@drawable/selector_func"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:text="@string/search_source"
+                android:textColor="@color/text_glass"
+                android:textSize="16sp" />
+
+            <com.visibox.tv.ui.custom.CustomMic
+                android:id="@+id/mic"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="8dp"
+                android:focusable="true"
+                android:focusableInTouchMode="false"
+                android:nextFocusDown="@id/keyword"
+                android:nextFocusLeft="@id/btnSource"
+                android:src="@drawable/ic_search_mic" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.visibox.tv.ui.custom.CustomSearchView
             android:id="@+id/keyword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/selector_func"
             android:focusable="true"
@@ -42,23 +63,25 @@
             android:maxLength="255"
             android:nextFocusDown="@id/btnSearch"
             android:nextFocusUp="@id/btnSource"
-            android:padding="10dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:singleLine="true"
             android:textColor="@color/text_glass"
             android:textColorHint="#99FFFFFF"
             android:textCursorDrawable="@drawable/shape_cursor"
             android:textSize="16sp" />
 
+        <!-- 搜索 | 清除 -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/btnSearch"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="44dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:nextFocusUp="@id/keyword"
@@ -75,11 +98,12 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/btnClear"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="44dp"
                 android:layout_weight="1"
                 android:nextFocusUp="@id/keyword"
-                android:nextFocusDown="@id/btnRemote"
+                android:nextFocusDown="@id/btnDelete"
                 android:nextFocusLeft="@id/btnSearch"
+                android:nextFocusRight="@id/btnDelete"
                 android:background="@drawable/selector_func"
                 android:focusable="true"
                 android:focusableInTouchMode="false"
@@ -90,26 +114,17 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <!-- 遥控 | 删除 -->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
-
-            <com.visibox.tv.ui.custom.CustomMic
-                android:id="@+id/mic"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="8dp"
-                android:focusable="true"
-                android:focusableInTouchMode="false"
-                android:nextFocusDown="@id/keyboard"
-                android:src="@drawable/ic_search_mic" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/btnRemote"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="44dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:nextFocusUp="@id/btnSearch"
@@ -126,9 +141,9 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/btnDelete"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="44dp"
                 android:layout_weight="1"
-                android:nextFocusUp="@id/btnSearch"
+                android:nextFocusUp="@id/btnClear"
                 android:nextFocusDown="@id/keyboard"
                 android:nextFocusLeft="@id/btnRemote"
                 android:background="@drawable/selector_func"
@@ -143,8 +158,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/keyboard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

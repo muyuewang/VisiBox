@@ -152,6 +152,14 @@
     <string name="setting_choose">Choose</string>
     <string name="setting_off">Off</string>
     <string name="setting_on">On</string>
+    <string name="setting_history_show">Show recent watch</string>
+    <string name="setting_source_lock">Lock home source</string>
+    <string name="setting_search_ui">Search UI</string>
+    <string name="setting_search_ui_horizontal">Horizontal</string>
+    <string name="setting_search_ui_vertical">Vertical</string>
+    <string name="setting_source_lock_tip">Home source is locked</string>
+    <string name="setting_source_lock_off_tip">Home source unlocked</string>
+    <string name="setting_effect_now">Takes effect immediately</string>
 
     <!-- Backup & Restore -->
     <string name="restore_select">Select backup</string>

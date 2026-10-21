@@ -533,6 +533,35 @@ public class Setting {
         putDanmakuOffset(0);
     }
 
+    // ==================== 首页与搜索个性化 ====================
+
+    /** 最近观看区是否在首页显示（默认显示） */
+    public static boolean isHistoryShow() {
+        return Prefers.getBoolean("history_show", true);
+    }
+
+    public static void putHistoryShow(boolean show) {
+        Prefers.put("history_show", show);
+    }
+
+    /** 首页源是否锁定（锁定后不响应换源与配置覆盖） */
+    public static boolean isSourceLock() {
+        return Prefers.getBoolean("source_lock");
+    }
+
+    public static void putSourceLock(boolean lock) {
+        Prefers.put("source_lock", lock);
+    }
+
+    /** 搜索 UI 方向：0 横向 / 1 纵向（默认横向） */
+    public static int getSearchUi() {
+        return Prefers.getInt("search_ui", 0);
+    }
+
+    public static void putSearchUi(int mode) {
+        Prefers.put("search_ui", mode);
+    }
+
     private static float clamp(float value, float min, float max) {
         return Math.min(Math.max(value, min), max);
     }

@@ -12,14 +12,26 @@
         android:layout_height="40dp"
         android:layout_weight="1"
         android:background="@drawable/selector_item_round"
-        android:ellipsize="marquee"
+        android:ellipsize="end"
         android:gravity="center_vertical"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:singleLine="true"
         android:textColor="@color/text_glass"
         android:textSize="14sp"
-        tools:text="泥巴" />
+        tools:text="● 泥巴" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/hint"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical|end"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/text_glass_sub"
+        android:textSize="12sp"
+        tools:text="1.2s" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/search"

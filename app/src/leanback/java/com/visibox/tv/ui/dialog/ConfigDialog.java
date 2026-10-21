@@ -23,6 +23,7 @@ import com.visibox.tv.impl.ConfigCallback;
 import com.visibox.tv.server.Server;
 import com.visibox.tv.ui.custom.CustomTextListener;
 import com.visibox.tv.utils.FileChooser;
+import com.visibox.tv.utils.GlassBlur;
 import com.visibox.tv.utils.QRCode;
 import com.visibox.tv.utils.ResUtil;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -37,6 +38,7 @@ public class ConfigDialog implements DialogInterface.OnDismissListener {
     private final DialogConfigBinding binding;
     private final ConfigCallback callback;
     private final AlertDialog dialog;
+    private final FragmentActivity activity;
     private boolean append;
     private boolean edit;
     private String url;
@@ -62,6 +64,7 @@ public class ConfigDialog implements DialogInterface.OnDismissListener {
     }
 
     public ConfigDialog(FragmentActivity activity) {
+        this.activity = activity;
         this.callback = (ConfigCallback) activity;
         this.binding = DialogConfigBinding.inflate(LayoutInflater.from(activity));
         this.dialog = new MaterialAlertDialogBuilder(activity).setView(binding.getRoot()).create();
@@ -79,6 +82,7 @@ public class ConfigDialog implements DialogInterface.OnDismissListener {
         params.width = (int) (ResUtil.getScreenWidth() * 0.55f);
         dialog.getWindow().setAttributes(params);
         dialog.getWindow().setDimAmount(0);
+        GlassBlur.glass(activity, dialog, binding.getRoot(), R.drawable.bg_glass_dialog);
         dialog.setOnDismissListener(this);
         dialog.show();
     }
